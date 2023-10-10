@@ -28,7 +28,6 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
         self.randomizar()
 
     def randomizar(self):
-        global largura_da_tela, altura_da_tela
 
         self.rect.left = randint(largura_da_tela, largura_da_tela + 500)
         self.rect.top = randint(int(altura_da_tela * 0.14), int(altura_da_tela * 0.84))
@@ -48,6 +47,5 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
         self.image = pygame.transform.scale(self.image, (320 * 0.2, 320 * 0.2))
 
 
+
 efeito_buff2 = SpritesEfeito2()
-Variaveis_globais.todas_as_sprites.add(efeito_buff2)
-Variaveis_globais.grupo_efeito2.add(efeito_buff2)

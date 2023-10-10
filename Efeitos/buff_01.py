@@ -50,5 +50,4 @@ class SpritesEfeito1(pygame.sprite.Sprite):  # classe para efeito especiail 1
 
 
 efeito_buff1 = SpritesEfeito1()
-Variaveis_globais.todas_as_sprites.add(efeito_buff1)
-Variaveis_globais.grupo_efeito1.add(efeito_buff1)
+
