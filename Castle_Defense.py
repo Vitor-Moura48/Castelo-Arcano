@@ -140,16 +140,18 @@ while True:
             Variaveis_globais.grupo_inimigos2.add(inimigo2)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo2)
 
-    chance1 = randint(1, fps * 16)
+    # porcentagem de aparecimento a cada iteração
+    chance = 0.05
+    chance1 = uniform(0, 100)
 
-    if len(Variaveis_globais.grupo_efeito1) < 1 and chance1 == 1:
+    if len(Variaveis_globais.grupo_efeito1) < 1 and chance1 <= chance:
         efeito_buff1 = buff_01.SpritesEfeito1()
         Variaveis_globais.todas_as_sprites.add(efeito_buff1)
         Variaveis_globais.grupo_efeito1.add(efeito_buff1)
 
-    chance2 = randint(1, fps * 16)
+    chance2 = uniform(0, 100)
 
-    if len(Variaveis_globais.grupo_efeito2) < 1 and chance2 == 1:
+    if len(Variaveis_globais.grupo_efeito2) < 1 and chance2 <= chance:
         efeito_buff2 = buff_02.SpritesEfeito2()
         Variaveis_globais.todas_as_sprites.add(efeito_buff2)
         Variaveis_globais.grupo_efeito2.add(efeito_buff2)

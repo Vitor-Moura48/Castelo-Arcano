@@ -2,7 +2,7 @@ import pandas
 import pygame
 from pygame import *
 import sys
-from random import randint
+from random import randint, uniform
 import os
 import numpy
 
