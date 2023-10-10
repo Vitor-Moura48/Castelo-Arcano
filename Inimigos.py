@@ -40,7 +40,6 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.imagem_normal = pygame.transform.rotate(self.image, 0)
 
     def randomizar(self):
-        global largura_da_tela, altura_da_tela
 
         self.rect.x = randint(largura_da_tela, largura_da_tela + 500)
         self.rect.y = randint(int(altura_da_tela * 0.14), int(altura_da_tela * 0.84))
@@ -68,9 +67,8 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
         # movimentar no eixo x
         self.rect.x -= Variaveis_globais.velocidade_inimigo
-        self.rect.y = self.rect.y + (numpy.cos(self.rect.x / 140) * 4)
 
-        if self.rect.top <= 70:
+        if self.rect.top < 70:
             self.rect.top = 70
         if self.rect.top > 400:
             self.rect.top = 400
