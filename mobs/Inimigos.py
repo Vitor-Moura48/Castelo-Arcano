@@ -41,8 +41,8 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     def randomizar(self):
 
-        self.rect.x = randint(largura_da_tela, largura_da_tela + 500)
-        self.rect.y = randint(int(altura_da_tela * 0.14), int(altura_da_tela * 0.84))
+        self.rect.x = randint(largura_da_janela, largura_da_janela + 500)
+        self.rect.y = randint(int(altura_da_janela * 0.14), int(altura_da_janela * 0.84))
 
     # atualizar estado
     def update(self):
@@ -104,8 +104,8 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
     def randomizar(self):
 
-        self.rect.x = randint(largura_da_tela, largura_da_tela + 500)
-        self.rect.y = randint(int(altura_da_tela * 0.14), int(altura_da_tela * 0.82))
+        self.rect.x = randint(largura_da_janela, largura_da_janela + 500)
+        self.rect.y = randint(int(altura_da_janela * 0.14), int(altura_da_janela * 0.82))
 
     # atualizar informações
     def update(self):
@@ -113,17 +113,17 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
         self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25, altura_inimigo2 * 0.25))
 
         # alternar o movimento em relação com o jogador (para subir)
-        if  Player.player.rect.center[1] > int(altura_da_tela * 0.5) and self.rect.top > int(altura_da_tela * 0.14):
+        if  Player.player.rect.center[1] > int(altura_da_janela * 0.5) and self.rect.top > int(altura_da_janela * 0.14):
             self.rect.top -= 300 / fps
-            if self.rect.top <= int(altura_da_tela * 0.14):
+            if self.rect.top <= int(altura_da_janela * 0.14):
                 self.image = self.imagem_normal
             else:
                 self.image = self.imagem_para_cima
 
         # alternar o movimento em relação com o jogador (para descer)
-        if  Player.player.rect.center[1] <= int(altura_da_tela * 0.5) and self.rect.bottom < altura_da_tela:
+        if  Player.player.rect.center[1] <= int(altura_da_janela * 0.5) and self.rect.bottom < altura_da_janela:
             self.rect.top += 300 / fps
-            if self.rect.bottom >= altura_da_tela:
+            if self.rect.bottom >= altura_da_janela:
                 self.image = self.imagem_normal
             else:
                 self.image = self.imagem_para_baixo

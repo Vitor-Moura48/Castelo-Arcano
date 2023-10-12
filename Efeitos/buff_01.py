@@ -30,8 +30,8 @@ class SpritesEfeito1(pygame.sprite.Sprite):  # classe para efeito especiail 1
 
     def randomizar(self):
 
-        self.rect.left = randint(largura_da_tela, largura_da_tela + 500)
-        self.rect.top = randint(int(altura_da_tela * 0.14), int(altura_da_tela * 0.84))
+        self.rect.left = randint(largura_da_janela, largura_da_janela + 500)
+        self.rect.top = randint(int(altura_da_janela * 0.14), int(altura_da_janela * 0.84))
 
     # fução chamada quando o player colide com o buff
     def buff(self):

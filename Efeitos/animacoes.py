@@ -31,7 +31,7 @@ class EfeitosAnimacao(pygame.sprite.Sprite):  # classe de efeitos diversos que a
 
         # posicionar sprite
         self.rect.left = 75
-        self.rect.bottom = altura_da_tela
+        self.rect.bottom = altura_da_janela
 
         # variavel para ajudar na execução do efeito de animação
         self.ativar = False

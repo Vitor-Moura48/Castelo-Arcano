@@ -40,7 +40,7 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
         retangulo_ajustado = pygame.Rect.inflate(self.rect, -30, -10)
         self.rect = retangulo_ajustado
 
-        self.rect.center = (int(largura_da_tela / 2), int(altura_da_tela / 2))
+        self.rect.center = (int(largura_da_janela / 2), int(altura_da_janela / 2))
 
     # atualizar imagem
     def update(self):
@@ -55,12 +55,12 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
         if self.rect.left < 0:
             self.rect.left = 0
-        if self.rect.right > largura_da_tela:
-            self.rect.right = largura_da_tela
+        if self.rect.right > largura_da_janela:
+            self.rect.right = largura_da_janela
         if self.rect.top < 0:
             self.rect.top = 0
-        if self.rect.bottom > altura_da_tela:
-            self.rect.bottom = altura_da_tela
+        if self.rect.bottom > altura_da_janela:
+            self.rect.bottom = altura_da_janela
             
 
 

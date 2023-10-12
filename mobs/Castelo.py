@@ -37,7 +37,7 @@ class SpritesCenario(pygame.sprite.Sprite):  # criar classe de sprites para o ce
         self.rect = self.image.get_rect()
 
         # posicionar o fundo da imagem na parte mais 'baixa' da tela
-        self.rect.bottom = altura_da_tela
+        self.rect.bottom = altura_da_janela
 
 
 
