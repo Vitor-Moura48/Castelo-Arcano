@@ -1,7 +1,6 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais
-import Player
-import Castelo
+from mobs import Player, Castelo
 from Efeitos import buff_01, buff_02, animacoes
 
 
@@ -11,7 +10,7 @@ class VerificarColisoes:  # classe para verificar colisões
 
     # função para verificar colisão do jogador com algo
     def colisao_com_player(self):
-
+        
         colisoes_player_inimigo1 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_inimigos1, True)
         colisoes_player_inimigo2 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_inimigos2, True)
         colisoes_player_buff1 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito1, True)
@@ -37,7 +36,6 @@ class VerificarColisoes:  # classe para verificar colisões
             Variaveis_globais.todas_as_sprites.add(efeito_animacao)
             efeito_animacao.animar1()
             
-           
 
     # função para verificar colisões do castelo com algo
     def colisao_com_castelo(self):
@@ -69,19 +67,25 @@ class VerificarColisoes:  # classe para verificar colisões
     # função para verificar colisões do projetil do jogador com algo
     def colisao_com_projetil_player(self):
 
-        colisoes_projetil_inimigo1 = pygame.sprite.spritecollide(Player.projetil_player, Variaveis_globais.grupo_inimigos1, True)
-        colisoes_projetil_inimigo2 = pygame.sprite.spritecollide(Player.projetil_player, Variaveis_globais.grupo_inimigos2, True)
+        for projetil_aliado in Variaveis_globais.grupo_projeteis_aliados:
+            colisoes_projetil_inimigo1 = pygame.sprite.spritecollide(projetil_aliado, Variaveis_globais.grupo_inimigos1, True)
+            colisoes_projetil_inimigo2 = pygame.sprite.spritecollide(projetil_aliado, Variaveis_globais.grupo_inimigos2, True)
 
-        # verifica colisões com inimigos e responde de acordo
-        if colisoes_projetil_inimigo1:
-            Variaveis_globais.inimigos_restantes -= 1
-            efeito_morte.play()
-            Player.projetil_player.clicou = False
+            # verifica colisões com inimigos e responde de acordo
+            if colisoes_projetil_inimigo1:
+                Variaveis_globais.inimigos_restantes -= 1
+                efeito_morte.play()
+                
+                Variaveis_globais.grupo_projeteis_aliados.remove(projetil_aliado)
+                Variaveis_globais.todas_as_sprites.remove(projetil_aliado)
 
-        if colisoes_projetil_inimigo2:
-            Variaveis_globais.inimigos_restantes -= 1
-            efeito_morte.play()
-            Player.projetil_player.clicou = False
+            if colisoes_projetil_inimigo2:
+                Variaveis_globais.inimigos_restantes -= 1
+                efeito_morte.play()
+
+                Variaveis_globais.grupo_projeteis_aliados.remove(projetil_aliado)
+                Variaveis_globais.todas_as_sprites.remove(projetil_aliado)
+
 
 
 
