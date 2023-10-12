@@ -49,7 +49,7 @@ mensagem_medio_para_tela = fonte.render(mensagem_medio, True, (255, 50, 50))
 mensagem_dificil = 'Difícil'
 mensagem_dificil_para_tela = fonte.render(mensagem_dificil, True, (255, 50, 50))
 
-mensagem_ajustar_tela = 'Ajustar dimensões'
+mensagem_ajustar_tela = 'Tela Cheia'
 mensagem_ajustar_tela_para_tela = fonte.render(mensagem_ajustar_tela, True, (50, 50, 255))
 
 selecionou = False
@@ -101,10 +101,10 @@ while not selecionou:
                 Variaveis_globais.dificuldade = 3
 
             if ajuste_rect.collidepoint(posicao_mouse):
-                largura_da_tela = int(largura_da_tela * 0.95)
-                altura_da_tela = int(altura_da_tela * 0.55)
-                proprocao = largura_da_tela * altura_da_tela / 750000
-                tela = display.set_mode((largura_da_tela, altura_da_tela))
+                largura_da_janela = largura_do_monitor
+                altura_da_janela = altura_do_monitor
+                proprocao = largura_da_janela * altura_da_janela / 750000
+                tela = display.set_mode((largura_da_janela, altura_da_janela), pygame.FULLSCREEN, 32)
 
 iniciar_jogo()
 # laço principal

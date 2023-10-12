@@ -37,11 +37,14 @@ fonte = pygame.font.SysFont("arial", 30, True, False)
 # obter a resulução da tela do pc
 informacao_da_tela = pygame.display.Info()
 
-largura_da_tela = int(informacao_da_tela.current_w * 0.9)
-altura_da_tela = int(informacao_da_tela.current_h * 0.65)
+largura_do_monitor = informacao_da_tela.current_w
+altura_do_monitor = informacao_da_tela.current_h
+
+largura_da_janela = int(informacao_da_tela.current_w * 0.9)
+altura_da_janela = int(informacao_da_tela.current_h * 0.65)
 
 # dimensão base: 1500 x 500
-proporcao = largura_da_tela * altura_da_tela / (1500 * 500)
+proporcao = largura_da_janela * altura_da_janela / (1500 * 500)
 
 fps = 120
 
@@ -52,7 +55,7 @@ velocidade_base_inimigo = 6
 dificuldade = 0
 
 # criar a tela
-tela = display.set_mode((largura_da_tela, altura_da_tela))
+tela = display.set_mode((largura_da_janela, altura_da_janela), pygame.RESIZABLE)
 
 
 # definir cor da tela
