@@ -1,11 +1,8 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais, Controles
-import Player
-import Inimigos
-import Castelo
+from mobs import Player, Inimigos, Castelo
 from Efeitos import buff_01, buff_02, animacoes
 from Verificações import Duracao_buffs, Colisoes
-
 
 
 
@@ -18,29 +15,22 @@ def iniciar_jogo():
 
     if Variaveis_globais.dificuldade == 1:
 
-        Variaveis_globais.inimigos_totais = 50
+        Variaveis_globais.inimigos_totais = 60
         Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = 500 / fps
-
+        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 0.70
     if Variaveis_globais.dificuldade == 2:
 
-        Variaveis_globais.inimigos_totais = 70
+        Variaveis_globais.inimigos_totais = 80
         Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = 700 / fps
+        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo
 
     if Variaveis_globais.dificuldade == 3:
 
-        Variaveis_globais.inimigos_totais = 100
+        Variaveis_globais.inimigos_totais = 120
         Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = 800 / fps
-
-    
+        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 1.15
 
     pygame.mixer_music.play(-1)
-
-
-
-
 
 
 # criar um clock de atualização em fps
@@ -181,6 +171,8 @@ while True:
     mensagem_vitoria = "você ganhou! pressione enter para continuar"
     mensagem_vitoria_para_tela = fonte.render(mensagem_vitoria, True, (255, 255, 0))
 
+    
+    Variaveis_globais.tempo_de_recarga -= 1
     # responder a eventos
     for event in pygame.event.get():
 
@@ -193,9 +185,12 @@ while True:
             quit()
             sys.exit()
 
-        if event.type == MOUSEBUTTONDOWN and not Player.projetil_player.clicou:
-            Player.projetil_player.clicou = True
-            Player.projetil_player.atirar()
+        if event.type == MOUSEBUTTONDOWN and Variaveis_globais.tempo_de_recarga <= 0:
+            projetil_player = Player.Projetil()
+            Variaveis_globais.grupo_projeteis_aliados.add(projetil_player)
+            Variaveis_globais.todas_as_sprites.add(projetil_player)
+            projetil_player.atirar()
+            Variaveis_globais.tempo_de_recarga = 60
 
         # responde aos eventos do controle
         if event.type == JOYAXISMOTION:
@@ -206,13 +201,13 @@ while True:
 
     # para mover player ao pressionar tecla, ou joystick
     if pygame.key.get_pressed()[K_a] or pygame.key.get_pressed()[K_LEFT] or Variaveis_globais.eixo_x_joystick >= 0.4:
-        Variaveis_globais.x_player -= Variaveis_globais.velocidade_player
+        Player.player.rect.x -= Variaveis_globais.velocidade_player
     if pygame.key.get_pressed()[K_d] or pygame.key.get_pressed()[K_RIGHT] or Variaveis_globais.eixo_x_joystick >= 0.4:
-        Variaveis_globais.x_player += Variaveis_globais.velocidade_player
+        Player.player.rect.x += Variaveis_globais.velocidade_player
     if pygame.key.get_pressed()[K_w] or pygame.key.get_pressed()[K_UP] or Variaveis_globais.eixo_y_joystick >= 0.4:
-        Variaveis_globais.y_player -= Variaveis_globais.velocidade_player
+        Player.player.rect.y -= Variaveis_globais.velocidade_player
     if pygame.key.get_pressed()[K_s] or pygame.key.get_pressed()[K_DOWN] or Variaveis_globais.eixo_y_joystick >= 0.4:
-        Variaveis_globais.y_player += Variaveis_globais.velocidade_player
+        Player.player.rect.y += Variaveis_globais.velocidade_player
 
     # mudança de velocidade dos inimigos
     if Variaveis_globais.inimigos_restantes <= Variaveis_globais.inimigos_totais * 0.8 and not Variaveis_globais.mudanca_de_velocidade[0]:
