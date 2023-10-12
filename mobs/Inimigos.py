@@ -1,6 +1,6 @@
 from Configurações.config import *
 from Configurações  import Variaveis_globais
-import Player
+from mobs import Player
 
 
 sprite_sheet_inimigo = pygame.image.load(os.path.join('imagens/inimigo1.png')).convert_alpha()
@@ -21,12 +21,12 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.image = sprite_sheet_inimigo.subsurface((0, 0), (391, 639))
 
         # mudar dimensões do sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.35, altura_inimigo1 * 0.35))
-
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.15, altura_inimigo1 * 0.15))
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
 
-        self.mask = pygame.mask.from_surface(self.image)
+        novo_retangulo = pygame.Rect.inflate(self.rect, -10, -10)
+        self.rect = novo_retangulo
 
         # randomiza as coordenadas que o inimigo vai spawnar
         self.randomizar()
@@ -90,8 +90,9 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
-
-        self.mask = pygame.mask.from_surface(self.image)
+        rect_ajustado = pygame.Rect.inflate(self.rect, -35, -50)
+        self.rect = rect_ajustado
+       
 
         # randomizar as coordenadas de spaw do inimigo
         self.randomizar()
@@ -102,13 +103,14 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
         self.imagem_normal = pygame.transform.rotate(self.image, 0)
 
     def randomizar(self):
-        global largura_da_tela, altura_da_tela
 
         self.rect.x = randint(largura_da_tela, largura_da_tela + 500)
         self.rect.y = randint(int(altura_da_tela * 0.14), int(altura_da_tela * 0.82))
 
     # atualizar informações
     def update(self):
+        # mudar tamanho da sprite
+        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25, altura_inimigo2 * 0.25))
 
         # alternar o movimento em relação com o jogador (para subir)
         if  Player.player.rect.center[1] > int(altura_da_tela * 0.5) and self.rect.top > int(altura_da_tela * 0.14):
@@ -133,5 +135,4 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
         if self.rect.top <= 70 or self.rect.bottom >= 500:
             self.rect.x -= 2
 
-        # mudar tamanho da sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25, altura_inimigo2 * 0.25))
+
