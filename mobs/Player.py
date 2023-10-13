@@ -51,7 +51,7 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
         self.image = self.sprites_mago[int(self.index_lista_mago)]
 
-        self.image = pygame.transform.scale(self.image, (85 / 1.1, 94 / 1.1))
+        self.image = pygame.transform.scale(self.image, (85 / 1.1 * Variaveis_globais.proporcao, 94 / 1.1 * Variaveis_globais.proporcao))
 
         if self.rect.left < 0:
             self.rect.left = 0

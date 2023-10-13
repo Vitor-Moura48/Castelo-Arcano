@@ -44,7 +44,7 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
         self.rect.x -= Variaveis_globais.velocidade_inimigo
 
         # mudar escala do sprite
-        self.image = pygame.transform.scale(self.image, (320 * 0.2, 320 * 0.2))
+        self.image = pygame.transform.scale(self.image, (320 * 0.2 * Variaveis_globais.proporcao, 320 * 0.2 * Variaveis_globais.proporcao))
 
 
 

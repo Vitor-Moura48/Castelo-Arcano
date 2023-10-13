@@ -46,7 +46,7 @@ class SpritesEfeito1(pygame.sprite.Sprite):  # classe para efeito especiail 1
         self.rect.x -= Variaveis_globais.velocidade_inimigo
 
         # mudar dimensões da imagem
-        self.image = pygame.transform.scale(self.image, (320 * 0.2, 320 * 0.2))
+        self.image = pygame.transform.scale(self.image, (320 * 0.2 * Variaveis_globais.proporcao, 320 * 0.2 * Variaveis_globais.proporcao))
 
 
 efeito_buff1 = SpritesEfeito1()

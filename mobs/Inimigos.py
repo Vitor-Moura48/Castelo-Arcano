@@ -74,7 +74,7 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
             self.rect.top = 400
 
         # mudar escala
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.15, altura_inimigo1 * 0.15))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.15 * Variaveis_globais.proporcao, altura_inimigo1 * 0.15 * Variaveis_globais.proporcao))
 
 
 class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
@@ -110,7 +110,7 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
     # atualizar informações
     def update(self):
         # mudar tamanho da sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25, altura_inimigo2 * 0.25))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25 * Variaveis_globais.proporcao, altura_inimigo2 * 0.25 * Variaveis_globais.proporcao))
 
         # alternar o movimento em relação com o jogador (para subir)
         if  Player.player.rect.center[1] > int(altura_da_janela * 0.5) and self.rect.top > int(altura_da_janela * 0.14):

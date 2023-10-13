@@ -50,33 +50,34 @@ mensagem_dificil = 'Difícil'
 mensagem_dificil_para_tela = fonte.render(mensagem_dificil, True, (255, 50, 50))
 
 mensagem_ajustar_tela = 'Tela Cheia'
-mensagem_ajustar_tela_para_tela = fonte.render(mensagem_ajustar_tela, True, (50, 50, 255))
+mensagem_tela_cheia = fonte.render(mensagem_ajustar_tela, True, (50, 50, 255))
 
 selecionou = False
+
 
 while not selecionou:
 
     # retangulos visuais
-    pygame.draw.rect(tela, (140, 140, 140), (655, 140, 200, 50))
-    pygame.draw.rect(tela, (100, 100, 100), (655, 240, 200, 50))
-    pygame.draw.rect(tela, (60, 60, 60), (655, 340, 200, 50))
+    pygame.draw.rect(tela, (140, 140, 140), ((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 140, 200, 50))
+    pygame.draw.rect(tela, (100, 100, 100), ((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 240, 200, 50))
+    pygame.draw.rect(tela, (60, 60, 60), ((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 340, 200, 50))
 
-    pygame.draw.rect(tela, (200, 200, 200), (135, 140, 300, 50))
+    pygame.draw.rect(tela, (200, 200, 200), ((Variaveis_globais.dimensoes_janela[0] // 2) - (300 // 2), 440, 300, 50))
 
     # retangulos para colisão
-    facil_rect = pygame.Rect(655, 140, 200, 50)
-    medio_rect = pygame.Rect(655, 240, 200, 50)
-    dificil_rect = pygame.Rect(655, 340, 200, 50)
+    facil_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 140, 200, 50)
+    medio_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 240, 200, 50)
+    dificil_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 340, 200, 50)
 
-    ajuste_rect = pygame.Rect(135, 140, 300, 50)
+    ajuste_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (300 // 2), 440, 300, 50)
 
     # desenhar mensagens
-    tela.blit(mensagem_dificuldade_para_tela, (600, 70))
-    tela.blit(mensagem_facil_para_tela, (720, 150))
-    tela.blit(mensagem_medio_para_tela, (705, 250))
-    tela.blit(mensagem_dificil_para_tela, (715, 350))
+    tela.blit(mensagem_dificuldade_para_tela, (Variaveis_globais.dimensoes_janela[0] // 2 - 160, 70))
+    tela.blit(mensagem_facil_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2) - 35, 150))
+    tela.blit(mensagem_medio_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2) - 50, 250))
+    tela.blit(mensagem_dificil_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2) - 42, 350))
 
-    tela.blit(mensagem_ajustar_tela_para_tela, (150, 145))
+    tela.blit(mensagem_tela_cheia, ((Variaveis_globais.dimensoes_janela[0] // 2) - 70, 450))
 
     display.flip()
 
@@ -84,6 +85,10 @@ while not selecionou:
         if event.type == QUIT:
             quit()
             sys.exit()
+        
+        if event.type == pygame.VIDEORESIZE:
+            Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
+            Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] * Variaveis_globais.dimensoes_janela[1]/ proporcao_base
 
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
             posicao_mouse = pygame.mouse.get_pos()
@@ -101,10 +106,9 @@ while not selecionou:
                 Variaveis_globais.dificuldade = 3
 
             if ajuste_rect.collidepoint(posicao_mouse):
-                largura_da_janela = largura_do_monitor
-                altura_da_janela = altura_do_monitor
-                proprocao = largura_da_janela * altura_da_janela / 750000
-                tela = display.set_mode((largura_da_janela, altura_da_janela), pygame.FULLSCREEN, 32)
+                tela = display.set_mode((largura_do_monitor, altura_do_monitor), pygame.FULLSCREEN, 32)
+                Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
+                Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] * Variaveis_globais.dimensoes_janela[1]/ proporcao_base
 
 iniciar_jogo()
 # laço principal
@@ -114,6 +118,7 @@ while True:
     tela.blit(plano_de_fundo, (-1200, 0))
 
     Duracao_buffs.conferir_buffs()
+    Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
 
     # adicionar objetos
     if len(Variaveis_globais.grupo_inimigos1) < 2 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
@@ -198,6 +203,10 @@ while True:
 
         if event.type == JOYDEVICEADDED:
             Controles.controle.__init__()
+        
+        if event.type == pygame.VIDEORESIZE:
+            Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
+            Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] * Variaveis_globais.dimensoes_janela[1]/ proporcao_base
 
     # para mover player ao pressionar tecla, ou joystick
     if pygame.key.get_pressed()[K_a] or pygame.key.get_pressed()[K_LEFT] or Variaveis_globais.eixo_x_joystick >= 0.4:

@@ -60,7 +60,7 @@ class EfeitosAnimacao(pygame.sprite.Sprite):  # classe de efeitos diversos que a
             self.image = self.sprites_efeito_barreira[int(self.index_barreira)]
 
             # ajustar dimensões do sprite
-            self.image = pygame.transform.scale(self.image, (102 * 4, 308 * 4))
+            self.image = pygame.transform.scale(self.image, (102 * 4 * Variaveis_globais.proporcao, 308 * 4 * Variaveis_globais.proporcao))
         else:
             Variaveis_globais.todas_as_sprites.remove(self)
 

@@ -24,6 +24,8 @@ dificuldade = 0
 tempo_buff_velocidade = 0
 tempo_de_recarga = 60
 
+dimensoes_janela = pygame.display.get_surface().get_size()
+proporcao = largura_da_janela * altura_da_janela / proporcao_base
 
 # agrupar sprites
 todas_as_sprites = pygame.sprite.Group()

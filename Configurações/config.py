@@ -44,7 +44,7 @@ largura_da_janela = int(informacao_da_tela.current_w * 0.9)
 altura_da_janela = int(informacao_da_tela.current_h * 0.65)
 
 # dimensão base: 1500 x 500
-proporcao = largura_da_janela * altura_da_janela / (1500 * 500)
+proporcao_base = 1500 * 500
 
 fps = 120
 
