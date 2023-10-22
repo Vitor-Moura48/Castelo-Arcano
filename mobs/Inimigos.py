@@ -21,7 +21,7 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.image = sprite_sheet_inimigo.subsurface((0, 0), (391, 639))
 
         # mudar dimensões do sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.15, altura_inimigo1 * 0.15))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
 
@@ -41,8 +41,8 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     def randomizar(self):
 
-        self.rect.x = randint(largura_da_janela, largura_da_janela + 500)
-        self.rect.y = randint(int(altura_da_janela * 0.14), int(altura_da_janela * 0.84))
+        self.rect.x = randint(Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] + 500)
+        self.rect.y = randint(int(Variaveis_globais.dimensoes_janela[1] * 0.1), int(Variaveis_globais.dimensoes_janela[1] - self.rect.size[1]))
 
     # atualizar estado
     def update(self):
@@ -53,13 +53,13 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
             if self.subir:
                 self.rect.top -= Variaveis_globais.velocidade_inimigo * 0.75
                 self.image = self.imagem_para_cima
-                if self.rect.top <= 70:
+                if self.rect.top < Variaveis_globais.dimensoes_janela[1] * 0.1:
                     self.subir = False
 
             if not self.subir:
                 self.rect.top += Variaveis_globais.velocidade_inimigo * 0.75
                 self.image = self.imagem_para_baixo
-                if self.rect.top >= 400:
+                if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
                     self.subir = True
 
         else:
@@ -68,13 +68,13 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         # movimentar no eixo x
         self.rect.x -= Variaveis_globais.velocidade_inimigo
 
-        if self.rect.top < 70:
-            self.rect.top = 70
-        if self.rect.top > 400:
-            self.rect.top = 400
+        if self.rect.top < Variaveis_globais.dimensoes_janela[1] * 0.1:
+            self.rect.top = Variaveis_globais.dimensoes_janela[1] * 0.1
+        if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
+            self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
 
         # mudar escala
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.15 * Variaveis_globais.proporcao, altura_inimigo1 * 0.15 * Variaveis_globais.proporcao))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
 
 
 class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
@@ -83,16 +83,17 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
         pygame.sprite.Sprite.__init__(self)
 
         # seleciona a sprite que vai ser exibida
-        self.image = sprite_sheet_inimigo2.subsurface((0, 0), (391, 639))
+        self.image = sprite_sheet_inimigo2.subsurface((60, 150), (330, 390))
 
         # mudar dimensões do sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25, altura_inimigo2 * 0.25))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.2, altura_inimigo2 * 0.2))
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
-        rect_ajustado = pygame.Rect.inflate(self.rect, -35, -50)
+        rect_ajustado = pygame.Rect.inflate(self.rect, -30, -5)
         self.rect = rect_ajustado
        
+        self.aceleracao = 0
 
         # randomizar as coordenadas de spaw do inimigo
         self.randomizar()
@@ -104,35 +105,42 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
     def randomizar(self):
 
-        self.rect.x = randint(largura_da_janela, largura_da_janela + 500)
-        self.rect.y = randint(int(altura_da_janela * 0.14), int(altura_da_janela * 0.82))
+        self.rect.x = randint(Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] + 500)
+        self.rect.y = randint(int(Variaveis_globais.dimensoes_janela[1] * 0.1), int(Variaveis_globais.dimensoes_janela[1] - self.rect.size[1]))
 
     # atualizar informações
     def update(self):
-        # mudar tamanho da sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.25 * Variaveis_globais.proporcao, altura_inimigo2 * 0.25 * Variaveis_globais.proporcao))
-
         # alternar o movimento em relação com o jogador (para subir)
-        if  Player.player.rect.center[1] > int(altura_da_janela * 0.5) and self.rect.top > int(altura_da_janela * 0.14):
-            self.rect.top -= 300 / fps
-            if self.rect.top <= int(altura_da_janela * 0.14):
+        if  Player.player.rect.center[1] > int(Variaveis_globais.dimensoes_janela[1] * 0.5) and self.rect.top > int(Variaveis_globais.dimensoes_janela[1] * 0.1):
+            self.rect.top -= Variaveis_globais.velocidade_inimigo * 0.8
+            if self.rect.top <= int(Variaveis_globais.dimensoes_janela[1] * 0.1):
                 self.image = self.imagem_normal
             else:
                 self.image = self.imagem_para_cima
+                
 
         # alternar o movimento em relação com o jogador (para descer)
-        if  Player.player.rect.center[1] <= int(altura_da_janela * 0.5) and self.rect.bottom < altura_da_janela:
-            self.rect.top += 300 / fps
-            if self.rect.bottom >= altura_da_janela:
+        if  Player.player.rect.center[1] <= int(Variaveis_globais.dimensoes_janela[1] * 0.5) and self.rect.bottom < Variaveis_globais.dimensoes_janela[1]:
+            self.rect.top += Variaveis_globais.velocidade_inimigo * 0.7
+            if self.rect.bottom >= Variaveis_globais.dimensoes_janela[1]:
                 self.image = self.imagem_normal
             else:
                 self.image = self.imagem_para_baixo
 
-        # alterar movimento em x
-        self.rect.x -= Variaveis_globais.velocidade_inimigo * 0.8
+        # mudar tamanho da sprite
+        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.2 * Variaveis_globais.proporcao, altura_inimigo2 * 0.2 * Variaveis_globais.proporcao))
 
         # faz com que o inimigo fique mais rápido quando está nas bordas de cima ou de baixo da tela
-        if self.rect.top <= 70 or self.rect.bottom >= 500:
-            self.rect.x -= 2
+        if self.rect.top <= Variaveis_globais.dimensoes_janela[1] * 0.2 or self.rect.bottom >= Variaveis_globais.dimensoes_janela[1] * 0.9 or self.rect.center[0] < Player.player.rect.center[0]:
+            if self.aceleracao < Variaveis_globais.velocidade_inimigo:
+                self.aceleracao += Variaveis_globais.velocidade_inimigo * 0.01
+        else:
+            if self.aceleracao > Variaveis_globais.velocidade_inimigo * -1:
+                self.aceleracao -= Variaveis_globais.velocidade_inimigo * 0.01
+        
+    
+        # alterar movimento em x
+        self.rect.x -= (Variaveis_globais.velocidade_inimigo * 0.7) + self.aceleracao
 
+        
 

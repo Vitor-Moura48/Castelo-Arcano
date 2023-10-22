@@ -85,9 +85,31 @@ class VerificarColisoes:  # classe para verificar colisões
 
                 Variaveis_globais.grupo_projeteis_aliados.remove(projetil_aliado)
                 Variaveis_globais.todas_as_sprites.remove(projetil_aliado)
+    
+    def saiu_do_mapa(self):
+        objetos_para_apagar = []
+        for inimigo in Variaveis_globais.grupo_inimigos1:
+            if inimigo.rect.right < 0:
+                objetos_para_apagar.append(inimigo)
+        for inimigo in Variaveis_globais.grupo_inimigos2:
+            if inimigo.rect.right < 0:
+                objetos_para_apagar.append(inimigo)
+        for efeito in Variaveis_globais.grupo_todos_efeitos:
+            if efeito.rect.right < 0:
+                objetos_para_apagar.append(efeito)
+    
 
+        for objeto in objetos_para_apagar:
+            if objeto in Variaveis_globais.grupo_todos_inimigos:
+                Variaveis_globais.vidas_castelo -= 1
+                Variaveis_globais.inimigos_restantes -= 1
+                efeito_morte.play()
+                
+                Variaveis_globais.grupo_inimigos1.remove(objeto)
+                Variaveis_globais.grupo_inimigos2.remove(objeto)
 
-
+            elif objeto in Variaveis_globais.grupo_todos_efeitos:
+                Variaveis_globais.grupo_todos_efeitos.remove(efeito)
 
 
 
