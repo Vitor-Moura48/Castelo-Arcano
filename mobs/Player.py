@@ -40,7 +40,9 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
         retangulo_ajustado = pygame.Rect.inflate(self.rect, -30, -10)
         self.rect = retangulo_ajustado
 
-        self.rect.center = (int(largura_da_janela / 2), int(altura_da_janela / 2))
+        self.rect_base = self.rect
+
+        self.rect.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)
 
     # atualizar imagem
     def update(self):
@@ -51,16 +53,16 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
         self.image = self.sprites_mago[int(self.index_lista_mago)]
 
-        self.image = pygame.transform.scale(self.image, (85 / 1.1 * Variaveis_globais.proporcao, 94 / 1.1 * Variaveis_globais.proporcao))
+        self.image = pygame.transform.scale(self.image, (85 * 0.8 * Variaveis_globais.proporcao, 94 * 0.8 * Variaveis_globais.proporcao))
 
         if self.rect.left < 0:
             self.rect.left = 0
-        if self.rect.right > largura_da_janela:
-            self.rect.right = largura_da_janela
+        if self.rect.right > Variaveis_globais.dimensoes_janela[0]:
+            self.rect.right = Variaveis_globais.dimensoes_janela[0]
         if self.rect.top < 0:
             self.rect.top = 0
-        if self.rect.bottom > altura_da_janela:
-            self.rect.bottom = altura_da_janela
+        if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
+            self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
             
 
 
@@ -81,6 +83,8 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         self.index_lista_projetil += 1
         self.image = self.sprites_projetil[int(self.index_lista_projetil)]
 
+        self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
+
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
         retangulo_ajustado = pygame.Rect.inflate(self.rect, -15, -15)
@@ -88,8 +92,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         
 
         self.tempo_de_vida = 120
-
-        self.mask = pygame.mask.from_surface(self.image)
 
         # definir as coordenadas do projetil
         self.rect.center = (player.rect.center[0], player.rect.center[1])
@@ -109,13 +111,14 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
 
         # armazena em uma variavel a 'mínima' parte da velocidade_projetil (de forma diretamente proporcional)
-        distribuicao_velocidade = velocidade_base_projetil / (abs(self.projetil_x) + abs(self.projetil_y))
+        distribuicao_velocidade = velocidade_base_projetil / (abs(self.projetil_x) + abs(self.projetil_y)) * Variaveis_globais.proporcao
 
         # junta as 'mínimas partes' de forma diretamente proporcional a variavel self
         self.velocidade_x = distribuicao_velocidade * self.projetil_x
         self.velocidade_y = distribuicao_velocidade * self.projetil_y
 
     def update(self):
+
         self.tempo_de_vida -= 1
 
         # atualizar imagem
@@ -125,6 +128,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             self.index_lista_projetil = 0
 
         self.image = self.sprites_projetil[int(self.index_lista_projetil)]
+        self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
 
 
         # faz o projetil se mover de acordo com resultado da distribuição final obtida
@@ -134,6 +138,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         # define se o projetil saiu ou não da tela, se sim, a função update deixa de chamar essa função repetidamente
         if self.tempo_de_vida <= 0:
             Variaveis_globais.todas_as_sprites.remove(self)  
+        
 
 
 player = SpritesPlayer()

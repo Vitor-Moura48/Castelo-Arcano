@@ -27,17 +27,17 @@ class SpritesCenario(pygame.sprite.Sprite):  # criar classe de sprites para o ce
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
+        self.rect_base = self.rect
 
     # atualizar estado
     def update(self):
         # ajustar escala da imagem
         self.image = pygame.transform.scale(self.image, (largura_castelo * Variaveis_globais.proporcao * 0.65, altura_castelo * Variaveis_globais.proporcao * 0.65))
 
-        # encontrar as dimensões da imagem
-        self.rect = self.image.get_rect()
-
         # posicionar o fundo da imagem na parte mais 'baixa' da tela
         self.rect.bottom = pygame.display.get_surface().get_size()[1]
+
+        self.rect.left = 0
 
 
 
