@@ -34,17 +34,12 @@ efeito_vitoria.set_volume(0.7)
 
 fonte = pygame.font.SysFont("arial", 30, True, False)
 
-# obter a resulução da tela do pc
-informacao_da_tela = pygame.display.Info()
+informacoes_tela = pygame.display.Info()
 
-largura_do_monitor = informacao_da_tela.current_w
-altura_do_monitor = informacao_da_tela.current_h
+dimensao_base = (informacoes_tela.current_w * 0.7, informacoes_tela.current_h * 0.7)
 
-largura_da_janela = int(informacao_da_tela.current_w * 0.9)
-altura_da_janela = int(informacao_da_tela.current_h * 0.65)
-
-# dimensão base: 1500 x 500
-proporcao_base = 1500 * 500
+# para cada 1 y de altura, tem n x de alrgura
+proporcao_altura_largura =  dimensao_base[0] / dimensao_base[1]
 
 fps = 120
 
@@ -54,12 +49,11 @@ velocidade_base_inimigo = 6
 
 dificuldade = 0
 
-# criar a tela
-tela = display.set_mode((largura_da_janela, altura_da_janela), pygame.RESIZABLE)
-
-
-# definir cor da tela
-tela.fill((000, 000, 000))
-
 # definir título da tela
 display.set_caption("Castelo Arcano")
+
+mensagem_derrota = "você perdeu, pressione enter para continuar"
+mensagem_derrota_para_tela = fonte.render(mensagem_derrota, False,  (200, 0, 0))
+
+mensagem_vitoria = "você ganhou! pressione enter para continuar"
+mensagem_vitoria_para_tela = fonte.render(mensagem_vitoria, True, (255, 255, 0))
