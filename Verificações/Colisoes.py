@@ -10,6 +10,7 @@ class VerificarColisoes:  # classe para verificar colisões
 
     # função para verificar colisão do jogador com algo
     def colisao_com_player(self):
+        mobs_ativos = [len(Variaveis_globais.grupo_inimigos1), len(Variaveis_globais.grupo_inimigos2)]
         
         colisoes_player_inimigo1 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_inimigos1, True)
         colisoes_player_inimigo2 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_inimigos2, True)
@@ -18,11 +19,11 @@ class VerificarColisoes:  # classe para verificar colisões
 
         # verifica colisões com inimigos e responde de acordo
         if colisoes_player_inimigo1:
-            Variaveis_globais.inimigos_restantes -= 1
+            Variaveis_globais.inimigos_restantes -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos1)
             efeito_morte.play()
 
         if colisoes_player_inimigo2:
-            Variaveis_globais.inimigos_restantes -= 1
+            Variaveis_globais.inimigos_restantes -= mobs_ativos[1] - len(Variaveis_globais.grupo_inimigos2)
             efeito_morte.play()
 
         # verifica colisões com buffs e responde de acordo
@@ -39,33 +40,35 @@ class VerificarColisoes:  # classe para verificar colisões
 
     # função para verificar colisões do castelo com algo
     def colisao_com_castelo(self):
+        mobs_ativos = [len(Variaveis_globais.grupo_inimigos1), len(Variaveis_globais.grupo_inimigos2)]
 
+        # verifica colisões com inimigos e responde de acordo
         colisoes_castelo_inimigo1 = pygame.sprite.spritecollide(Castelo.castelo, Variaveis_globais.grupo_inimigos1, True)
         colisoes_castelo_inimigo2 = pygame.sprite.spritecollide(Castelo.castelo, Variaveis_globais.grupo_inimigos2, True)
 
-        # verifica colisões com inimigos e responde de acordo
         if colisoes_castelo_inimigo1:
             if  Variaveis_globais.barreira == 0:
-                Variaveis_globais.vidas_castelo -= 1
+                Variaveis_globais.vidas_castelo -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos1)
                 efeito_explosao.play()
             else:
                 Variaveis_globais.barreira -= 1
                 efeito_defesa.play()
 
-            Variaveis_globais.inimigos_restantes -= 1
+            Variaveis_globais.inimigos_restantes -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos1)
 
         if colisoes_castelo_inimigo2:
             if  Variaveis_globais.barreira == 0:
-                Variaveis_globais.vidas_castelo -= 1
+                Variaveis_globais.vidas_castelo -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos1)
                 efeito_explosao.play()
             else:
                 Variaveis_globais.barreira -= 1
                 efeito_defesa.play()
 
-            Variaveis_globais.inimigos_restantes -= 1
+            Variaveis_globais.inimigos_restantes -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos1)
 
     # função para verificar colisões do projetil do jogador com algo
     def colisao_com_projetil_player(self):
+        mobs_ativos = [len(Variaveis_globais.grupo_inimigos1), len(Variaveis_globais.grupo_inimigos2)]
 
         for projetil_aliado in Variaveis_globais.grupo_projeteis_aliados:
             colisoes_projetil_inimigo1 = pygame.sprite.spritecollide(projetil_aliado, Variaveis_globais.grupo_inimigos1, True)
@@ -73,18 +76,16 @@ class VerificarColisoes:  # classe para verificar colisões
 
             # verifica colisões com inimigos e responde de acordo
             if colisoes_projetil_inimigo1:
-                Variaveis_globais.inimigos_restantes -= 1
+                Variaveis_globais.inimigos_restantes -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos1)
                 efeito_morte.play()
                 
-                Variaveis_globais.grupo_projeteis_aliados.remove(projetil_aliado)
-                Variaveis_globais.todas_as_sprites.remove(projetil_aliado)
+                projetil_aliado.kill()
 
             if colisoes_projetil_inimigo2:
-                Variaveis_globais.inimigos_restantes -= 1
+                Variaveis_globais.inimigos_restantes -= mobs_ativos[0] - len(Variaveis_globais.grupo_inimigos2)
                 efeito_morte.play()
 
-                Variaveis_globais.grupo_projeteis_aliados.remove(projetil_aliado)
-                Variaveis_globais.todas_as_sprites.remove(projetil_aliado)
+                projetil_aliado.kill()
     
     def saiu_do_mapa(self):
         objetos_para_apagar = []
@@ -104,13 +105,8 @@ class VerificarColisoes:  # classe para verificar colisões
                 Variaveis_globais.vidas_castelo -= 1
                 Variaveis_globais.inimigos_restantes -= 1
                 efeito_morte.play()
-                
-                Variaveis_globais.grupo_inimigos1.remove(objeto)
-                Variaveis_globais.grupo_inimigos2.remove(objeto)
 
-            elif objeto in Variaveis_globais.grupo_todos_efeitos:
-                Variaveis_globais.grupo_todos_efeitos.remove(efeito)
-
+            objeto.kill()
 
 
 

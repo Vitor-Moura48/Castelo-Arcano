@@ -44,3 +44,5 @@ grupo_efeito1 = pygame.sprite.Group()
 grupo_efeito2 = pygame.sprite.Group()
 grupo_todos_efeitos = pygame.sprite.Group()
 grupo_projeteis_aliados = pygame.sprite.Group()
+
+componentes = pygame.sprite.Group()

@@ -13,7 +13,6 @@ class Joystick:  # criar classe para resolver coisas sobre controle
             self.controle.init()
 
     def movimento(self, event):
-        global eixo_joystick, eixo_x_joystick, eixo_y_joystick
 
         eixo_joystick = event.axis
 
