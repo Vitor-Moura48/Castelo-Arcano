@@ -3,33 +3,10 @@ from Configurações import Variaveis_globais, Controles
 from mobs import Player, Inimigos, Castelo
 from Efeitos import buff_01, buff_02, animacoes
 from Verificações import Colisoes
+from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo, tela_configuracao
 
-# função para definir o modo de jogo e outras coisas
-def iniciar_jogo():
-
-    Variaveis_globais.ganhou = False
-    Variaveis_globais.perdeu = False
-    Variaveis_globais.vidas_castelo = 10
-
-    if Variaveis_globais.dificuldade == 1:
-
-        Variaveis_globais.inimigos_totais = 60
-        Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 0.70 * Variaveis_globais.proporcao
-    if Variaveis_globais.dificuldade == 2:
-
-        Variaveis_globais.inimigos_totais = 80
-        Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * Variaveis_globais.proporcao
-
-    if Variaveis_globais.dificuldade == 3:
-
-        Variaveis_globais.inimigos_totais = 120
-        Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 1.15 * Variaveis_globais.proporcao
-
-    pygame.mixer_music.play(-1)
-
+def chamar_menu_principal():
+    menu_principal.menu_principal()
 
 def adicioanr_objetos():
     # adicionar objetos
@@ -158,6 +135,10 @@ def responder_a_eventos():
 
             retangulo_ajustado = pygame.Rect.inflate(Player.player.rect, int(Player.player.rect_base.width * Variaveis_globais.proporcao - Player.player.rect.width), int(Player.player.rect_base.height * Variaveis_globais.proporcao - Player.player.rect.height))
             Player.player.rect = retangulo_ajustado
+    
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                opcoes_em_jogo.tela_opcoes()
 
 def gerenciar_waves(): 
     if Variaveis_globais.inimigos_restantes <= Variaveis_globais.inimigos_totais * 0.8 and not Variaveis_globais.mudanca_de_velocidade[0]:
@@ -192,7 +173,7 @@ def responder_a_derrota():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    iniciar_jogo()
+                    escolha_dificuldade.iniciar_jogo()
 
 
 def responder_a_vitoria():
@@ -221,120 +202,9 @@ def responder_a_vitoria():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    iniciar_jogo()
+                    escolha_dificuldade.iniciar_jogo()
 
 # criar um clock de atualização em fps
 clock = time.Clock()
 
-# fazer uma tela inicial
-mensagem_dificuldade = 'Selecione a dificuldade'
-mensagem_dificuldade_para_tela = fonte.render(mensagem_dificuldade, True, (255, 50, 50))
-
-mensagem_facil = 'Fácil'
-mensagem_facil_para_tela = fonte.render(mensagem_facil, True, (255, 50, 50))
-
-mensagem_medio = 'Normal'
-mensagem_medio_para_tela = fonte.render(mensagem_medio, True, (255, 50, 50))
-
-mensagem_dificil = 'Difícil'
-mensagem_dificil_para_tela = fonte.render(mensagem_dificil, True, (255, 50, 50))
-
-mensagem_ajustar_tela = 'Tela Cheia'
-mensagem_tela_cheia = fonte.render(mensagem_ajustar_tela, True, (50, 50, 255))
-
-selecionou = False
-
-
-while not selecionou:
-
-    # retangulos visuais
-    pygame.draw.rect(Variaveis_globais.tela, (140, 140, 140), ((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 140, 200, 50))
-    pygame.draw.rect(Variaveis_globais.tela, (100, 100, 100), ((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 240, 200, 50))
-    pygame.draw.rect(Variaveis_globais.tela, (60, 60, 60), ((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 340, 200, 50))
-
-    pygame.draw.rect(Variaveis_globais.tela, (200, 200, 200), ((Variaveis_globais.dimensoes_janela[0] // 2) - (300 // 2), 440, 300, 50))
-
-    # retangulos para colisão
-    facil_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 140, 200, 50)
-    medio_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 240, 200, 50)
-    dificil_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (200 // 2), 340, 200, 50)
-
-    ajuste_rect = pygame.Rect((Variaveis_globais.dimensoes_janela[0] // 2) - (300 // 2), 440, 300, 50)
-
-    # desenhar mensagens
-    Variaveis_globais.tela.blit(mensagem_dificuldade_para_tela, (Variaveis_globais.dimensoes_janela[0] // 2 - 160, 70))
-    Variaveis_globais.tela.blit(mensagem_facil_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2) - 35, 150))
-    Variaveis_globais.tela.blit(mensagem_medio_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2) - 50, 250))
-    Variaveis_globais.tela.blit(mensagem_dificil_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2) - 42, 350))
-
-    Variaveis_globais.tela.blit(mensagem_tela_cheia, ((Variaveis_globais.dimensoes_janela[0] // 2) - 70, 450))
-
-    display.flip()
-
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            quit()
-            sys.exit()
-        
-        if event.type == pygame.VIDEORESIZE:
-            Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
-
-            # se o x for muito maior que o y
-            if Variaveis_globais.dimensoes_janela[0] / Variaveis_globais.dimensoes_janela[1] > proporcao_altura_largura:
-
-                # se eu diminui o y
-                if Variaveis_globais.dimensoes_janela[0] * Variaveis_globais.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Variaveis_globais.proporcao:
-                    Variaveis_globais.tela = display.set_mode((Variaveis_globais.dimensoes_janela[1] * proporcao_altura_largura, Variaveis_globais.dimensoes_janela[1]), pygame.RESIZABLE)
-                # se eu aumentei o x
-                else:
-                    Variaveis_globais.tela = display.set_mode((Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] / proporcao_altura_largura), pygame.RESIZABLE)
-                
-                Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
-
-            # se o y for muito maior que o x
-            elif Variaveis_globais.dimensoes_janela[0] / Variaveis_globais.dimensoes_janela[1] < proporcao_altura_largura:
-
-                # se eu diminui o x
-                if Variaveis_globais.dimensoes_janela[0] * Variaveis_globais.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Variaveis_globais.proporcao:
-                    Variaveis_globais.tela = display.set_mode((Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] / proporcao_altura_largura), pygame.RESIZABLE)
-                # se eu aumentei o y
-                else:
-                    Variaveis_globais.tela = display.set_mode((Variaveis_globais.dimensoes_janela[1] * proporcao_altura_largura, Variaveis_globais.dimensoes_janela[1]), pygame.RESIZABLE)
-                
-                Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
-
-            Variaveis_globais.proporcao = Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] / dimensao_base[0]
-
-            Castelo.castelo.rect_ajustado = pygame.Rect.inflate(Castelo.castelo.rect, int(Castelo.castelo.rect_base.width * Variaveis_globais.proporcao - Castelo.castelo.rect.width), int(Castelo.castelo.rect_base.height * Variaveis_globais.proporcao - Castelo.castelo.rect.height))
-            Castelo.castelo.rect = Castelo.castelo.rect_ajustado
-
-            retangulo_ajustado = pygame.Rect.inflate(Player.player.rect, int(Player.player.rect_base.width * Variaveis_globais.proporcao - Player.player.rect.width), int(Player.player.rect_base.height * Variaveis_globais.proporcao - Player.player.rect.height))
-            Player.player.rect = retangulo_ajustado
-    
-
-        if event.type == MOUSEBUTTONDOWN and event.button == 1:
-            posicao_mouse = pygame.mouse.get_pos()
-
-            if facil_rect.collidepoint(posicao_mouse):
-                Variaveis_globais.dificuldade = 1
-                selecionou = True
-
-            if medio_rect.collidepoint(posicao_mouse):
-                selecionou = True
-                Variaveis_globais.dificuldade = 2
-
-            if dificil_rect.collidepoint(posicao_mouse):
-                selecionou = True
-                Variaveis_globais.dificuldade = 3
-
-            if ajuste_rect.collidepoint(posicao_mouse):
-                tela = display.set_mode((informacoes_tela.current_w, informacoes_tela.current_h), pygame.FULLSCREEN, 32)
-                Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
-                Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] / dimensao_base[0]
-
-                Castelo.castelo.rect_ajustado = pygame.Rect.inflate(Castelo.castelo.rect, int(Castelo.castelo.rect_base.width * Variaveis_globais.proporcao - Castelo.castelo.rect.width), int(Castelo.castelo.rect_base.height * Variaveis_globais.proporcao - Castelo.castelo.rect.height))
-                Castelo.castelo.rect = Castelo.castelo.rect_ajustado
-
-                retangulo_ajustado = pygame.Rect.inflate(Player.player.rect, int(Player.player.rect_base.width * Variaveis_globais.proporcao - Player.player.rect.width), int(Player.player.rect_base.height * Variaveis_globais.proporcao - Player.player.rect.height))
-                Player.player.rect = retangulo_ajustado
     

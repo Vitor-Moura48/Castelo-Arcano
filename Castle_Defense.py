@@ -4,7 +4,7 @@ from Verificações import Duracao_buffs
 import funcoes_main
 
 
-funcoes_main.iniciar_jogo()
+funcoes_main.chamar_menu_principal()
 
 # laço principal
 while True:
