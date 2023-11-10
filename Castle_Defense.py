@@ -22,6 +22,7 @@ while True:
     funcoes_main.criar_texto_na_janela()
     
     Variaveis_globais.tempo_de_recarga -= 1
+    Variaveis_globais.tempo_buff_3_projeteis -= 1
     
     funcoes_main.responder_a_eventos()
 

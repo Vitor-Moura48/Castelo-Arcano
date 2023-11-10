@@ -11,3 +11,5 @@ def conferir_buffs():
 
     else:
          Variaveis_globais.velocidade_player = velocidade_base_player  * Variaveis_globais.proporcao
+    
+    

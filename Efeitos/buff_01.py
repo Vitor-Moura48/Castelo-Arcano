@@ -34,7 +34,7 @@ class SpritesEfeito1(pygame.sprite.Sprite):  # classe para efeito especiail 1
     # fução chamada quando o player colide com o buff
     def buff(self):
     
-        Variaveis_globais.tempo_buff_velocidade = 100
+        Variaveis_globais.tempo_buff_velocidade = 200
 
 
     # atualizar estado

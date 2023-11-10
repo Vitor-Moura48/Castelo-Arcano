@@ -1,7 +1,7 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais
 from mobs import Player, Castelo
-from Efeitos import buff_01, buff_02, animacoes
+from Efeitos import buff_01, buff_02, buff_03, animacoes
 
 
 class VerificarColisoes:  # classe para verificar colisões
@@ -16,6 +16,7 @@ class VerificarColisoes:  # classe para verificar colisões
         colisoes_player_inimigo2 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_inimigos2, True)
         colisoes_player_buff1 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito1, True)
         colisoes_player_buff2 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito2, True)
+        colisoes_player_buff3 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito3, True)
 
         # verifica colisões com inimigos e responde de acordo
         if colisoes_player_inimigo1:
@@ -36,6 +37,9 @@ class VerificarColisoes:  # classe para verificar colisões
             efeito_animacao = animacoes.EfeitosAnimacao()
             Variaveis_globais.todas_as_sprites.add(efeito_animacao)
             efeito_animacao.animar1()
+        
+        if colisoes_player_buff3:
+            buff_03.efeito_buff3.buff()
             
 
     # função para verificar colisões do castelo com algo

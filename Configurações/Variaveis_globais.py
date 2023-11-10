@@ -24,7 +24,10 @@ maior_recorde = []
 dificuldade = 0
 
 tempo_buff_velocidade = 0
+tempo_buff_3_projeteis = 0
 tempo_de_recarga = 60
+
+amplitude_projeteis = 10 # graus de desvio, para mais e para menos
 
 dimensoes_janela = pygame.display.get_surface().get_size()
 
@@ -42,6 +45,7 @@ grupo_inimigos2 = pygame.sprite.Group()
 grupo_todos_inimigos = pygame.sprite.Group()
 grupo_efeito1 = pygame.sprite.Group()
 grupo_efeito2 = pygame.sprite.Group()
+grupo_efeito3 = pygame.sprite.Group()
 grupo_todos_efeitos = pygame.sprite.Group()
 grupo_projeteis_aliados = pygame.sprite.Group()
 

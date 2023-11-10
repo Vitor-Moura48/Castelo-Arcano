@@ -100,22 +100,19 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         self.projetil_y = 0
 
     # lógica para atirar
-    def atirar(self):
+    def atirar(self, desvio):
 
         # obtem as coordenadas do mouse
         posicao_mouse = mouse.get_pos()
 
-        # obtem as diferencas entre o mouse e o projetil em cada eixo
-        self.projetil_x = (posicao_mouse[0] - self.rect.center[0])
-        self.projetil_y = (posicao_mouse[1] - self.rect.center[1])
+        distancia_x = posicao_mouse[0] - self.rect.center[0]
+        distancia_y = posicao_mouse[1] - self.rect.center[1]
 
-
-        # armazena em uma variavel a 'mínima' parte da velocidade_projetil (de forma diretamente proporcional)
-        distribuicao_velocidade = velocidade_base_projetil / (abs(self.projetil_x) + abs(self.projetil_y)) * Variaveis_globais.proporcao
+        angulo_radiano = numpy.arctan2(distancia_y, distancia_x) + numpy.radians(desvio)
 
         # junta as 'mínimas partes' de forma diretamente proporcional a variavel self
-        self.velocidade_x = distribuicao_velocidade * self.projetil_x
-        self.velocidade_y = distribuicao_velocidade * self.projetil_y
+        self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
+        self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
 
     def update(self):
 
@@ -137,7 +134,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
         # define se o projetil saiu ou não da tela, se sim, a função update deixa de chamar essa função repetidamente
         if self.tempo_de_vida <= 0:
-            Variaveis_globais.todas_as_sprites.remove(self)  
+            self.kill() 
         
 
 
