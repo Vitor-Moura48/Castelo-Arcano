@@ -1,7 +1,7 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais
 from mobs import Player, Castelo
-from Efeitos import buff_01, buff_02, buff_03, animacoes
+from Efeitos import buff_01, buff_02, buff_03, buff_04, animacoes
 
 
 class VerificarColisoes:  # classe para verificar colisões
@@ -17,6 +17,7 @@ class VerificarColisoes:  # classe para verificar colisões
         colisoes_player_buff1 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito1, True)
         colisoes_player_buff2 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito2, True)
         colisoes_player_buff3 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito3, True)
+        colisoes_player_buff4 = pygame.sprite.spritecollide(Player.player, Variaveis_globais.grupo_efeito4, True)
 
         # verifica colisões com inimigos e responde de acordo
         if colisoes_player_inimigo1:
@@ -40,6 +41,9 @@ class VerificarColisoes:  # classe para verificar colisões
         
         if colisoes_player_buff3:
             buff_03.efeito_buff3.buff()
+        
+        if colisoes_player_buff4:
+            buff_04.efeito_buff4.buff()
             
 
     # função para verificar colisões do castelo com algo
@@ -106,12 +110,18 @@ class VerificarColisoes:  # classe para verificar colisões
 
         for objeto in objetos_para_apagar:
             if objeto in Variaveis_globais.grupo_todos_inimigos:
-                Variaveis_globais.vidas_castelo -= 1
-                Variaveis_globais.inimigos_restantes -= 1
-                efeito_morte.play()
+
+                if Variaveis_globais.barreira == 0:
+                    Variaveis_globais.vidas_castelo -= 1
+                    Variaveis_globais.inimigos_restantes -= 1
+                    efeito_morte.play()
+
+                else:
+                    Variaveis_globais.barreira -= 1
+                    Variaveis_globais.inimigos_restantes -= 1 
+                    efeito_defesa.play()
 
             objeto.kill()
-
 
 
 colisoes = VerificarColisoes()

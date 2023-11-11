@@ -25,6 +25,7 @@ dificuldade = 0
 
 tempo_buff_velocidade = 0
 tempo_buff_3_projeteis = 0
+tempo_buff_velocidade_disparo = 0
 tempo_de_recarga = 60
 
 amplitude_projeteis = 10 # graus de desvio, para mais e para menos
@@ -46,6 +47,7 @@ grupo_todos_inimigos = pygame.sprite.Group()
 grupo_efeito1 = pygame.sprite.Group()
 grupo_efeito2 = pygame.sprite.Group()
 grupo_efeito3 = pygame.sprite.Group()
+grupo_efeito4 = pygame.sprite.Group()
 grupo_todos_efeitos = pygame.sprite.Group()
 grupo_projeteis_aliados = pygame.sprite.Group()
 

@@ -3,9 +3,8 @@ from Configurações import Variaveis_globais, Controles
 from Verificações import Duracao_buffs
 import funcoes_main
 
-
 funcoes_main.chamar_menu_principal()
-
+    
 # laço principal
 while True:
 
@@ -20,10 +19,11 @@ while True:
     funcoes_main.verificar_colisoes()
 
     funcoes_main.criar_texto_na_janela()
-    
+
     Variaveis_globais.tempo_de_recarga -= 1
     Variaveis_globais.tempo_buff_3_projeteis -= 1
-    
+    Variaveis_globais.tempo_buff_velocidade_disparo -= 1
+
     funcoes_main.responder_a_eventos()
 
     Controles.conferir_teclado()
@@ -38,7 +38,7 @@ while True:
     # resposta para vitória
     if Variaveis_globais.inimigos_restantes <= 0:
         funcoes_main.responder_a_vitoria()
-    
+
     # atualizar a tela
     display.flip()
 

@@ -1,9 +1,9 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais, Controles
 from mobs import Player, Inimigos, Castelo
-from Efeitos import buff_01, buff_02, buff_03, animacoes
+from Efeitos import buff_01, buff_02, buff_03, buff_04
 from Verificações import Colisoes
-from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo, tela_configuracao
+from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
 
 def chamar_menu_principal():
     menu_principal.menu_principal()
@@ -49,6 +49,14 @@ def adicioanr_objetos():
         Variaveis_globais.todas_as_sprites.add(efeito_buff3)
         Variaveis_globais.grupo_efeito3.add(efeito_buff3)
         Variaveis_globais.grupo_todos_efeitos.add(efeito_buff3)
+
+    chance4 = uniform(0, 100)
+    
+    if len(Variaveis_globais.grupo_todos_efeitos) < 2 and chance4 <= chance:
+        efeito_buff4 = buff_04.SpritesEfeito4()
+        Variaveis_globais.todas_as_sprites.add(efeito_buff4)
+        Variaveis_globais.grupo_efeito4.add(efeito_buff4)
+        Variaveis_globais.grupo_todos_efeitos.add(efeito_buff4)
 
     # adiconar objetos sprites na tela
     Variaveis_globais.todas_as_sprites.draw(Variaveis_globais.tela)
@@ -107,8 +115,13 @@ def responder_a_eventos():
                         Variaveis_globais.grupo_projeteis_aliados.add(projetil_player)
                         Variaveis_globais.todas_as_sprites.add(projetil_player)
                         projetil_player.atirar(somador_amplitude)
-                        Variaveis_globais.tempo_de_recarga = 60
 
+                        
+                        Variaveis_globais.tempo_de_recarga = 60
+                        # aumenta em 10 x a velocidade de disparo
+                        if Variaveis_globais.tempo_buff_velocidade_disparo >= 0:
+                            Variaveis_globais.tempo_de_recarga *= 0.1
+               
                         somador_amplitude += amplitude_entre_projeteis
 
             else:
@@ -117,7 +130,11 @@ def responder_a_eventos():
                 Variaveis_globais.grupo_projeteis_aliados.add(projetil_player)
                 Variaveis_globais.todas_as_sprites.add(projetil_player)
                 projetil_player.atirar(0)
+
                 Variaveis_globais.tempo_de_recarga = 60
+                # aumenta em 10 x a velocidade de disparo
+                if Variaveis_globais.tempo_buff_velocidade_disparo >= 0:
+                    Variaveis_globais.tempo_de_recarga *= 0.1
 
         # responde aos eventos do controle
         if event.type == JOYAXISMOTION:
