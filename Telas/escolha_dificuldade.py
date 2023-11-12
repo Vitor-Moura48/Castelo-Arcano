@@ -21,9 +21,18 @@ def iniciar_jogo():
         for componente in Variaveis_globais.componentes:
             componente.kill()
 
-        botao_facil = botoes.Botao("Fácil", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 30, 145 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 160 * Variaveis_globais.proporcao), (300, 60))
-        botao_normal = botoes.Botao("Normal", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 45, 245 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 260 * Variaveis_globais.proporcao), (300, 60))
-        botao_dificil = botoes.Botao("Dificil", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 40, 345 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 360 * Variaveis_globais.proporcao), (300, 60))
+        botao_facil = botoes.Botao("Fácil", 
+                                   (255, 50, 50), 
+                                   (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.28)), 
+                                   (300, 60))
+        botao_normal = botoes.Botao("Normal", 
+                                    (255, 50, 50), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.43)), 
+                                    (300, 60))
+        botao_dificil = botoes.Botao("Dificil", 
+                                     (255, 50, 50),
+                                     (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.58)), 
+                                     (300, 60))
     
         Variaveis_globais.componentes.add(botao_facil)
         Variaveis_globais.componentes.add(botao_normal)

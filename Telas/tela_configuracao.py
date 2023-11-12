@@ -13,8 +13,14 @@ def tela_configuracoes():
             componente.kill()
 
         icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2), (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
-        botao_botao_tela_cheia = botoes.Botao("Tela Cheia", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 65, 190 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 205 * Variaveis_globais.proporcao), (300, 60))
-        botao_voltar = botoes.Botao("Voltar", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 40, 290 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 305 * Variaveis_globais.proporcao), (300, 60))
+        botao_botao_tela_cheia = botoes.Botao("Tela Cheia",
+                                            (255, 50, 50),
+                                            (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.33)),
+                                            (300, 60))
+        botao_voltar = botoes.Botao("Voltar", 
+                                    (255, 50, 50), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.48)),
+                                    (300, 60))
         
         Variaveis_globais.componentes.add(icone_de_fundo)
         Variaveis_globais.componentes.add(botao_botao_tela_cheia)

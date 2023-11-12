@@ -25,8 +25,7 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
 
-        novo_retangulo = pygame.Rect.inflate(self.rect, -10, -10)
-        self.rect = novo_retangulo
+        self._rect = pygame.Rect.inflate(self.rect, -(largura_inimigo1 * 0.025), -(altura_inimigo1 * 0.015))
 
         # randomiza as coordenadas que o inimigo vai spawnar
         self.randomizar()
@@ -41,11 +40,20 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     def randomizar(self):
 
-        self.rect.x = randint(Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] + 500)
+        self.rect.x = randint(Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] + 1000)
         self.rect.y = randint(int(Variaveis_globais.dimensoes_janela[1] * 0.1), int(Variaveis_globais.dimensoes_janela[1] - self.rect.size[1]))
 
     # atualizar estado
     def update(self):
+        
+        # mudar escala
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
+
+        # ajusta as dimensoes do retangulo
+        self.posicao_atual_rect = self.rect.center
+        self.rect = self.image.get_rect()
+        self.rect = pygame.Rect.inflate(self.rect, -(largura_inimigo1 * 0.025), -(altura_inimigo1 * 0.015))
+        self.rect.center = self.posicao_atual_rect
 
         # alternar o movimento em y (zig-zag)
         if Variaveis_globais.inimigos_restantes <= 20:
@@ -73,9 +81,6 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
             self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
 
-        # mudar escala
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
-
 
 class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
@@ -90,9 +95,9 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
-        rect_ajustado = pygame.Rect.inflate(self.rect, -30, -5)
+        rect_ajustado = pygame.Rect.inflate(self.rect, -(largura_inimigo2 * 0.1), -(altura_inimigo2 * 0.01))
         self.rect = rect_ajustado
-       
+
         self.aceleracao = 0
 
         # randomizar as coordenadas de spaw do inimigo
@@ -110,9 +115,18 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
     # atualizar informações
     def update(self):
+        # mudar tamanho da sprite
+        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.2 * Variaveis_globais.proporcao, altura_inimigo2 * 0.2 * Variaveis_globais.proporcao))
+
+        # ajusta as dimensoes do retangulo
+        self.posicao_atual_rect = self.rect.center
+        self.rect = self.image.get_rect()
+        self.rect = pygame.Rect.inflate(self.rect, -(largura_inimigo2 * 0.1), -(altura_inimigo2 * 0.01))
+        self.rect.center = self.posicao_atual_rect
+
         # alternar o movimento em relação com o jogador (para subir)
         if  Player.player.rect.center[1] > int(Variaveis_globais.dimensoes_janela[1] * 0.5) and self.rect.top > int(Variaveis_globais.dimensoes_janela[1] * 0.1):
-            self.rect.top -= Variaveis_globais.velocidade_inimigo * 0.8
+            self.rect.top -= Variaveis_globais.velocidade_inimigo * 0.7
             if self.rect.top <= int(Variaveis_globais.dimensoes_janela[1] * 0.1):
                 self.image = self.imagem_normal
             else:
@@ -127,9 +141,7 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
             else:
                 self.image = self.imagem_para_baixo
 
-        # mudar tamanho da sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.2 * Variaveis_globais.proporcao, altura_inimigo2 * 0.2 * Variaveis_globais.proporcao))
-
+        
         # faz com que o inimigo fique mais rápido quando está nas bordas de cima ou de baixo da tela
         if self.rect.top <= Variaveis_globais.dimensoes_janela[1] * 0.2 or self.rect.bottom >= Variaveis_globais.dimensoes_janela[1] * 0.9 or self.rect.center[0] < Player.player.rect.center[0]:
             if self.aceleracao < Variaveis_globais.velocidade_inimigo:
@@ -141,6 +153,3 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
     
         # alterar movimento em x
         self.rect.x -= (Variaveis_globais.velocidade_inimigo * 0.7) + self.aceleracao
-
-        
-

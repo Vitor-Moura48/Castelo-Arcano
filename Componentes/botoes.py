@@ -7,10 +7,9 @@ largura_botao = rect_botao.width
 altura_botao = rect_botao.height
 
 class Botao(pygame.sprite.Sprite):
-    def __init__(self, texto, cor_texto, coordenada_texto, coodenada, dimensoes):
+    def __init__(self, texto, cor_texto, coodenada, dimensoes):
         pygame.sprite.Sprite.__init__(self)
         self.dimensoes = dimensoes
-        self.coordenada_texto = coordenada_texto
 
         self.image = sprite_sheet_botao.subsurface((0,0), (largura_botao, altura_botao))
         self.image = transform.scale(self.image, (dimensoes))
@@ -19,11 +18,11 @@ class Botao(pygame.sprite.Sprite):
         self.rect.center = (coodenada)
 
         self.texto_para_tela = fonte.render(texto, True, cor_texto)
-        
+        self.rect_texto = self.texto_para_tela.get_rect()
+        self.rect_texto.center = self.rect.center
     
     def update(self):
         self.image = transform.scale(self.image, (self.dimensoes))
-        Variaveis_globais.tela.blit(self.texto_para_tela, (self.coordenada_texto))
-
-
-botao = Botao("teste", (255, 50, 50), (100, 100), (100, 100), (200, 50))
+        Variaveis_globais.tela.blit(self.texto_para_tela, (self.rect_texto))
+      
+botao = Botao("teste", (255, 50, 50), (100, 100), (200, 50))

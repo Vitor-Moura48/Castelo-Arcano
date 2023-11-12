@@ -13,8 +13,14 @@ def menu_principal():
             componente.kill()
 
         # fazer uma tela inicial
-        botao_jogar = botoes.Botao("Iniciar", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 40, 145 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 160 * Variaveis_globais.proporcao), (300, 60))
-        botao_configuracoes = botoes.Botao("Configuracoes", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 95, 245 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 260 * Variaveis_globais.proporcao), (300, 60))
+        botao_jogar = botoes.Botao("Iniciar", 
+                                   (255, 50, 50), 
+                                   (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.28)), 
+                                   (300, 60))
+        botao_configuracoes = botoes.Botao("Configuracoes", 
+                                           (255, 50, 50), 
+                                           (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.43) ), 
+                                           (300, 60))
         
         Variaveis_globais.componentes.add(botao_jogar)
         Variaveis_globais.componentes.add(botao_configuracoes)

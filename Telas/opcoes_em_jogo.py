@@ -10,10 +10,21 @@ def tela_opcoes():
         for componente in Variaveis_globais.componentes:
             componente.kill()
 
-        icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2), (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
-        botao_continuar = botoes.Botao("Continuar", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 65, 190 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 205 * Variaveis_globais.proporcao), (300, 60))
-        botao_reiniciar = botoes.Botao("Reiniciar", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 60, 290 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 305 * Variaveis_globais.proporcao), (300, 60))
-        botao_menu = botoes.Botao("Menu Principal", (255, 50, 50), (Variaveis_globais.dimensoes_janela[0] // 2 - 100, 390 * Variaveis_globais.proporcao), (Variaveis_globais.dimensoes_janela[0] // 2, 405 * Variaveis_globais.proporcao), (300, 60))
+        icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2,
+                                                Variaveis_globais.dimensoes_janela[1] // 2), 
+                                                (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
+        botao_continuar = botoes.Botao("Continuar", 
+                                       (255, 50, 50), 
+                                       (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.32)), 
+                                       (300, 60))
+        botao_reiniciar = botoes.Botao("Reiniciar",
+                                        (255, 50, 50), 
+                                        (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.48)), 
+                                        (300, 60))
+        botao_menu = botoes.Botao("Menu Principal", 
+                                    (255, 50, 50), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.63)), 
+                                    (300, 60))
     
         Variaveis_globais.componentes.add(icone_de_fundo)
         Variaveis_globais.componentes.add(botao_continuar)
