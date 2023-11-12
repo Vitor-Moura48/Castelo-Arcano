@@ -23,6 +23,7 @@ while True:
     Variaveis_globais.tempo_de_recarga -= 1
     Variaveis_globais.tempo_buff_3_projeteis -= 1
     Variaveis_globais.tempo_buff_velocidade_disparo -= 1
+    Variaveis_globais.tempo_buff_disparo_teleguiado -= 1
 
     funcoes_main.responder_a_eventos()
 
@@ -32,7 +33,7 @@ while True:
     funcoes_main.gerenciar_waves()
 
     # resposta para derrota
-    if Variaveis_globais.vidas_castelo <= 0:
+    if Variaveis_globais.vidas_castelo <= 0 or Variaveis_globais.vida_player <= 0:
         funcoes_main.responder_a_derrota()
 
     # resposta para vitória

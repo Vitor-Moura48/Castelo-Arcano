@@ -1,7 +1,7 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais, Controles
-from mobs import Player, Inimigos, Castelo
-from Efeitos import buff_01, buff_02, buff_03, buff_04
+from mobs import Player, Inimigos, Castelo, Boss_01
+from Efeitos import buff_01, buff_02, buff_03, buff_04, buff_05
 from Verificações import Colisoes
 from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
 
@@ -23,6 +23,14 @@ def adicioanr_objetos():
             Variaveis_globais.todas_as_sprites.add(inimigo2)
             Variaveis_globais.grupo_inimigos2.add(inimigo2)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo2)
+    
+    if Variaveis_globais.inimigos_restantes < (Variaveis_globais.inimigos_totais * 0.1) and Variaveis_globais.contador_de_bosses == 0 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
+        for i in range(1):
+            boss_01 = Boss_01.SpritesBoss1(15)
+            Variaveis_globais.todas_as_sprites.add(boss_01)
+            Variaveis_globais.grupo_todos_inimigos.add(boss_01)
+            Variaveis_globais.grupo_todos_bosses.add(boss_01)
+            Variaveis_globais.contador_de_bosses += 1
 
     # porcentagem de aparecimento a cada iteração
     chance = 0.05
@@ -57,6 +65,14 @@ def adicioanr_objetos():
         Variaveis_globais.todas_as_sprites.add(efeito_buff4)
         Variaveis_globais.grupo_efeito4.add(efeito_buff4)
         Variaveis_globais.grupo_todos_efeitos.add(efeito_buff4)
+    
+    chance5 = uniform(0, 100)
+    
+    if len(Variaveis_globais.grupo_todos_efeitos) < 2 and chance5 <= chance:
+        efeito_buff5 = buff_05.SpritesEfeito5()
+        Variaveis_globais.todas_as_sprites.add(efeito_buff5)
+        Variaveis_globais.grupo_efeito5.add(efeito_buff5)
+        Variaveis_globais.grupo_todos_efeitos.add(efeito_buff5)
 
     # adiconar objetos sprites na tela
     Variaveis_globais.todas_as_sprites.draw(Variaveis_globais.tela)
@@ -175,7 +191,7 @@ def responder_a_derrota():
         Variaveis_globais.tela.blit(mensagem_derrota_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2 - 290), 80))
         display.flip()
 
-        pygame.mixer_music.fadeout(100)
+        pygame.mixer_music.fadeout(100) 
 
         for event in pygame.event.get():
             if event.type == QUIT:

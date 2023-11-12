@@ -12,4 +12,8 @@ def conferir_buffs():
     else:
          Variaveis_globais.velocidade_player = velocidade_base_player  * Variaveis_globais.proporcao
     
+
+    if Variaveis_globais.tempo_buff_disparo_teleguiado > 0:
+        for projetil in Variaveis_globais.grupo_projeteis_aliados:
+            projetil.direcionar()
     

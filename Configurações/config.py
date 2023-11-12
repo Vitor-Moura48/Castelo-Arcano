@@ -45,7 +45,7 @@ proporcao_altura_largura =  dimensao_base[0] / dimensao_base[1]
 
 fps = 120
 
-velocidade_base_player = 4
+velocidade_base_player = 4 
 velocidade_base_projetil = 16
 velocidade_base_inimigo = 6
 

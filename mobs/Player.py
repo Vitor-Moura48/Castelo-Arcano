@@ -46,7 +46,7 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
     # atualizar imagem
     def update(self):
-        self.index_lista_mago += 10 / fps
+        self.index_lista_mago += 0.1
 
         if self.index_lista_mago >= 8:
             self.index_lista_mago = 0
@@ -63,9 +63,7 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
             self.rect.top = 0
         if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
             self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
-            
-
-
+        
 class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -87,7 +85,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
-        retangulo_ajustado = pygame.Rect.inflate(self.rect, -15, -15)
+        retangulo_ajustado = pygame.Rect.inflate(self.rect, -(50 * 0.3), -(50 * 0.3))
         self.rect = retangulo_ajustado
         
 
@@ -107,14 +105,46 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
         distancia_x = posicao_mouse[0] - self.rect.center[0]
         distancia_y = posicao_mouse[1] - self.rect.center[1]
-
+        
+        # calcula o angulo em radiano do click em relação ao player
         angulo_radiano = numpy.arctan2(distancia_y, distancia_x) + numpy.radians(desvio)
 
-        # junta as 'mínimas partes' de forma diretamente proporcional a variavel self
+        # distribui a velocidade a partir do seno e cosseno
         self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
         self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
+    
+    def direcionar(self):
+        inimigo_mais_proximo = None
+
+        for inimigo in Variaveis_globais.grupo_todos_inimigos:
+
+            distancia_x = inimigo.rect.center[0] - self.rect.center[0]
+            distancia_y = inimigo.rect.center[1] - self.rect.center[1]
+            distancia_absoluta = (abs(distancia_x) ** 2 + abs(distancia_y) ** 2) ** 0.5
+
+            if inimigo_mais_proximo == None or distancia_absoluta < inimigo_mais_proximo[1]:
+                inimigo_mais_proximo = [inimigo, distancia_absoluta, distancia_x, distancia_y]
+        
+        if inimigo_mais_proximo[1] < 200:
+            
+            distancia_x = inimigo_mais_proximo[2]
+            distancia_y = inimigo_mais_proximo[3]
+            
+            # calcula o angulo em radiano do inimigo em relação ao player
+            angulo_radiano = numpy.arctan2(distancia_y, distancia_x)
+
+            # distribui a velocidade a partir do seno e cosseno
+            self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
+            self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
 
     def update(self):
+        self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
+
+        # ajusta as dimensoes do retangulo
+        self.posicao_atual_rect = self.rect.center
+        self.rect = self.image.get_rect()
+        self.rect = pygame.Rect.inflate(self.rect, -(50 * 0.3), -(50 * 0.3))
+        self.rect.center = self.posicao_atual_rect
 
         self.tempo_de_vida -= 1
 
@@ -125,8 +155,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             self.index_lista_projetil = 0
 
         self.image = self.sprites_projetil[int(self.index_lista_projetil)]
-        self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
-
 
         # faz o projetil se mover de acordo com resultado da distribuição final obtida
         self.rect.left += self.velocidade_x
@@ -137,10 +165,9 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             self.kill() 
         
 
-
 player = SpritesPlayer()
-
 Variaveis_globais.todas_as_sprites.add(player)
+
 projetil_player = Projetil()
 
 
