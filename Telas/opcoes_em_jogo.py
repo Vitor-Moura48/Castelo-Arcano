@@ -15,15 +15,15 @@ def tela_opcoes():
                                                 (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
         botao_continuar = botoes.Botao("Continuar", 
                                        (255, 50, 50), 
-                                       (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.32)), 
+                                       (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.30)), 
                                        (300, 60))
         botao_reiniciar = botoes.Botao("Reiniciar",
                                         (255, 50, 50), 
-                                        (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.48)), 
+                                        (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.45)), 
                                         (300, 60))
         botao_menu = botoes.Botao("Menu Principal", 
                                     (255, 50, 50), 
-                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.63)), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.60)), 
                                     (300, 60))
     
         Variaveis_globais.componentes.add(icone_de_fundo)

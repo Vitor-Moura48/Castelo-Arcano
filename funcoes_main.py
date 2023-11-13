@@ -1,6 +1,6 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais, Controles
-from mobs import Player, Inimigos, Castelo, Boss_01
+from mobs import Player, Inimigos, Inimigo_03, Castelo, Boss_01
 from Efeitos import buff_01, buff_02, buff_03, buff_04, buff_05
 from Verificações import Colisoes
 from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
@@ -10,6 +10,14 @@ def chamar_menu_principal():
 
 def adicioanr_objetos():
     # adicionar objetos
+    if Variaveis_globais.inimigos_restantes < (Variaveis_globais.inimigos_totais * 0.1) and Variaveis_globais.contador_de_bosses == 0 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
+        for i in range(1):
+            boss_01 = Boss_01.SpritesBoss1(10)
+            Variaveis_globais.todas_as_sprites.add(boss_01)
+            Variaveis_globais.grupo_todos_inimigos.add(boss_01)
+            Variaveis_globais.grupo_todos_bosses.add(boss_01)
+            Variaveis_globais.contador_de_bosses += 1
+
     if len(Variaveis_globais.grupo_inimigos1) < 2 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
             inimigo1 = Inimigos.SpritesInimigo1()
@@ -24,14 +32,13 @@ def adicioanr_objetos():
             Variaveis_globais.grupo_inimigos2.add(inimigo2)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo2)
     
-    if Variaveis_globais.inimigos_restantes < (Variaveis_globais.inimigos_totais * 0.1) and Variaveis_globais.contador_de_bosses == 0 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
+    if len(Variaveis_globais.grupo_inimigos3) < 1 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            boss_01 = Boss_01.SpritesBoss1(15)
-            Variaveis_globais.todas_as_sprites.add(boss_01)
-            Variaveis_globais.grupo_todos_inimigos.add(boss_01)
-            Variaveis_globais.grupo_todos_bosses.add(boss_01)
-            Variaveis_globais.contador_de_bosses += 1
-
+            inimigo3 = Inimigo_03.SpritesInimigo3(3)
+            Variaveis_globais.todas_as_sprites.add(inimigo3)
+            Variaveis_globais.grupo_inimigos3.add(inimigo3)
+            Variaveis_globais.grupo_todos_inimigos.add(inimigo3)
+    
     # porcentagem de aparecimento a cada iteração
     chance = 0.05
     chance1 = uniform(0, 100)
@@ -105,6 +112,11 @@ def criar_texto_na_janela():
         Variaveis_globais.vidas_castelo
         Variaveis_globais.tela.blit(mensagem_barreira_para_tela, (80, 80))
 
+def contabilizar_tempo_recargas():
+    Variaveis_globais.tempo_de_recarga_disparo -= 1
+    Variaveis_globais.tempo_buff_3_projeteis -= 1
+    Variaveis_globais.tempo_buff_velocidade_disparo -= 1
+    Variaveis_globais.tempo_buff_disparo_teleguiado -= 1
 
 def responder_a_eventos():
     # responder a eventos
@@ -119,7 +131,7 @@ def responder_a_eventos():
             quit()
             sys.exit()
 
-        if event.type == MOUSEBUTTONDOWN and Variaveis_globais.tempo_de_recarga <= 0:
+        if event.type == MOUSEBUTTONDOWN and Variaveis_globais.tempo_de_recarga_disparo <= 0:
 
             if Variaveis_globais.tempo_buff_3_projeteis > 0:
                     
@@ -133,10 +145,10 @@ def responder_a_eventos():
                         projetil_player.atirar(somador_amplitude)
 
                         
-                        Variaveis_globais.tempo_de_recarga = 60
+                        Variaveis_globais.tempo_de_recarga_disparo = 60
                         # aumenta em 10 x a velocidade de disparo
                         if Variaveis_globais.tempo_buff_velocidade_disparo >= 0:
-                            Variaveis_globais.tempo_de_recarga *= 0.1
+                            Variaveis_globais.tempo_de_recarga_disparo *= 0.1
                
                         somador_amplitude += amplitude_entre_projeteis
 
@@ -147,10 +159,10 @@ def responder_a_eventos():
                 Variaveis_globais.todas_as_sprites.add(projetil_player)
                 projetil_player.atirar(0)
 
-                Variaveis_globais.tempo_de_recarga = 60
+                Variaveis_globais.tempo_de_recarga_disparo = 60
                 # aumenta em 10 x a velocidade de disparo
                 if Variaveis_globais.tempo_buff_velocidade_disparo >= 0:
-                    Variaveis_globais.tempo_de_recarga *= 0.1
+                    Variaveis_globais.tempo_de_recarga_disparo *= 0.1
 
         # responde aos eventos do controle
         if event.type == JOYAXISMOTION:
@@ -182,6 +194,18 @@ def gerenciar_waves():
     elif Variaveis_globais.inimigos_restantes <= Variaveis_globais.inimigos_totais * 0.2 and not Variaveis_globais.mudanca_de_velocidade[3]:
         Variaveis_globais.velocidade_inimigo *= 1.04
         Variaveis_globais.mudanca_de_velocidade[3] = True
+
+def verificar_derrota_vitoria():
+    if Player.player.vida_restante <= 0:
+        responder_a_derrota()
+
+    if Variaveis_globais.vidas_castelo <= 0 or Variaveis_globais.vida_player <= 0:
+        responder_a_derrota()
+
+    # resposta para vitória
+    if Variaveis_globais.inimigos_restantes <= 0:
+        responder_a_vitoria()
+
     
 def responder_a_derrota():
     Variaveis_globais.perdeu = True
@@ -208,13 +232,13 @@ def responder_a_vitoria():
 
     if Variaveis_globais.dificuldade == 1:
         novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
-        novo_dataframe.to_csv('records/recorde_fácil.csv', mode='a', index=False, header=False)
+        novo_dataframe.to_csv('csvs/recorde_fácil.csv', mode='a', index=False, header=False)
     if Variaveis_globais.dificuldade == 2:
         novo_dataframe = pandas.DataFrame()
-        novo_dataframe.to_csv('records/recorde_médio.csv', mode='a', index=False, header=False)
+        novo_dataframe.to_csv('csvs/recorde_médio.csv', mode='a', index=False, header=False)
     if Variaveis_globais.dificuldade == 3:
         novo_dataframe = pandas.DataFrame(Variaveis_globais.maior_recorde)
-        novo_dataframe.to_csv('records/recorde_difícil.csv', mode='a', index=False, header=False)
+        novo_dataframe.to_csv('csvs/recorde_difícil.csv', mode='a', index=False, header=False)
 
     while Variaveis_globais.ganhou:
         Variaveis_globais.tela.blit(mensagem_vitoria_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2 - 290), 80))

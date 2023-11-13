@@ -23,15 +23,15 @@ def iniciar_jogo():
 
         botao_facil = botoes.Botao("Fácil", 
                                    (255, 50, 50), 
-                                   (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.28)), 
+                                   (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)), 
                                    (300, 60))
         botao_normal = botoes.Botao("Normal", 
                                     (255, 50, 50), 
-                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.43)), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)), 
                                     (300, 60))
         botao_dificil = botoes.Botao("Dificil", 
                                      (255, 50, 50),
-                                     (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.58)), 
+                                     (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)), 
                                      (300, 60))
     
         Variaveis_globais.componentes.add(botao_facil)

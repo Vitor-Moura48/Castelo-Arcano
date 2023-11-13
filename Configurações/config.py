@@ -35,6 +35,7 @@ efeito_vitoria.set_volume(0.7)
 
 
 fonte = pygame.font.SysFont("arial", 30, True, False)
+fonte_descritiva = pygame.font.SysFont("arial", 16, True, False)
 
 informacoes_tela = pygame.display.Info()
 

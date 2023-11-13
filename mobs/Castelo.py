@@ -2,7 +2,6 @@ from Configurações.config import *
 from Configurações import Variaveis_globais
 
 
-
 sprite_sheet_castelo = pygame.image.load(os.path.join('imagens/dark_castle.png')).convert_alpha()
 rect_castelo = sprite_sheet_castelo.get_rect()
 largura_castelo = rect_castelo.width

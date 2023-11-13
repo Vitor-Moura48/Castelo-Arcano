@@ -15,11 +15,11 @@ def tela_configuracoes():
         icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2), (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
         botao_botao_tela_cheia = botoes.Botao("Tela Cheia",
                                             (255, 50, 50),
-                                            (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.33)),
+                                            (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.30)),
                                             (300, 60))
         botao_voltar = botoes.Botao("Voltar", 
                                     (255, 50, 50), 
-                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.48)),
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.45)),
                                     (300, 60))
         
         Variaveis_globais.componentes.add(icone_de_fundo)

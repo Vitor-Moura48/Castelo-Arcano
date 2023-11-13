@@ -9,7 +9,7 @@ altura_efeitos = rect_efeitos.height
 
 
 
-class SpritesEfeito3(pygame.sprite.Sprite):  # classe para efeito especiail 3
+class SpritesEfeito3(pygame.sprite.Sprite):  # classe para efeito especiail 3 (multti projeteis)
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 

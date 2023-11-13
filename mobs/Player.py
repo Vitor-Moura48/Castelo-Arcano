@@ -17,8 +17,10 @@ altura_projeteis = rect_projeteis.height
 
 
 class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jogador
-    def __init__(self):
+    def __init__(self, HP):
         pygame.sprite.Sprite.__init__(self)
+
+        self.vida_restante = HP
 
         # carregar e colocar as imagens na lista de sprites do mago
         self.sprites_mago = []
@@ -46,6 +48,7 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
     # atualizar imagem
     def update(self):
+
         self.index_lista_mago += 0.1
 
         if self.index_lista_mago >= 8:
@@ -93,9 +96,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
         # definir as coordenadas do projetil
         self.rect.center = (player.rect.center[0], player.rect.center[1])
-
-        self.projetil_x = 0
-        self.projetil_y = 0
 
     # lógica para atirar
     def atirar(self, desvio):
@@ -165,7 +165,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             self.kill() 
         
 
-player = SpritesPlayer()
+player = SpritesPlayer(5)
 Variaveis_globais.todas_as_sprites.add(player)
 
 projetil_player = Projetil()
