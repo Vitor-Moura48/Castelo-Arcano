@@ -21,6 +21,7 @@ contador_de_bosses = 0
 
 perdeu = False
 ganhou = False
+player_em_jogo = True
 
 maior_recorde = []
 

@@ -16,7 +16,7 @@ def iniciar_jogo():
         Variaveis_globais.tela.fill((000, 000, 000))
 
         for sprite in Variaveis_globais.todas_as_sprites:
-            if sprite in Variaveis_globais.grupo_todos_inimigos or sprite in Variaveis_globais.grupo_todos_efeitos or sprite in Variaveis_globais.grupo_projeteis_aliados:
+            if sprite in Variaveis_globais.grupo_todos_inimigos or sprite in Variaveis_globais.grupo_todos_efeitos or sprite in Variaveis_globais.grupo_projeteis_aliados or sprite in Variaveis_globais.grupo_projeteis_inimigos:
                 sprite.kill()
         for componente in Variaveis_globais.componentes:
             componente.kill()

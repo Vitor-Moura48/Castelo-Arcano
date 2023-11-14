@@ -13,10 +13,11 @@ largura_projetil_inimigo_03 = rect_projetil_inimigo_03.width
 altura_projetil_inimigo_03 = rect_projetil_inimigo_03.height
 
 class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os inimigos 3
-    def __init__(self, HP):
+    def __init__(self, HP, dano):
         pygame.sprite.Sprite.__init__(self)
 
         self.vida_restante = HP
+        self.dano = dano
 
         self.recarga_disparos = 150
 
@@ -44,7 +45,7 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.rect.y = randint(int(Variaveis_globais.dimensoes_janela[1] * 0.1), int(Variaveis_globais.dimensoes_janela[1] - self.rect.size[1]))
      
     def atirar(self):
-        projetil_inimigo_03 = ProjetilInimigo(self.rect.center)
+        projetil_inimigo_03 = ProjetilInimigo(self.rect.center, 1, 1)
         Variaveis_globais.grupo_projeteis_inimigos.add(projetil_inimigo_03)
         Variaveis_globais.todas_as_sprites.add(projetil_inimigo_03)
         projetil_inimigo_03.atirar()
@@ -53,6 +54,7 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     # atualizar estado
     def update(self):
+
         self.recarga_disparos -= 1
 
         if self.vida_restante <= 0:
@@ -63,6 +65,7 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
                 self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Variaveis_globais.proporcao, altura_inimigo_03 * 0.5 * Variaveis_globais.proporcao))
 
             else:
+                efeito_morte.play()
                 self.kill()
                 Variaveis_globais.inimigos_restantes -= 1
 
@@ -111,8 +114,11 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
 
 class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do inimigo 3
-    def __init__(self, centro_de_origem):
+    def __init__(self, centro_de_origem, perfuracao, dano):
         pygame.sprite.Sprite.__init__(self)
+
+        self.perfuracoes_restantes = perfuracao
+        self.dano = dano
 
         # carregar e colocar as imagens na lista de sprites do projetil
         self.sprites_projetil = []
@@ -158,6 +164,10 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
         self.angulo_graus_desvio = numpy.degrees(angulo_radiano) + desvio
 
     def update(self):
+
+        if self.perfuracoes_restantes <= 0:
+            self.kill()
+
         self.image = self.sprites_projetil[int(self.index_projetil_inimigo)]
         self.image = pygame.transform.scale(self.image, (int(32 * Variaveis_globais.proporcao), int(32 * Variaveis_globais.proporcao)))
 

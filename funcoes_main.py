@@ -9,10 +9,11 @@ def chamar_menu_principal():
     menu_principal.menu_principal()
 
 def adicioanr_objetos():
+
     # adicionar objetos
     if Variaveis_globais.inimigos_restantes < (Variaveis_globais.inimigos_totais * 0.1) and Variaveis_globais.contador_de_bosses == 0 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            boss_01 = Boss_01.SpritesBoss1(10)
+            boss_01 = Boss_01.SpritesBoss1(10, 5)
             Variaveis_globais.todas_as_sprites.add(boss_01)
             Variaveis_globais.grupo_todos_inimigos.add(boss_01)
             Variaveis_globais.grupo_todos_bosses.add(boss_01)
@@ -20,21 +21,21 @@ def adicioanr_objetos():
 
     if len(Variaveis_globais.grupo_inimigos1) < 2 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            inimigo1 = Inimigos.SpritesInimigo1()
+            inimigo1 = Inimigos.SpritesInimigo1(1, 1)
             Variaveis_globais.todas_as_sprites.add(inimigo1)
             Variaveis_globais.grupo_inimigos1.add(inimigo1)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo1)
 
     if len(Variaveis_globais.grupo_inimigos2) < 1 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            inimigo2 = Inimigos.SpritesInimigo2()
+            inimigo2 = Inimigos.SpritesInimigo2(1, 1)
             Variaveis_globais.todas_as_sprites.add(inimigo2)
             Variaveis_globais.grupo_inimigos2.add(inimigo2)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo2)
     
     if len(Variaveis_globais.grupo_inimigos3) < 1 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            inimigo3 = Inimigo_03.SpritesInimigo3(3)
+            inimigo3 = Inimigo_03.SpritesInimigo3(3, 5)
             Variaveis_globais.todas_as_sprites.add(inimigo3)
             Variaveis_globais.grupo_inimigos3.add(inimigo3)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo3)
@@ -104,13 +105,12 @@ def criar_texto_na_janela():
     mensagem_barreira = f'defesa: {Variaveis_globais.barreira}'
     mensagem_barreira_para_tela = fonte.render(mensagem_barreira, True, (255, 100, 20))
 
-
     # colocar o texto na janela
-    Variaveis_globais.tela.blit(mensagem_kills_para_tela, (Variaveis_globais.dimensoes_janela[0] - 340, 20))
-    Variaveis_globais.tela.blit(mensagem_vidas_castelo_para_tela, (20, 20))
+    Variaveis_globais.tela.blit(mensagem_kills_para_tela, (Variaveis_globais.dimensoes_janela[0] * 0.7, Variaveis_globais.dimensoes_janela[1] * 0.02))
+    Variaveis_globais.tela.blit(mensagem_vidas_castelo_para_tela, (Variaveis_globais.dimensoes_janela[0] * 0.02, Variaveis_globais.dimensoes_janela[1] * 0.02))
     if Variaveis_globais.barreira > 0:
         Variaveis_globais.vidas_castelo
-        Variaveis_globais.tela.blit(mensagem_barreira_para_tela, (80, 80))
+        Variaveis_globais.tela.blit(mensagem_barreira_para_tela, (Variaveis_globais.dimensoes_janela[0] * 0.08, Variaveis_globais.dimensoes_janela[1] * 0.08))
 
 def contabilizar_tempo_recargas():
     Variaveis_globais.tempo_de_recarga_disparo -= 1
@@ -124,10 +124,6 @@ def responder_a_eventos():
 
         if event.type == QUIT:
             print("game over")
-            dados = pandas.DataFrame(Variaveis_globais.maior_recorde)
-
-            dados.to_csv('records/recorde_difícil.csv', index=False)
-            print(dados)
             quit()
             sys.exit()
 
@@ -139,7 +135,7 @@ def responder_a_eventos():
                     somador_amplitude = -Variaveis_globais.amplitude_projeteis
  
                     for i in range(3):
-                        projetil_player = Player.Projetil()
+                        projetil_player = Player.Projetil(1, 1)
                         Variaveis_globais.grupo_projeteis_aliados.add(projetil_player)
                         Variaveis_globais.todas_as_sprites.add(projetil_player)
                         projetil_player.atirar(somador_amplitude)
@@ -154,7 +150,7 @@ def responder_a_eventos():
 
             else:
                 
-                projetil_player = Player.Projetil()
+                projetil_player = Player.Projetil(1, 1)
                 Variaveis_globais.grupo_projeteis_aliados.add(projetil_player)
                 Variaveis_globais.todas_as_sprites.add(projetil_player)
                 projetil_player.atirar(0)
@@ -165,11 +161,11 @@ def responder_a_eventos():
                     Variaveis_globais.tempo_de_recarga_disparo *= 0.1
 
         # responde aos eventos do controle
-        if event.type == JOYAXISMOTION:
-            Controles.controle.movimento(event)
-
         if event.type == JOYDEVICEADDED:
             Controles.controle.__init__()
+
+        if event.type == pygame.JOYAXISMOTION:
+            Controles.controle.movimento(event)
         
         if event.type == pygame.VIDEORESIZE:
             ajustar_tela()
@@ -212,7 +208,8 @@ def responder_a_derrota():
     efeito_derrota.play()
 
     while Variaveis_globais.perdeu:
-        Variaveis_globais.tela.blit(mensagem_derrota_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2 - 290), 80))
+        rect_mensagem_derrota.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)
+        Variaveis_globais.tela.blit(mensagem_derrota_para_tela, rect_mensagem_derrota)
         display.flip()
 
         pygame.mixer_music.fadeout(100) 
@@ -234,14 +231,15 @@ def responder_a_vitoria():
         novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_fácil.csv', mode='a', index=False, header=False)
     if Variaveis_globais.dificuldade == 2:
-        novo_dataframe = pandas.DataFrame()
+        novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_médio.csv', mode='a', index=False, header=False)
     if Variaveis_globais.dificuldade == 3:
-        novo_dataframe = pandas.DataFrame(Variaveis_globais.maior_recorde)
+        novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_difícil.csv', mode='a', index=False, header=False)
 
     while Variaveis_globais.ganhou:
-        Variaveis_globais.tela.blit(mensagem_vitoria_para_tela, ((Variaveis_globais.dimensoes_janela[0] // 2 - 290), 80))
+        rect_mensagem_vitoria.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)
+        Variaveis_globais.tela.blit(mensagem_vitoria_para_tela, rect_mensagem_vitoria)
         display.flip()
 
         pygame.mixer_music.fadeout(100)
@@ -260,7 +258,7 @@ def ajustar_tela():
     # se o x for muito maior que o y
     if Variaveis_globais.dimensoes_janela[0] / Variaveis_globais.dimensoes_janela[1] > proporcao_altura_largura:
 
-        # se eu diminui o y
+        # se eu reduzir o y
         if Variaveis_globais.dimensoes_janela[0] * Variaveis_globais.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Variaveis_globais.proporcao:
             Variaveis_globais.tela = display.set_mode((Variaveis_globais.dimensoes_janela[1] * proporcao_altura_largura, Variaveis_globais.dimensoes_janela[1]), pygame.RESIZABLE)
         # se eu aumentei o x
@@ -281,7 +279,7 @@ def ajustar_tela():
         
         Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
 
-    Variaveis_globais.proporcao = Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] / dimensao_base[0]
+    Variaveis_globais.proporcao = Variaveis_globais.dimensoes_janela[0] / dimensao_base[0]
 
     Castelo.castelo.rect_ajustado = pygame.Rect.inflate(Castelo.castelo.rect, int(Castelo.castelo.rect_base.width * Variaveis_globais.proporcao - Castelo.castelo.rect.width), int(Castelo.castelo.rect_base.height * Variaveis_globais.proporcao - Castelo.castelo.rect.height))
     Castelo.castelo.rect = Castelo.castelo.rect_ajustado

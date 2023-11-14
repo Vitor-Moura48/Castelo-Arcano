@@ -1,5 +1,6 @@
 from Configurações.config import *
 from Configurações  import Variaveis_globais
+from Efeitos import animacoes
 
 
 sprite_sheet_efeitos = pygame.image.load(os.path.join('imagens/bolas de efeito.png')).convert_alpha()
@@ -34,6 +35,10 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
     def buff(self):
 
         Variaveis_globais.barreira += 1
+
+        efeito_animacao = animacoes.EfeitosAnimacao()
+        Variaveis_globais.todas_as_sprites.add(efeito_animacao)
+        efeito_animacao.animar1()
 
     # atualizar estado
     def update(self):

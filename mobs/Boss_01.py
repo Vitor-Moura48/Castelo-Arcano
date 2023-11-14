@@ -7,10 +7,12 @@ largura_boss_01 = rect_inimigo1.width
 altura_boss_01 = rect_inimigo1.height
 
 class SpritesBoss1(pygame.sprite.Sprite):  # criar classe de sprites para primeiro boss
-    def __init__(self, HP):
+    def __init__(self, HP, dano):
         pygame.sprite.Sprite.__init__(self)
 
         self.vida_restante = HP
+        self.dano = dano
+
         # caso a velocidade do boss seja muito lenta
         self.acumulador_velocidade = 0
 
@@ -67,4 +69,4 @@ class SpritesBoss1(pygame.sprite.Sprite):  # criar classe de sprites para primei
         # mudar escala
         self.image = pygame.transform.scale(self.image, (largura_boss_01* 0.7 * Variaveis_globais.proporcao, altura_boss_01 * 0.7 * Variaveis_globais.proporcao))
 
-boss_01 = SpritesBoss1(0)
+boss_01 = SpritesBoss1(0, 0)

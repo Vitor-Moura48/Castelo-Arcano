@@ -68,8 +68,11 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
             self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
         
 class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
-    def __init__(self):
+    def __init__(self, perfuracao, dano):
         pygame.sprite.Sprite.__init__(self)
+
+        self.perfuracoes_restantes = perfuracao
+        self.dano = dano
 
         # carregar e colocar as imagens na lista de sprites do projetil
         self.sprites_projetil = []
@@ -138,6 +141,10 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
 
     def update(self):
+
+        if self.perfuracoes_restantes <= 0:
+            self.kill()
+
         self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
 
         # ajusta as dimensoes do retangulo
@@ -168,6 +175,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 player = SpritesPlayer(5)
 Variaveis_globais.todas_as_sprites.add(player)
 
-projetil_player = Projetil()
+projetil_player = Projetil(1, 1)
 
 

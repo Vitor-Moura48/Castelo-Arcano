@@ -14,8 +14,11 @@ largura_inimigo2 = rect_inimigo2.width
 altura_inimigo2 = rect_inimigo2.height
 
 class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os inimigos 1
-    def __init__(self):
+    def __init__(self, HP, dano):
         pygame.sprite.Sprite.__init__(self)
+
+        self.vida_restante = HP
+        self.dano = dano
 
         # seleciona a sprite que vai ser exibida
         self.image = sprite_sheet_inimigo.subsurface((0, 0), (391, 639))
@@ -45,6 +48,11 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     # atualizar estado
     def update(self):
+
+        if self.vida_restante <= 0:
+            efeito_morte.play()
+            self.kill()
+            Variaveis_globais.inimigos_restantes -= 1
         
         # mudar escala
         self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
@@ -83,9 +91,11 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
 
 class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
-
-    def __init__(self):
+    def __init__(self, HP, dano):
         pygame.sprite.Sprite.__init__(self)
+
+        self.vida_restante = HP
+        self.dano = dano
 
         # seleciona a sprite que vai ser exibida
         self.image = sprite_sheet_inimigo2.subsurface((60, 150), (330, 390))
@@ -115,6 +125,12 @@ class SpritesInimigo2(pygame.sprite.Sprite):  # criar classe de inimigos 2
 
     # atualizar informações
     def update(self):
+
+        if self.vida_restante <= 0:
+            efeito_morte.play()
+            self.kill()
+            Variaveis_globais.inimigos_restantes -= 1
+
         # mudar tamanho da sprite
         self.image = pygame.transform.scale(self.image, (largura_inimigo2 * 0.2 * Variaveis_globais.proporcao, altura_inimigo2 * 0.2 * Variaveis_globais.proporcao))
 

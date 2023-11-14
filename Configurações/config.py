@@ -33,7 +33,6 @@ efeito_derrota.set_volume(0.1)
 efeito_explosao.set_volume(0.5)
 efeito_vitoria.set_volume(0.7)
 
-
 fonte = pygame.font.SysFont("arial", 30, True, False)
 fonte_descritiva = pygame.font.SysFont("arial", 16, True, False)
 
@@ -57,6 +56,8 @@ display.set_caption("Castelo Arcano")
 
 mensagem_derrota = "você perdeu, pressione enter para continuar"
 mensagem_derrota_para_tela = fonte.render(mensagem_derrota, False,  (200, 0, 0))
+rect_mensagem_derrota = mensagem_derrota_para_tela.get_rect()
 
 mensagem_vitoria = "você ganhou! pressione enter para continuar"
 mensagem_vitoria_para_tela = fonte.render(mensagem_vitoria, True, (255, 255, 0))
+rect_mensagem_vitoria = mensagem_vitoria_para_tela.get_rect()
