@@ -13,6 +13,8 @@ class SpritesBoss1(pygame.sprite.Sprite):  # criar classe de sprites para primei
         self.vida_restante = HP
         self.dano = dano
 
+        self.contador_ivulnerabilidade = 0
+
         # caso a velocidade do boss seja muito lenta
         self.acumulador_velocidade = 0
 
@@ -45,6 +47,9 @@ class SpritesBoss1(pygame.sprite.Sprite):  # criar classe de sprites para primei
         if self.vida_restante <= 0:
             self.kill()
             Variaveis_globais.inimigos_restantes -= 1
+        
+        if self.contador_ivulnerabilidade > 0:
+            self.contador_ivulnerabilidade -= 1
         
         if self.index < 17:
 

@@ -19,6 +19,8 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.vida_restante = HP
         self.dano = dano
 
+        self.contador_ivulnerabilidade = 0
+
         self.recarga_disparos = 150
 
         # seleciona a sprite que vai ser exibida
@@ -55,8 +57,6 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
     # atualizar estado
     def update(self):
 
-        self.recarga_disparos -= 1
-
         if self.vida_restante <= 0:
             if self.index < 11:
 
@@ -70,6 +70,11 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
                 Variaveis_globais.inimigos_restantes -= 1
 
         else:
+            if self.contador_ivulnerabilidade > 0:
+                self.contador_ivulnerabilidade -= 1
+            
+            self.recarga_disparos -= 1
+
             # mudar escala
             self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Variaveis_globais.proporcao, altura_inimigo_03 * 0.5 * Variaveis_globais.proporcao))
 

@@ -17,10 +17,13 @@ altura_projeteis = rect_projeteis.height
 
 
 class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jogador
-    def __init__(self, HP):
+    def __init__(self, HP, dano):
         pygame.sprite.Sprite.__init__(self)
 
         self.vida_restante = HP
+        self.dano = dano
+
+        self.contador_ivulnerabilidade = 0
 
         # carregar e colocar as imagens na lista de sprites do mago
         self.sprites_mago = []
@@ -48,6 +51,9 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
     # atualizar imagem
     def update(self):
+
+        if self.contador_ivulnerabilidade > 0:
+            self.contador_ivulnerabilidade -= 1
 
         self.index_lista_mago += 0.1
 
@@ -172,7 +178,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             self.kill() 
         
 
-player = SpritesPlayer(5)
+player = SpritesPlayer(5, 1)
 Variaveis_globais.todas_as_sprites.add(player)
 
 projetil_player = Projetil(1, 1)

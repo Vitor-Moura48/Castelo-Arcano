@@ -12,17 +12,25 @@ class VerificarColisoes:  # classe para verificar colisões
     def colisao_com_player(self):
 
         # verifica colisões com inimigos e responde de acordo
+        for inimigo in Variaveis_globais.grupo_todos_bosses:
+            if pygame.sprite.collide_rect(Player.player, inimigo) and inimigo.contador_ivulnerabilidade <= 0:        
+                inimigo.contador_ivulnerabilidade = 50
+                inimigo.vida_restante -= Player.player.dano
+
         for inimigo in Variaveis_globais.grupo_inimigos1:
-            if pygame.sprite.collide_rect(Player.player, inimigo):
-                inimigo.vida_restante -= 1
+            if pygame.sprite.collide_rect(Player.player, inimigo)  and inimigo.contador_ivulnerabilidade <= 0:
+                inimigo.contador_ivulnerabilidade = 50
+                inimigo.vida_restante -= Player.player.dano
 
         for inimigo in Variaveis_globais.grupo_inimigos2:
-            if pygame.sprite.collide_rect(Player.player, inimigo):
-                inimigo.vida_restante -= 1
+            if pygame.sprite.collide_rect(Player.player, inimigo)  and inimigo.contador_ivulnerabilidade <= 0:
+                inimigo.contador_ivulnerabilidade = 50
+                inimigo.vida_restante -= Player.player.dano
         
         for inimigo in Variaveis_globais.grupo_inimigos3:
-            if pygame.sprite.collide_rect(Player.player, inimigo):
-                inimigo.vida_restante -= 1
+            if pygame.sprite.collide_rect(Player.player, inimigo)  and inimigo.contador_ivulnerabilidade <= 0:
+                inimigo.contador_ivulnerabilidade = 50
+                inimigo.vida_restante -= Player.player.dano
         
         for projetil_inimigo in Variaveis_globais.grupo_projeteis_inimigos:
             if pygame.sprite.collide_rect(Player.player, projetil_inimigo):
@@ -100,23 +108,27 @@ class VerificarColisoes:  # classe para verificar colisões
         for projetil_aliado in Variaveis_globais.grupo_projeteis_aliados:
             
             for inimigo in Variaveis_globais.grupo_todos_bosses:
-                if pygame.sprite.collide_rect(projetil_aliado, inimigo):
+                if pygame.sprite.collide_rect(projetil_aliado, inimigo) and inimigo.contador_ivulnerabilidade <= 0:
                     inimigo.vida_restante -= projetil_aliado.dano
+                    inimigo.contador_ivulnerabilidade = 50
                     projetil_aliado.perfuracoes_restantes -= 1
 
             for inimigo in Variaveis_globais.grupo_inimigos1:
-                if pygame.sprite.collide_rect(projetil_aliado, inimigo):
+                if pygame.sprite.collide_rect(projetil_aliado, inimigo) and inimigo.contador_ivulnerabilidade <= 0:
                     inimigo.vida_restante -= projetil_aliado.dano
+                    inimigo.contador_ivulnerabilidade = 50
                     projetil_aliado.perfuracoes_restantes -= 1
             
             for inimigo in Variaveis_globais.grupo_inimigos2:
-                if pygame.sprite.collide_rect(projetil_aliado, inimigo):
+                if pygame.sprite.collide_rect(projetil_aliado, inimigo) and inimigo.contador_ivulnerabilidade <= 0:
                     inimigo.vida_restante -= projetil_aliado.dano
+                    inimigo.contador_ivulnerabilidade = 50
                     projetil_aliado.perfuracoes_restantes -= 1
             
             for inimigo in Variaveis_globais.grupo_inimigos3:
-                if pygame.sprite.collide_rect(projetil_aliado, inimigo):
+                if pygame.sprite.collide_rect(projetil_aliado, inimigo) and inimigo.contador_ivulnerabilidade <= 0:
                     inimigo.vida_restante -= projetil_aliado.dano
+                    inimigo.contador_ivulnerabilidade = 50
                     projetil_aliado.perfuracoes_restantes -= 1
                 
     def saiu_do_mapa(self):
