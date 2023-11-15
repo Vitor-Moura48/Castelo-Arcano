@@ -2,8 +2,6 @@ from Configurações.config import *
 from Configurações import Variaveis_globais
 from mobs import Castelo
 
-
-
 sprite_sheet_barreira = pygame.image.load(os.path.join('imagens/efeito barreira.png')).convert_alpha()
 rect_barreira = sprite_sheet_barreira.get_rect()
 largura_barreirra = rect_barreira.width
@@ -34,32 +32,20 @@ class EfeitosAnimacao(pygame.sprite.Sprite):  # classe de efeitos diversos que a
         self.rect.centerx = Castelo.castelo.rect.centerx
         self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
 
-        # variavel para ajudar na execução do efeito de animação
-        self.ativar = False
-
-    def animar1(self):
-        self.ativar = True
-
     # atualizar estado
     def update(self):
 
         # condição para executar animação
-        if self.ativar:
+        if self.index_barreira < 6:
             
-            self.index_barreira += 10 / fps
-        
-            # manter loop de animação
-            if self.index_barreira >= 6:
-                self.index_barreira = 0
-                self.ativar = False
-
             # atualizar imagem
-            self.image = self.sprites_efeito_barreira[int(self.index_barreira)]
+            self.image = self.sprites_efeito_barreira[int(self.index_barreira)]   
+            self.index_barreira += 0.1
 
             # ajustar dimensões do sprite
             self.image = pygame.transform.scale(self.image, (102 * 3.5 * Variaveis_globais.proporcao, 308 * 3.5 * Variaveis_globais.proporcao))
         else:
-            Variaveis_globais.todas_as_sprites.remove(self)
+            self.kill()
 
 
         

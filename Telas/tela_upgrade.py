@@ -6,46 +6,87 @@ from Componentes import botoes, icones
 def tela_upgrade(): 
     selecionou = False
 
+    for componente in Variaveis_globais.componentes:
+        componente.kill()
+
+    upgrades_desbloqueadas = []
+    arquivo_upgrades = pandas.read_csv("csvs/upgrades.csv")
+    for _,linha in arquivo_upgrades.iterrows():
+        for upgrade in linha:
+            upgrades_desbloqueadas.append(upgrade)
+
+    icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2), (Variaveis_globais.dimensoes_janela[0] * 0.9, Variaveis_globais.dimensoes_janela[1] * 0.9))
+
+    botao_upgrade_01 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.2, (Variaveis_globais.dimensoes_janela[1] * 0.20) ), 
+                                    (70, 70),
+                                    upgrades_desbloqueadas[0])
+    botao_upgrade_02 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.2, (Variaveis_globais.dimensoes_janela[1] * 0.35) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[3])
+    botao_upgrade_03 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.2, (Variaveis_globais.dimensoes_janela[1] * 0.50) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[6])
+    botao_upgrade_04 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.2, (Variaveis_globais.dimensoes_janela[1] * 0.65) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[9])
+    botao_upgrade_05 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.2, (Variaveis_globais.dimensoes_janela[1] * 0.80) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[12])
+    
+    
+    botao_upgrade_06 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.3, (Variaveis_globais.dimensoes_janela[1] * 0.20) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[1])
+    botao_upgrade_07 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.3, (Variaveis_globais.dimensoes_janela[1] * 0.35) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[4])
+    botao_upgrade_08 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.3, (Variaveis_globais.dimensoes_janela[1] * 0.50) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[7])
+    botao_upgrade_09 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.3, (Variaveis_globais.dimensoes_janela[1] * 0.65) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[10])
+    botao_upgrade_10 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.3, (Variaveis_globais.dimensoes_janela[1] * 0.80) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[13])
+    
+    
+    botao_upgrade_11 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.4, (Variaveis_globais.dimensoes_janela[1] * 0.20) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[2])
+    botao_upgrade_12 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.4, (Variaveis_globais.dimensoes_janela[1] * 0.35) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[5])
+    botao_upgrade_13 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.4, (Variaveis_globais.dimensoes_janela[1] * 0.50) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[8])
+    botao_upgrade_14 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.4, (Variaveis_globais.dimensoes_janela[1] * 0.65) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[11])
+    botao_upgrade_15 = botoes.BotaoUpgrade((Variaveis_globais.dimensoes_janela[0] * 0.4, (Variaveis_globais.dimensoes_janela[1] * 0.80) ), 
+                                    (70, 70), 
+                                    upgrades_desbloqueadas[14])
+
+    Variaveis_globais.componentes.add(icone_de_fundo)
+    Variaveis_globais.componentes.add(botao_upgrade_01)
+    Variaveis_globais.componentes.add(botao_upgrade_02)
+    Variaveis_globais.componentes.add(botao_upgrade_03)
+    Variaveis_globais.componentes.add(botao_upgrade_04)
+    Variaveis_globais.componentes.add(botao_upgrade_05)
+    Variaveis_globais.componentes.add(botao_upgrade_06)
+    Variaveis_globais.componentes.add(botao_upgrade_07)
+    Variaveis_globais.componentes.add(botao_upgrade_08)
+    Variaveis_globais.componentes.add(botao_upgrade_09)
+    Variaveis_globais.componentes.add(botao_upgrade_10)
+    Variaveis_globais.componentes.add(botao_upgrade_11)
+    Variaveis_globais.componentes.add(botao_upgrade_12)
+    Variaveis_globais.componentes.add(botao_upgrade_13)
+    Variaveis_globais.componentes.add(botao_upgrade_14)
+    Variaveis_globais.componentes.add(botao_upgrade_15)
+
     while not selecionou:
+
         Variaveis_globais.tela.fill((000, 000, 000))
-
-        for componente in Variaveis_globais.componentes:
-            componente.kill()
-
-        icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2), (Variaveis_globais.dimensoes_janela[0] * 0.9, Variaveis_globais.dimensoes_janela[1] * 0.9))
-        
-        texto_para_tela = fonte.render('teste', True, (255, 255, 255))
-        rect_texto = texto_para_tela.get_rect()
-        rect_texto.center = (Variaveis_globais.dimensoes_janela[0] // 3, (Variaveis_globais.dimensoes_janela[1] * 0.20))
-        Variaveis_globais.tela.blit(texto_para_tela, (rect_texto))
-        
-        botao_tempo_buff_01 = botoes.Botao("Velocidade de Movimento",
-                                            (255, 50, 50),
-                                            (Variaveis_globais.dimensoes_janela[0] // 3, (Variaveis_globais.dimensoes_janela[1] * 0.20)),
-                                            (450, 60))
-        botao_tempo_buff_02 = botoes.Botao("Barreira",
-                                            (255, 50, 50),
-                                            (Variaveis_globais.dimensoes_janela[0] // 3, (Variaveis_globais.dimensoes_janela[1] * 0.35)),
-                                            (450, 60))
-        botao_tempo_buff_03 = botoes.Botao("Multi Projeteis",
-                                            (255, 50, 50),
-                                            (Variaveis_globais.dimensoes_janela[0] // 3, (Variaveis_globais.dimensoes_janela[1] * 0.50)),
-                                            (450, 60))
-        botao_tempo_buff_04 = botoes.Botao("Velocidade de Disparo",
-                                            (255, 50, 50),
-                                            (Variaveis_globais.dimensoes_janela[0] // 3, (Variaveis_globais.dimensoes_janela[1] * 0.65)),
-                                            (450, 60))
-        botao_tempo_buff_05 = botoes.Botao("Projeteis Teleguiados",
-                                            (255, 50, 50),
-                                            (Variaveis_globais.dimensoes_janela[0] // 3, (Variaveis_globais.dimensoes_janela[1] * 0.80)),
-                                            (450, 60))
-        
-        Variaveis_globais.componentes.add(icone_de_fundo)
-        Variaveis_globais.componentes.add(botao_tempo_buff_01)
-        Variaveis_globais.componentes.add(botao_tempo_buff_02)
-        Variaveis_globais.componentes.add(botao_tempo_buff_03)
-        Variaveis_globais.componentes.add(botao_tempo_buff_04)
-        Variaveis_globais.componentes.add(botao_tempo_buff_05)
 
         Variaveis_globais.componentes.draw(Variaveis_globais.tela)
         Variaveis_globais.componentes.update()
@@ -64,17 +105,37 @@ def tela_upgrade():
 
                 posicao_mouse = pygame.mouse.get_pos()
 
-                if botao_tempo_buff_01.rect.collidepoint(posicao_mouse):
+                if botao_upgrade_01.rect.collidepoint(posicao_mouse):
                     pass
-                if botao_tempo_buff_02.rect.collidepoint(posicao_mouse):
+                if botao_upgrade_02.rect.collidepoint(posicao_mouse):
                     pass
-                if botao_tempo_buff_03.rect.collidepoint(posicao_mouse):
+                if botao_upgrade_03.rect.collidepoint(posicao_mouse):
                     pass
-                if botao_tempo_buff_04.rect.collidepoint(posicao_mouse):
+                if botao_upgrade_04.rect.collidepoint(posicao_mouse):
                     pass
-                if botao_tempo_buff_05.rect.collidepoint(posicao_mouse):
+                if botao_upgrade_05.rect.collidepoint(posicao_mouse):
                     pass
-            
+                if botao_upgrade_06.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_07.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_08.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_09.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_10.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_11.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_12.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_13.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_14.rect.collidepoint(posicao_mouse):
+                    pass
+                if botao_upgrade_15.rect.collidepoint(posicao_mouse):
+                    pass
+                
             if event.type == pygame.KEYDOWN:
                 if event.key == K_ESCAPE:
                     selecionou = True

@@ -1,12 +1,10 @@
 from Configurações.config import *
 from Configurações  import Variaveis_globais
 
-
 sprite_sheet_efeitos = pygame.image.load(os.path.join('imagens/bolas de efeito.png')).convert_alpha()
 rect_efeitos = sprite_sheet_efeitos.get_rect()
 largura_efeitos = rect_efeitos.width
 altura_efeitos = rect_efeitos.height
-
 
 class SpritesEfeito5(pygame.sprite.Sprite):  # classe para efeito especiail 5 (disparo teleguiado)
     def __init__(self):

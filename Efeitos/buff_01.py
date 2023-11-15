@@ -1,13 +1,10 @@
 from Configurações.config import *
 from Configurações  import Variaveis_globais
 
-
 sprite_sheet_efeitos = pygame.image.load(os.path.join('imagens/bolas de efeito.png')).convert_alpha()
 rect_efeitos = sprite_sheet_efeitos.get_rect()
 largura_efeitos = rect_efeitos.width
 altura_efeitos = rect_efeitos.height
-
-
 
 class SpritesEfeito1(pygame.sprite.Sprite):  # classe para efeito especiail 1
     def __init__(self):
@@ -35,7 +32,6 @@ class SpritesEfeito1(pygame.sprite.Sprite):  # classe para efeito especiail 1
     def buff(self):
     
         Variaveis_globais.tempo_buff_velocidade = 200
-
 
     # atualizar estado
     def update(self):

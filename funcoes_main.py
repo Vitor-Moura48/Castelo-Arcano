@@ -1,9 +1,16 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais, Controles
-from mobs import Player, Inimigos, Inimigo_03, Castelo, Boss_01
+from mobs import Player, Inimigo_01, Inimigo_02, Inimigo_03, Castelo, Boss_01
 from Efeitos import buff_01, buff_02, buff_03, buff_04, buff_05
 from Verificações import Colisoes
 from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
+
+def conferir_arquivos_csv():
+    if not os.path.exists("csvs/upgrades.csv"):
+        arquivo = pandas.DataFrame({'coluna1': [False, False, False, False, False],
+                                    'coluna2': [False, False, False, False, False],
+                                    'coluna3': [False, False, False, False, False]})
+        arquivo.to_csv("csvs/upgrades.csv", index=False)
 
 def chamar_menu_principal():
     menu_principal.menu_principal()
@@ -21,14 +28,14 @@ def adicioanr_objetos():
 
     if len(Variaveis_globais.grupo_inimigos1) < 2 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            inimigo1 = Inimigos.SpritesInimigo1(1, 1)
+            inimigo1 = Inimigo_01.SpritesInimigo1(1, 1)
             Variaveis_globais.todas_as_sprites.add(inimigo1)
             Variaveis_globais.grupo_inimigos1.add(inimigo1)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo1)
 
     if len(Variaveis_globais.grupo_inimigos2) < 1 and len(Variaveis_globais.grupo_todos_inimigos) < Variaveis_globais.inimigos_restantes:
         for i in range(1):
-            inimigo2 = Inimigos.SpritesInimigo2(1, 1)
+            inimigo2 = Inimigo_02.SpritesInimigo2(1, 1)
             Variaveis_globais.todas_as_sprites.add(inimigo2)
             Variaveis_globais.grupo_inimigos2.add(inimigo2)
             Variaveis_globais.grupo_todos_inimigos.add(inimigo2)
@@ -195,7 +202,7 @@ def verificar_derrota_vitoria():
     if Player.player.vida_restante <= 0:
         responder_a_derrota()
 
-    if Variaveis_globais.vidas_castelo <= 0 or Variaveis_globais.vida_player <= 0:
+    if Variaveis_globais.vidas_castelo <= 0:
         responder_a_derrota()
 
     # resposta para vitória

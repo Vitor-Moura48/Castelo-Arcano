@@ -8,7 +8,6 @@ import numpy
 import pygbag
 import asyncio
 
-
 # iniciar o pygame
 pygame.init()
 
@@ -48,8 +47,6 @@ fps = 120
 velocidade_base_player = 4 
 velocidade_base_projetil = 16
 velocidade_base_inimigo = 6
-
-dificuldade = 0
 
 # definir título da tela
 display.set_caption("Castelo Arcano")

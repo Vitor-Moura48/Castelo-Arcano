@@ -12,31 +12,32 @@ def iniciar_jogo():
 
     selecionou = False
 
+    for componente in Variaveis_globais.componentes:
+        componente.kill()
+
+    botao_facil = botoes.Botao("Fácil", 
+                                (255, 50, 50), 
+                                (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)), 
+                                (300, 60))
+    botao_normal = botoes.Botao("Normal", 
+                                (255, 50, 50), 
+                                (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)), 
+                                (300, 60))
+    botao_dificil = botoes.Botao("Dificil", 
+                                    (255, 50, 50),
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)), 
+                                    (300, 60))
+
+    Variaveis_globais.componentes.add(botao_facil)
+    Variaveis_globais.componentes.add(botao_normal)
+    Variaveis_globais.componentes.add(botao_dificil)
+
     while not selecionou:
         Variaveis_globais.tela.fill((000, 000, 000))
 
         for sprite in Variaveis_globais.todas_as_sprites:
             if sprite in Variaveis_globais.grupo_todos_inimigos or sprite in Variaveis_globais.grupo_todos_efeitos or sprite in Variaveis_globais.grupo_projeteis_aliados or sprite in Variaveis_globais.grupo_projeteis_inimigos:
                 sprite.kill()
-        for componente in Variaveis_globais.componentes:
-            componente.kill()
-
-        botao_facil = botoes.Botao("Fácil", 
-                                   (255, 50, 50), 
-                                   (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)), 
-                                   (300, 60))
-        botao_normal = botoes.Botao("Normal", 
-                                    (255, 50, 50), 
-                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)), 
-                                    (300, 60))
-        botao_dificil = botoes.Botao("Dificil", 
-                                     (255, 50, 50),
-                                     (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)), 
-                                     (300, 60))
-    
-        Variaveis_globais.componentes.add(botao_facil)
-        Variaveis_globais.componentes.add(botao_normal)
-        Variaveis_globais.componentes.add(botao_dificil)
 
         Variaveis_globais.componentes.draw(Variaveis_globais.tela)
         Variaveis_globais.componentes.update()
@@ -53,6 +54,10 @@ def iniciar_jogo():
             
             if event.type == pygame.VIDEORESIZE:
                 funcoes_main.ajustar_tela()
+
+                botao_facil.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)))
+                botao_normal.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)))
+                botao_dificil.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)))
 
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 posicao_mouse = pygame.mouse.get_pos()
@@ -77,6 +82,7 @@ def iniciar_jogo():
     Variaveis_globais.ganhou = False
     Variaveis_globais.perdeu = False
     Variaveis_globais.vidas_castelo = 10
+    Player.player.vida_restante = 5
     Variaveis_globais.barreira = 0
 
     Player.player.rect.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)

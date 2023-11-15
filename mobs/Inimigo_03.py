@@ -172,6 +172,8 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
 
         if self.perfuracoes_restantes <= 0:
             self.kill()
+        if self.tempo_de_vida <= 0:
+            self.kill() 
 
         self.image = self.sprites_projetil[int(self.index_projetil_inimigo)]
         self.image = pygame.transform.scale(self.image, (int(32 * Variaveis_globais.proporcao), int(32 * Variaveis_globais.proporcao)))
@@ -187,9 +189,8 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
         self.rect.center = self.posicao_atual_rect
 
         if self.index_projetil_inimigo < 3:
-
             self.index_projetil_inimigo += 0.1     
-
+            
         else:
             self.index_projetil_inimigo = 0
 
@@ -212,10 +213,5 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
         elif self.acumulador_velocidade_y <= -1:
             self.rect.y += self.acumulador_velocidade_y
             self.acumulador_velocidade_y -= round(self.acumulador_velocidade_y)
-
-        # define se o projetil saiu ou não da tela, se sim, a função update deixa de chamar essa função repetidamente
-        if self.tempo_de_vida <= 0:
-            self.kill() 
-        
         
         

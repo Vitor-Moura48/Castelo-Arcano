@@ -1,12 +1,10 @@
 from Configurações.config import *
 from Configurações import Variaveis_globais
 
-
 sprite_sheet_castelo = pygame.image.load(os.path.join('imagens/dark_castle.png')).convert_alpha()
 rect_castelo = sprite_sheet_castelo.get_rect()
 largura_castelo = rect_castelo.width
 altura_castelo = rect_castelo.height
-
 
 class SpritesCenario(pygame.sprite.Sprite):  # criar classe de sprites para o cenário
     def __init__(self):
@@ -34,11 +32,9 @@ class SpritesCenario(pygame.sprite.Sprite):  # criar classe de sprites para o ce
         self.image = pygame.transform.scale(self.image, (largura_castelo * Variaveis_globais.proporcao * 0.65, altura_castelo * Variaveis_globais.proporcao * 0.65))
 
         # posicionar o fundo da imagem na parte mais 'baixa' da tela
-        self.rect.bottom = pygame.display.get_surface().get_size()[1]
+        self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
 
         self.rect.left = 0
-
-
 
 castelo = SpritesCenario()
 Variaveis_globais.todas_as_sprites.add(castelo)

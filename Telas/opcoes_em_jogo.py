@@ -6,30 +6,31 @@ import funcoes_main
 def tela_opcoes():
     selecionou = False
 
-    while not selecionou:
-        for componente in Variaveis_globais.componentes:
-            componente.kill()
+    for componente in Variaveis_globais.componentes:
+        componente.kill()
 
-        icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2,
-                                                Variaveis_globais.dimensoes_janela[1] // 2), 
-                                                (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
-        botao_continuar = botoes.Botao("Continuar", 
-                                       (255, 50, 50), 
-                                       (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.30)), 
-                                       (300, 60))
-        botao_reiniciar = botoes.Botao("Reiniciar",
-                                        (255, 50, 50), 
-                                        (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.45)), 
-                                        (300, 60))
-        botao_menu = botoes.Botao("Menu Principal", 
+    icone_de_fundo = icones.IconeBackground((Variaveis_globais.dimensoes_janela[0] // 2,
+                                            Variaveis_globais.dimensoes_janela[1] // 2), 
+                                            (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
+    botao_continuar = botoes.Botao("Continuar", 
                                     (255, 50, 50), 
-                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.60)), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.30)), 
                                     (300, 60))
-    
-        Variaveis_globais.componentes.add(icone_de_fundo)
-        Variaveis_globais.componentes.add(botao_continuar)
-        Variaveis_globais.componentes.add(botao_reiniciar)
-        Variaveis_globais.componentes.add(botao_menu)
+    botao_reiniciar = botoes.Botao("Reiniciar",
+                                    (255, 50, 50), 
+                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.45)), 
+                                    (300, 60))
+    botao_menu = botoes.Botao("Menu Principal", 
+                                (255, 50, 50), 
+                                (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.60)), 
+                                (300, 60))
+
+    Variaveis_globais.componentes.add(icone_de_fundo)
+    Variaveis_globais.componentes.add(botao_continuar)
+    Variaveis_globais.componentes.add(botao_reiniciar)
+    Variaveis_globais.componentes.add(botao_menu)
+
+    while not selecionou:
         
         Variaveis_globais.componentes.draw(Variaveis_globais.tela)
         Variaveis_globais.componentes.update()
@@ -43,6 +44,12 @@ def tela_opcoes():
             
             if event.type == pygame.VIDEORESIZE:
                 funcoes_main.ajustar_tela()
+
+                icone_de_fundo.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2),
+                                                (Variaveis_globais.dimensoes_janela[0] * 0.4, Variaveis_globais.dimensoes_janela[1] * 0.6))
+                botao_continuar.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.30)))
+                botao_reiniciar.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.45)))
+                botao_menu.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.60)))
         
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
 

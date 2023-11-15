@@ -2,13 +2,10 @@ from Configurações.config import *
 from Configurações  import Variaveis_globais
 from Efeitos import animacoes
 
-
 sprite_sheet_efeitos = pygame.image.load(os.path.join('imagens/bolas de efeito.png')).convert_alpha()
 rect_efeitos = sprite_sheet_efeitos.get_rect()
 largura_efeitos = rect_efeitos.width
 altura_efeitos = rect_efeitos.height
-
-
 
 class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
     def __init__(self):
@@ -38,7 +35,6 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
 
         efeito_animacao = animacoes.EfeitosAnimacao()
         Variaveis_globais.todas_as_sprites.add(efeito_animacao)
-        efeito_animacao.animar1()
 
     # atualizar estado
     def update(self):
@@ -48,7 +44,6 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
 
         # mudar escala do sprite
         self.image = pygame.transform.scale(self.image, (320 * 0.13 * Variaveis_globais.proporcao, 320 * 0.13 * Variaveis_globais.proporcao))
-
 
 
 efeito_buff2 = SpritesEfeito2()

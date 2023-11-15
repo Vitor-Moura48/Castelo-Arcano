@@ -3,6 +3,7 @@ from Configurações import Variaveis_globais, Controles
 from Verificações import Duracao_buffs
 import funcoes_main
 
+funcoes_main.conferir_arquivos_csv()
 funcoes_main.chamar_menu_principal()
     
 # laço principal

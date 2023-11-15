@@ -90,7 +90,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
         # definir a imagem que vai ser exibida
         self.index_lista_projetil = 0
-        self.index_lista_projetil += 1
         self.image = self.sprites_projetil[int(self.index_lista_projetil)]
 
         self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
@@ -99,7 +98,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         self.rect = self.image.get_rect()
         retangulo_ajustado = pygame.Rect.inflate(self.rect, -(50 * 0.3), -(50 * 0.3))
         self.rect = retangulo_ajustado
-        
 
         self.tempo_de_vida = 120
 
@@ -150,6 +148,8 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
 
         if self.perfuracoes_restantes <= 0:
             self.kill()
+        if self.tempo_de_vida <= 0:
+            self.kill() 
 
         self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
 
@@ -162,7 +162,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         self.tempo_de_vida -= 1
 
         # atualizar imagem
-        self.index_lista_projetil += 10 / fps
+        self.index_lista_projetil += 0.1
 
         if self.index_lista_projetil >= 8:
             self.index_lista_projetil = 0
@@ -172,10 +172,6 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         # faz o projetil se mover de acordo com resultado da distribuição final obtida
         self.rect.left += self.velocidade_x
         self.rect.top += self.velocidade_y
-
-        # define se o projetil saiu ou não da tela, se sim, a função update deixa de chamar essa função repetidamente
-        if self.tempo_de_vida <= 0:
-            self.kill() 
         
 
 player = SpritesPlayer(5, 1)

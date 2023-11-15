@@ -6,14 +6,12 @@ tela = display.set_mode(dimensao_base, pygame.RESIZABLE)
 # definir cor da tela
 tela.fill((000, 000, 000))
 
-eixo_joystick = 0
 eixo_x_joystick = 0
 eixo_y_joystick = 0
 
 
 barreira = 0
 vidas_castelo = 10
-vida_player = 5
 inimigos_restantes = 0
 inimigos_totais = 0
 
@@ -21,9 +19,6 @@ contador_de_bosses = 0
 
 perdeu = False
 ganhou = False
-player_em_jogo = True
-
-maior_recorde = []
 
 dificuldade = 0
 
