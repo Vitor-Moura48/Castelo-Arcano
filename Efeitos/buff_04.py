@@ -30,8 +30,13 @@ class SpritesEfeito4(pygame.sprite.Sprite):  # classe para efeito especiail 4 (v
 
     # fução chamada quando o player colide com o buff
     def buff(self):
-        
-        Variaveis_globais.tempo_buff_velocidade_disparo = 400
+
+        arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
+
+        if arquivo_upgrade.iloc[3, 0] == True:
+            Variaveis_globais.tempo_buff_velocidade_disparo = 600
+        else:
+            Variaveis_globais.tempo_buff_velocidade_disparo = 300
 
     # atualizar estado
     def update(self):

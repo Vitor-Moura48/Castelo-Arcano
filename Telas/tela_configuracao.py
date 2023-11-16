@@ -18,10 +18,13 @@ def tela_configuracoes():
                                 (255, 50, 50), 
                                 (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.45)),
                                 (300, 60))
+    botao_som = botoes.BotaoSom((Variaveis_globais.dimensoes_janela[0] * 0.9, (Variaveis_globais.dimensoes_janela[1] * 0.1)),
+                                (50, 50))
     
     Variaveis_globais.componentes.add(icone_de_fundo)
     Variaveis_globais.componentes.add(botao_botao_tela_cheia)
     Variaveis_globais.componentes.add(botao_voltar)
+    Variaveis_globais.componentes.add(botao_som)
 
     while not selecionou:
         Variaveis_globais.tela.fill((000, 000, 000))
@@ -31,6 +34,11 @@ def tela_configuracoes():
 
         if pygame.display.is_fullscreen():
             draw.rect(Variaveis_globais.tela, (000, 000, 255), botao_botao_tela_cheia.rect, 5)
+
+        if Variaveis_globais.som_ligado:
+            draw.rect(Variaveis_globais.tela, (000, 000, 255), botao_som.rect, 5)
+        else:
+            draw.rect(Variaveis_globais.tela, (255, 000, 000), botao_som.rect, 5)
       
         display.flip()
 
@@ -76,6 +84,18 @@ def tela_configuracoes():
                 if botao_voltar.rect.collidepoint(posicao_mouse):
                     selecionou = True                              
                     menu_principal.menu_principal()
+                
+                if botao_som.rect.collidepoint(posicao_mouse):
+                    if Variaveis_globais.som_ligado:
+                        Variaveis_globais.som_ligado = False
+                        pygame.mixer.stop()
+                        pygame.mixer_music.stop()
+                    else:
+                        Variaveis_globais.som_ligado = True
+                        pygame.mixer.music.set_volume(0.5)
+                        musica_fundo = pygame.mixer.music.load("sons/musica de fundo.wav")
+                        pygame.mixer.music.play(-1)
+
             
             if event.type == pygame.KEYDOWN:
                 if event.key == K_ESCAPE:

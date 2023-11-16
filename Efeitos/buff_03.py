@@ -30,7 +30,12 @@ class SpritesEfeito3(pygame.sprite.Sprite):  # classe para efeito especiail 3 (m
     # quando o player colide com o buff, ganha um ponto de escudo
     def buff(self):
 
-        Variaveis_globais.tempo_buff_3_projeteis = 500
+        arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
+
+        if arquivo_upgrade.iloc[2, 0] == True:
+            Variaveis_globais.tempo_buff_3_projeteis = 300
+        else:
+            Variaveis_globais.tempo_buff_3_projeteis = 600
 
     # atualizar estado
     def update(self):

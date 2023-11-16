@@ -104,4 +104,5 @@ def iniciar_jogo():
         Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
         Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 1.15 * Variaveis_globais.proporcao
 
-    pygame.mixer_music.play(-1)
+    if Variaveis_globais.som_ligado:
+        pygame.mixer_music.play(-1)

@@ -18,7 +18,7 @@ pygame.joystick.init()
 plano_de_fundo = pygame.image.load("imagens/cenário.jpg")
 plano_de_fundo = pygame.transform.scale(plano_de_fundo, (3000, 1000))
 
-pygame.mixer.music.set_volume(0.9)
+pygame.mixer.music.set_volume(0.5)
 musica_fundo = pygame.mixer.music.load("sons/musica de fundo.wav")
 pygame.mixer.music.play(-1)
 

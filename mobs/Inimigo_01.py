@@ -45,7 +45,8 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
     def update(self):
 
         if self.vida_restante <= 0:
-            efeito_morte.play()
+            if Variaveis_globais.som_ligado:
+                efeito_morte.play()
             self.kill()
             Variaveis_globais.inimigos_restantes -= 1
         

@@ -34,7 +34,8 @@ class VerificarColisoes:  # classe para verificar colisões
 
                 if  Variaveis_globais.barreira == 0:
                     Variaveis_globais.vidas_castelo -= inimigo.dano
-                    efeito_explosao.play()
+                    if Variaveis_globais.som_ligado:
+                        efeito_explosao.play()
                 else:
 
                     if  Variaveis_globais.barreira >= inimigo.dano:
@@ -43,7 +44,8 @@ class VerificarColisoes:  # classe para verificar colisões
                     else:
                         Castelo.castelo.vida_restante -= (inimigo.dano - Variaveis_globais.barreira)
                         Variaveis_globais.barreira = 0
-                    efeito_defesa.play()
+                    if Variaveis_globais.som_ligado:
+                        efeito_defesa.play()
 
                 inimigo.kill()
                 Variaveis_globais.inimigos_restantes -= 1
@@ -54,7 +56,8 @@ class VerificarColisoes:  # classe para verificar colisões
 
                 if  Variaveis_globais.barreira == 0:
                     Variaveis_globais.vidas_castelo -= inimigo.dano
-                    efeito_explosao.play()
+                    if Variaveis_globais.som_ligado:
+                        efeito_explosao.play()
                 else:
                     if  Variaveis_globais.barreira >= inimigo.dano:
                         Variaveis_globais.barreira -= inimigo.dano
@@ -93,12 +96,14 @@ class VerificarColisoes:  # classe para verificar colisões
 
                 if Variaveis_globais.barreira == 0:
                     Variaveis_globais.inimigos_restantes -= 1
-                    efeito_morte.play()
+                    if Variaveis_globais.som_ligado:
+                        efeito_morte.play()
 
                 else:
                     Variaveis_globais.barreira -= 1
-                    Variaveis_globais.inimigos_restantes -= 1 
-                    efeito_defesa.play()
+                    Variaveis_globais.inimigos_restantes -= 1
+                    if Variaveis_globais.som_ligado:
+                        efeito_defesa.play()
 
             objeto.kill()
 

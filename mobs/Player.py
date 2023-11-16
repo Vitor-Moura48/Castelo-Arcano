@@ -120,7 +120,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
         self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
     
-    def direcionar(self):
+    def direcionar(self, raio):
         inimigo_mais_proximo = None
 
         for inimigo in Variaveis_globais.grupo_todos_inimigos:
@@ -132,7 +132,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             if inimigo_mais_proximo == None or distancia_absoluta < inimigo_mais_proximo[1]:
                 inimigo_mais_proximo = [inimigo, distancia_absoluta, distancia_x, distancia_y]
         
-        if inimigo_mais_proximo[1] < 200:
+        if inimigo_mais_proximo[1] < raio:
             
             distancia_x = inimigo_mais_proximo[2]
             distancia_y = inimigo_mais_proximo[3]

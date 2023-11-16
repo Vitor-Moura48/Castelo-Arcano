@@ -11,6 +11,10 @@ def conferir_arquivos_csv():
                                     'coluna2': [False, False, False, False, False],
                                     'coluna3': [False, False, False, False, False]})
         arquivo.to_csv("csvs/upgrades.csv", index=False)
+    
+    if not os.path.exists("csvs/recursos.csv"):
+        arquivo = pandas.DataFrame({'cristais': [0]})
+        arquivo.to_csv("csvs/recursos.csv", index=False)
 
 def chamar_menu_principal():
     menu_principal.menu_principal()
@@ -138,10 +142,17 @@ def responder_a_eventos():
 
             if Variaveis_globais.tempo_buff_3_projeteis > 0:
                     
-                    amplitude_entre_projeteis = (Variaveis_globais.amplitude_projeteis * 2) / 2 # amplitude positiva e negativa, dividido pela quantidade de projeteis menos 1
+                    arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
+
+                    if arquivo_upgrade.iloc[2, 1] == True:
+                        quantidade_projeteis = 5
+                    else:
+                        quantidade_projeteis = 3
+
+                    amplitude_entre_projeteis = (Variaveis_globais.amplitude_projeteis * 2) / (quantidade_projeteis - 1) # amplitude positiva e negativa, dividido pela quantidade de projeteis menos 1
                     somador_amplitude = -Variaveis_globais.amplitude_projeteis
  
-                    for i in range(3):
+                    for i in range(quantidade_projeteis):
                         projetil_player = Player.Projetil(1, 1)
                         Variaveis_globais.grupo_projeteis_aliados.add(projetil_player)
                         Variaveis_globais.todas_as_sprites.add(projetil_player)
@@ -165,7 +176,12 @@ def responder_a_eventos():
                 Variaveis_globais.tempo_de_recarga_disparo = 60
                 # aumenta em 10 x a velocidade de disparo
                 if Variaveis_globais.tempo_buff_velocidade_disparo >= 0:
-                    Variaveis_globais.tempo_de_recarga_disparo *= 0.1
+                    arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
+
+                    if arquivo_upgrade.iloc[3, 1] == True:
+                        Variaveis_globais.tempo_de_recarga_disparo *= 0.05
+                    else:
+                        Variaveis_globais.tempo_de_recarga_disparo *= 0.1
 
         # responde aos eventos do controle
         if event.type == JOYDEVICEADDED:
@@ -212,7 +228,8 @@ def verificar_derrota_vitoria():
     
 def responder_a_derrota():
     Variaveis_globais.perdeu = True
-    efeito_derrota.play()
+    if Variaveis_globais.som_ligado:
+        efeito_derrota.play()
 
     while Variaveis_globais.perdeu:
         rect_mensagem_derrota.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)
@@ -232,17 +249,35 @@ def responder_a_derrota():
 
 def responder_a_vitoria():
     Variaveis_globais.ganhou = True
-    efeito_vitoria.play()
+    if Variaveis_globais.som_ligado:
+        efeito_vitoria.play()
 
     if Variaveis_globais.dificuldade == 1:
+
         novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_fácil.csv', mode='a', index=False, header=False)
+
+        arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
+        arquivo_recursos['cristais'] += 1
+        arquivo_recursos.to_csv("csvs/recursos.csv", index=False)
+
     if Variaveis_globais.dificuldade == 2:
+
         novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_médio.csv', mode='a', index=False, header=False)
+
+        arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
+        arquivo_recursos['cristais'] += 2
+        arquivo_recursos.to_csv("csvs/recursos.csv", index=False)
+
     if Variaveis_globais.dificuldade == 3:
+
         novo_dataframe = pandas.DataFrame(data=[Variaveis_globais.vidas_castelo], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_difícil.csv', mode='a', index=False, header=False)
+
+        arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
+        arquivo_recursos['cristais'] += 3
+        arquivo_recursos.to_csv("csvs/recursos.csv", index=False)
 
     while Variaveis_globais.ganhou:
         rect_mensagem_vitoria.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)

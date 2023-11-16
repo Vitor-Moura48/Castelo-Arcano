@@ -31,7 +31,12 @@ class SpritesEfeito2(pygame.sprite.Sprite):  # classe para efeito especiail 2
     # quando o player colide com o buff, ganha um ponto de escudo
     def buff(self):
 
-        Variaveis_globais.barreira += 1
+        arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
+
+        if arquivo_upgrade.iloc[1, 0] == True:
+            Variaveis_globais.barreira += 2
+        else:
+            Variaveis_globais.barreira += 1
 
         efeito_animacao = animacoes.EfeitosAnimacao()
         Variaveis_globais.todas_as_sprites.add(efeito_animacao)

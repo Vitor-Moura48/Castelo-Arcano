@@ -65,7 +65,8 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
                 self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Variaveis_globais.proporcao, altura_inimigo_03 * 0.5 * Variaveis_globais.proporcao))
 
             else:
-                efeito_morte.play()
+                if Variaveis_globais.som_ligado:
+                    efeito_morte.play()
                 self.kill()
                 Variaveis_globais.inimigos_restantes -= 1
 

@@ -9,6 +9,7 @@ tela.fill((000, 000, 000))
 eixo_x_joystick = 0
 eixo_y_joystick = 0
 
+som_ligado = True
 
 barreira = 0
 vidas_castelo = 10
@@ -58,3 +59,4 @@ grupo_projeteis_aliados = pygame.sprite.Group()
 grupo_projeteis_inimigos = pygame.sprite.Group()
 
 componentes = pygame.sprite.Group()
+componente_botao = pygame.sprite.Group()
