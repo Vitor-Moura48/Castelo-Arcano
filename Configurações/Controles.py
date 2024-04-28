@@ -1,5 +1,5 @@
 from Configurações.config import *
-from Configurações import Variaveis_globais
+from Configurações import Global
 from mobs import Player
 
 class Joystick:  # criar classe para resolver coisas sobre controle
@@ -17,23 +17,23 @@ class Joystick:  # criar classe para resolver coisas sobre controle
             eixo_joystick = event.axis
 
             if eixo_joystick == 0:
-                Variaveis_globais.eixo_x_joystick = event.value
+                Global.eixo_x_joystick = event.value
 
             if eixo_joystick == 1:
-                Variaveis_globais.eixo_y_joystick = event.value
+                Global.eixo_y_joystick = event.value
 
 def conferir_teclado():
     
     # para mover player ao pressionar tecla, ou joystick
-    if pygame.key.get_pressed()[K_a] or pygame.key.get_pressed()[K_LEFT] or Variaveis_globais.eixo_x_joystick <= -0.4:
-        Player.player.rect.x -= Variaveis_globais.velocidade_player
-    if pygame.key.get_pressed()[K_d] or pygame.key.get_pressed()[K_RIGHT] or Variaveis_globais.eixo_x_joystick >= 0.4:
-        Player.player.rect.x += Variaveis_globais.velocidade_player
+    if pygame.key.get_pressed()[K_a] or pygame.key.get_pressed()[K_LEFT] or Global.eixo_x_joystick <= -0.4:
+        Player.player.rect.x -= Global.velocidade_player
+    if pygame.key.get_pressed()[K_d] or pygame.key.get_pressed()[K_RIGHT] or Global.eixo_x_joystick >= 0.4:
+        Player.player.rect.x += Global.velocidade_player
     
-    if pygame.key.get_pressed()[K_w] or pygame.key.get_pressed()[K_UP] or Variaveis_globais.eixo_y_joystick <= -0.4:
-        Player.player.rect.y -= Variaveis_globais.velocidade_player
-    if pygame.key.get_pressed()[K_s] or pygame.key.get_pressed()[K_DOWN] or Variaveis_globais.eixo_y_joystick >= 0.4:
-        Player.player.rect.y += Variaveis_globais.velocidade_player
+    if pygame.key.get_pressed()[K_w] or pygame.key.get_pressed()[K_UP] or Global.eixo_y_joystick <= -0.4:
+        Player.player.rect.y -= Global.velocidade_player
+    if pygame.key.get_pressed()[K_s] or pygame.key.get_pressed()[K_DOWN] or Global.eixo_y_joystick >= 0.4:
+        Player.player.rect.y += Global.velocidade_player
     
 
 # criar objetos

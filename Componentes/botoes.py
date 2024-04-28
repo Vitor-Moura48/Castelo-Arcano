@@ -1,5 +1,5 @@
 from Configurações.config import *
-from Configurações  import Variaveis_globais
+from Configurações  import Global
 
 sprite_sheet_botao = pygame.image.load(os.path.join('imagens/botao.png')).convert_alpha()
 rect_botao = sprite_sheet_botao.get_rect()
@@ -30,7 +30,7 @@ class Botao(pygame.sprite.Sprite):
     
     def update(self):
         self.image = transform.scale(self.image, (self.dimensoes))
-        Variaveis_globais.tela.blit(self.texto_para_tela, (self.rect_texto))
+        Global.tela.blit(self.texto_para_tela, (self.rect_texto))
 
 
 class BotaoUpgrade(pygame.sprite.Sprite):

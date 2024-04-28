@@ -1,5 +1,5 @@
 from Configurações.config import *
-from Configurações import Variaveis_globais, Controles
+from Configurações import Controles, Global
 from Verificações import Duracao_buffs
 import funcoes_main
 
@@ -10,10 +10,10 @@ funcoes_main.chamar_menu_principal()
 while True:
 
     # plano de fundo da  tela
-    Variaveis_globais.tela.blit(plano_de_fundo, (-1200, 0))
+    Global.tela.blit(plano_de_fundo, (-1200, 0))
 
     Duracao_buffs.conferir_buffs()
-    Variaveis_globais.dimensoes_janela = pygame.display.get_surface().get_size()
+    Global.dimensoes_janela = pygame.display.get_surface().get_size()
 
     funcoes_main.adicioanr_objetos()
 

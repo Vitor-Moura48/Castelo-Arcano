@@ -5,7 +5,6 @@ import sys
 from random import randint, uniform
 import os
 import numpy
-import pygbag
 import asyncio
 
 # iniciar o pygame

@@ -1,12 +1,11 @@
 from Configurações.config import *
-from Configurações import Variaveis_globais
+from Configurações import Global
+from mobs.Mob import Mob
 
 
 # carrega as imagem e obtem as dimensões dela
 sprite_sheet_mago = pygame.image.load(os.path.join('imagens/mago.png')).convert_alpha()
-rect_mago = sprite_sheet_mago.get_rect()
-largura_mago = rect_mago.width
-altura_mago = rect_mago.height
+sprite_sheet_mago_longa_distancia = pygame.image.load(os.path.join("imagens/mago_master.png"))
 
 
 sprite_sheet_projeteis = pygame.image.load(os.path.join('imagens/Projeteis.png')).convert_alpha()
@@ -16,14 +15,10 @@ altura_projeteis = rect_projeteis.height
 
 
 
-class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jogador
-    def __init__(self, HP, dano):
+class SpritesPlayer(pygame.sprite.Sprite, Mob):  # criar classe de sprites para o jogador
+    def __init__(self, vida, dano):
         pygame.sprite.Sprite.__init__(self)
-
-        self.vida_restante = HP
-        self.dano = dano
-
-        self.contador_ivulnerabilidade = 0
+        Mob.__init__(self, vida, dano)
 
         # carregar e colocar as imagens na lista de sprites do mago
         self.sprites_mago = []
@@ -33,11 +28,21 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
                 self.img_linha1_mago = sprite_sheet_mago.subsurface((frames *  85, 0), (85, 94))
                 self.sprites_mago.append(self.img_linha1_mago)
             if 4 <= frames < 8:
-                self.img_linha2_mago = sprite_sheet_mago.subsurface(((frames - 4) * 85, 0), (85, 94))
+                self.img_linha2_mago = sprite_sheet_mago.subsurface(((frames - 4) * 85, 94), (85, 94))
                 self.sprites_mago.append(self.img_linha2_mago)
-
+        
         # definir a imagem que vai ser exibida
         self.index_lista_mago = 0
+        
+        self.sprites_mago_longa_distancia = []
+
+        for linha in range(2):
+            for coluna in range(4):
+                self.sprites_mago_longa_distancia.append(sprite_sheet_mago_longa_distancia.subsurface((122 * coluna, 110 * linha), (122, 110)))
+        
+        self.index_lista_mago_longa_distancia = 0
+
+        self.modo_atual = 1
         self.image = self.sprites_mago[self.index_lista_mago]
 
         # encontrar as dimensões da imagem
@@ -47,31 +52,55 @@ class SpritesPlayer(pygame.sprite.Sprite):  # criar classe de sprites para o jog
 
         self.rect_base = self.rect
 
-        self.rect.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)
+        self.rect.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
+    
+    def trocar_modo(self):
+        self.index_lista_mago = 0
+        if self.modo_atual == 1:
+            self.modo_atual = 2
+        else:
+            self.modo_atual = 1
+    
+    
 
     # atualizar imagem
     def update(self):
 
-        if self.contador_ivulnerabilidade > 0:
-            self.contador_ivulnerabilidade -= 1
+        self.contar_vulnerabilidade()
+        
 
         self.index_lista_mago += 0.1
-
         if self.index_lista_mago >= 8:
             self.index_lista_mago = 0
 
-        self.image = self.sprites_mago[int(self.index_lista_mago)]
+        if self.modo_atual == 1:
+            self.image = self.sprites_mago[int(self.index_lista_mago)]
+            self.image = pygame.transform.scale(self.image, (85 * 0.8 * Global.proporcao, 94 * 0.8 * Global.proporcao))
 
-        self.image = pygame.transform.scale(self.image, (85 * 0.8 * Variaveis_globais.proporcao, 94 * 0.8 * Variaveis_globais.proporcao))
+            self.posicao_atual_rect = self.rect.center
+            self.rect = self.image.get_rect()
+            self.rect = pygame.Rect.inflate(self.rect, -(85 * 0.1), -(94 * 0.01))
+            self.rect.center = self.posicao_atual_rect
+        else:
+            self.image = self.sprites_mago_longa_distancia[int(self.index_lista_mago_longa_distancia)]
+            self.image = pygame.transform.scale(self.image, (122 * 0.8 * Global.proporcao, 110 * 0.8 * Global.proporcao))
+
+            self.posicao_atual_rect = self.rect.center
+            self.rect = self.image.get_rect()
+            self.rect = pygame.Rect.inflate(self.rect, -(122 * 0.1), -(110 * 0.05))
+            self.rect.center = self.posicao_atual_rect
 
         if self.rect.left < 0:
             self.rect.left = 0
-        if self.rect.right > Variaveis_globais.dimensoes_janela[0]:
-            self.rect.right = Variaveis_globais.dimensoes_janela[0]
+        if self.rect.right > Global.dimensoes_janela[0]:
+            self.rect.right = Global.dimensoes_janela[0]
         if self.rect.top < 0:
             self.rect.top = 0
-        if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
-            self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
+        if self.rect.bottom > Global.dimensoes_janela[1]:
+            self.rect.bottom = Global.dimensoes_janela[1]
+        
+        draw.rect(Global.tela, (255,000, 000), self.rect, 2)
+
         
 class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
     def __init__(self, perfuracao, dano):
@@ -92,7 +121,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         self.index_lista_projetil = 0
         self.image = self.sprites_projetil[int(self.index_lista_projetil)]
 
-        self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
+        self.image = pygame.transform.scale(self.image, (int(50 * Global.proporcao), int(50 * Global.proporcao)))
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
@@ -117,13 +146,13 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         angulo_radiano = numpy.arctan2(distancia_y, distancia_x) + numpy.radians(desvio)
 
         # distribui a velocidade a partir do seno e cosseno
-        self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
-        self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
+        self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Global.proporcao
+        self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Global.proporcao
     
     def direcionar(self, raio):
         inimigo_mais_proximo = None
 
-        for inimigo in Variaveis_globais.grupo_todos_inimigos:
+        for inimigo in Global.grupo_todos_inimigos:
 
             distancia_x = inimigo.rect.center[0] - self.rect.center[0]
             distancia_y = inimigo.rect.center[1] - self.rect.center[1]
@@ -141,8 +170,8 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
             angulo_radiano = numpy.arctan2(distancia_y, distancia_x)
 
             # distribui a velocidade a partir do seno e cosseno
-            self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
-            self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao
+            self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Global.proporcao
+            self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Global.proporcao
 
     def update(self):
 
@@ -151,7 +180,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         if self.tempo_de_vida <= 0:
             self.kill() 
 
-        self.image = pygame.transform.scale(self.image, (int(50 * Variaveis_globais.proporcao), int(50 * Variaveis_globais.proporcao)))
+        self.image = pygame.transform.scale(self.image, (int(50 * Global.proporcao), int(50 * Global.proporcao)))
 
         # ajusta as dimensoes do retangulo
         self.posicao_atual_rect = self.rect.center
@@ -175,7 +204,7 @@ class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player
         
 
 player = SpritesPlayer(5, 1)
-Variaveis_globais.todas_as_sprites.add(player)
+Global.todas_as_sprites.add(player)
 
 projetil_player = Projetil(1, 1)
 

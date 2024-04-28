@@ -12,38 +12,38 @@ def iniciar_jogo():
 
     selecionou = False
 
-    for componente in Variaveis_globais.componentes:
+    for componente in Global.componentes:
         componente.kill()
 
     botao_facil = botoes.Botao("Fácil", 
                                 (255, 50, 50), 
-                                (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)), 
+                                (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
                                 (300, 60))
     botao_normal = botoes.Botao("Normal", 
                                 (255, 50, 50), 
-                                (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)), 
+                                (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40)), 
                                 (300, 60))
     botao_dificil = botoes.Botao("Dificil", 
                                     (255, 50, 50),
-                                    (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)), 
+                                    (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55)), 
                                     (300, 60))
 
-    Variaveis_globais.componentes.add(botao_facil)
-    Variaveis_globais.componentes.add(botao_normal)
-    Variaveis_globais.componentes.add(botao_dificil)
+    Global.componentes.add(botao_facil)
+    Global.componentes.add(botao_normal)
+    Global.componentes.add(botao_dificil)
 
     while not selecionou:
-        Variaveis_globais.tela.fill((000, 000, 000))
+        Global.tela.fill((000, 000, 000))
 
-        for sprite in Variaveis_globais.todas_as_sprites:
-            if sprite in Variaveis_globais.grupo_todos_inimigos or sprite in Variaveis_globais.grupo_todos_efeitos or sprite in Variaveis_globais.grupo_projeteis_aliados or sprite in Variaveis_globais.grupo_projeteis_inimigos:
+        for sprite in Global.todas_as_sprites:
+            if sprite in Global.grupo_todos_inimigos or sprite in Global.grupo_todos_efeitos or sprite in Global.grupo_projeteis_aliados or sprite in Global.grupo_projeteis_inimigos:
                 sprite.kill()
 
-        Variaveis_globais.componentes.draw(Variaveis_globais.tela)
-        Variaveis_globais.componentes.update()
+        Global.componentes.draw(Global.tela)
+        Global.componentes.update()
 
         # desenhar mensagens
-        Variaveis_globais.tela.blit(mensagem_dificuldade_para_tela, (Variaveis_globais.dimensoes_janela[0] // 2 - 160, 70 * Variaveis_globais.proporcao))
+        Global.tela.blit(mensagem_dificuldade_para_tela, (Global.dimensoes_janela[0] // 2 - 160, 70 * Global.proporcao))
     
         display.flip()
 
@@ -55,54 +55,54 @@ def iniciar_jogo():
             if event.type == pygame.VIDEORESIZE:
                 funcoes_main.ajustar_tela()
 
-                botao_facil.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)))
-                botao_normal.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)))
-                botao_dificil.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)))
+                botao_facil.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)))
+                botao_normal.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40)))
+                botao_dificil.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55)))
 
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
                 posicao_mouse = pygame.mouse.get_pos()
 
                 if botao_facil.rect.collidepoint(posicao_mouse):
-                    Variaveis_globais.dificuldade = 1
+                    Global.dificuldade = 1
                     selecionou = True
 
                 if botao_normal.rect.collidepoint(posicao_mouse):
                     selecionou = True
-                    Variaveis_globais.dificuldade = 2
+                    Global.dificuldade = 2
 
                 if botao_dificil.rect.collidepoint(posicao_mouse):
                     selecionou = True
-                    Variaveis_globais.dificuldade = 3
+                    Global.dificuldade = 3
             
             if event.type == pygame.KEYDOWN:
                 if event.key == K_ESCAPE:
                     selecionou = True
                     menu_principal.menu_principal()
 
-    Variaveis_globais.ganhou = False
-    Variaveis_globais.perdeu = False
-    Variaveis_globais.vidas_castelo = 10
+    Global.ganhou = False
+    Global.perdeu = False
+    Global.vidas_castelo = 10
     Player.player.vida_restante = 5
-    Variaveis_globais.barreira = 0
+    Global.barreira = 0
 
-    Player.player.rect.center = (Variaveis_globais.dimensoes_janela[0] // 2, Variaveis_globais.dimensoes_janela[1] // 2)
+    Player.player.rect.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
 
-    if Variaveis_globais.dificuldade == 1:
+    if Global.dificuldade == 1:
 
-        Variaveis_globais.inimigos_totais = 60
-        Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 0.70 * Variaveis_globais.proporcao
-    if Variaveis_globais.dificuldade == 2:
+        Global.inimigos_totais = 60
+        Global.inimigos_restantes = Global.inimigos_totais
+        Global.velocidade_inimigo = velocidade_base_inimigo * 0.70 * Global.proporcao
+    if Global.dificuldade == 2:
 
-        Variaveis_globais.inimigos_totais = 80
-        Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * Variaveis_globais.proporcao
+        Global.inimigos_totais = 80
+        Global.inimigos_restantes = Global.inimigos_totais
+        Global.velocidade_inimigo = velocidade_base_inimigo * Global.proporcao
 
-    if Variaveis_globais.dificuldade == 3:
+    if Global.dificuldade == 3:
 
-        Variaveis_globais.inimigos_totais = 120
-        Variaveis_globais.inimigos_restantes = Variaveis_globais.inimigos_totais
-        Variaveis_globais.velocidade_inimigo = velocidade_base_inimigo * 1.15 * Variaveis_globais.proporcao
+        Global.inimigos_totais = 120
+        Global.inimigos_restantes = Global.inimigos_totais
+        Global.velocidade_inimigo = velocidade_base_inimigo * 1.15 * Global.proporcao
 
-    if Variaveis_globais.som_ligado:
+    if Global.som_ligado:
         pygame.mixer_music.play(-1)

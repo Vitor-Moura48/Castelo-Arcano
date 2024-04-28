@@ -6,29 +6,29 @@ import funcoes_main
 def menu_principal():    
     selecionou = False
 
-    for componente in Variaveis_globais.componentes:
+    for componente in Global.componentes:
         componente.kill()
 
     # fazer uma tela inicial
     botao_jogar = botoes.Botao("Iniciar", 
                                 (255, 50, 50), 
-                                (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)), 
+                                (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
                                 (300, 60))
     botao_upgrade = botoes.Botao("Upgrade", 
                                         (255, 50, 50), 
-                                        (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40) ), 
+                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40) ), 
                                         (300, 60))
     botao_configuracoes = botoes.Botao("Configuracoes", 
                                         (255, 50, 50), 
-                                        (Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55) ), 
+                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55) ), 
                                         (300, 60))
     
-    Variaveis_globais.componentes.add(botao_jogar)
-    Variaveis_globais.componentes.add(botao_upgrade)
-    Variaveis_globais.componentes.add(botao_configuracoes)
+    Global.componentes.add(botao_jogar)
+    Global.componentes.add(botao_upgrade)
+    Global.componentes.add(botao_configuracoes)
 
     while not selecionou:
-        Variaveis_globais.tela.fill((000, 000, 000))
+        Global.tela.fill((000, 000, 000))
 
         posicao_mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -39,9 +39,9 @@ def menu_principal():
             if event.type == pygame.VIDEORESIZE:
                 funcoes_main.ajustar_tela()
 
-                botao_jogar.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.25)))
-                botao_upgrade.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.40)))
-                botao_configuracoes.ajustar_posicoes((Variaveis_globais.dimensoes_janela[0] // 2, (Variaveis_globais.dimensoes_janela[1] * 0.55)))
+                botao_jogar.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)))
+                botao_upgrade.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40)))
+                botao_configuracoes.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55)))
 
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
 
@@ -57,8 +57,8 @@ def menu_principal():
                     selecionou = True
                     tela_configuracao.tela_configuracoes()
     
-        Variaveis_globais.componentes.draw(Variaveis_globais.tela)
-        Variaveis_globais.componentes.update()
+        Global.componentes.draw(Global.tela)
+        Global.componentes.update()
 
         display.flip()
 

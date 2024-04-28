@@ -1,6 +1,7 @@
 from Configurações.config import *
-from Configurações  import Variaveis_globais
+from Configurações  import Global
 from mobs import Castelo
+from mobs.Mob import Mob
 
 sprite_sheet_inimigo_03 = pygame.image.load(os.path.join('imagens/inimigo3.png'))
 rect_inimigo_03 = sprite_sheet_inimigo_03.get_rect()
@@ -12,14 +13,10 @@ rect_projetil_inimigo_03 = sprite_sheet_projetil_inimigo_03.get_rect()
 largura_projetil_inimigo_03 = rect_projetil_inimigo_03.width
 altura_projetil_inimigo_03 = rect_projetil_inimigo_03.height
 
-class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os inimigos 3
-    def __init__(self, HP, dano):
+class SpritesInimigo3(pygame.sprite.Sprite, Mob):  # criar classe de sprites para os inimigos 3
+    def __init__(self, vida, dano):
         pygame.sprite.Sprite.__init__(self)
-
-        self.vida_restante = HP
-        self.dano = dano
-
-        self.contador_ivulnerabilidade = 0
+        Mob.__init__(self, vida, dano)
 
         self.recarga_disparos = 150
 
@@ -34,7 +31,7 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.image = self.sprites[self.index]
 
         # mudar dimensões do sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Variaveis_globais.proporcao, altura_inimigo_03 * 0.5 * Variaveis_globais.proporcao))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Global.proporcao, altura_inimigo_03 * 0.5 * Global.proporcao))
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
 
@@ -43,41 +40,38 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     def randomizar(self):
 
-        self.rect.x = randint(Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] + 1000)
-        self.rect.y = randint(int(Variaveis_globais.dimensoes_janela[1] * 0.1), int(Variaveis_globais.dimensoes_janela[1] - self.rect.size[1]))
+        self.rect.x = randint(Global.dimensoes_janela[0], Global.dimensoes_janela[0] + 1000)
+        self.rect.y = randint(int(Global.dimensoes_janela[1] * 0.1), int(Global.dimensoes_janela[1] - self.rect.size[1]))
      
     def atirar(self):
         projetil_inimigo_03 = ProjetilInimigo(self.rect.center, 1, 1)
-        Variaveis_globais.grupo_projeteis_inimigos.add(projetil_inimigo_03)
-        Variaveis_globais.todas_as_sprites.add(projetil_inimigo_03)
+        Global.grupo_projeteis_inimigos.add(projetil_inimigo_03)
+        Global.todas_as_sprites.add(projetil_inimigo_03)
         projetil_inimigo_03.atirar()
 
         self.recarga_disparos = 180
+    
 
     # atualizar estado
     def update(self):
 
-        if self.vida_restante <= 0:
+        if self.conferir_vida():
             if self.index < 11:
 
-                self.index += 0.1     
+                self.index += 0.12     
                 self.image = self.sprites[int(self.index)]
-                self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Variaveis_globais.proporcao, altura_inimigo_03 * 0.5 * Variaveis_globais.proporcao))
+                self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Global.proporcao, altura_inimigo_03 * 0.5 * Global.proporcao))
 
             else:
-                if Variaveis_globais.som_ligado:
-                    efeito_morte.play()
-                self.kill()
-                Variaveis_globais.inimigos_restantes -= 1
+                self.morrer()
 
         else:
-            if self.contador_ivulnerabilidade > 0:
-                self.contador_ivulnerabilidade -= 1
+            self.contar_vulnerabilidade()
             
             self.recarga_disparos -= 1
 
             # mudar escala
-            self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Variaveis_globais.proporcao, altura_inimigo_03 * 0.5 * Variaveis_globais.proporcao))
+            self.image = pygame.transform.scale(self.image, (largura_inimigo_03 * 0.5 * Global.proporcao, altura_inimigo_03 * 0.5 * Global.proporcao))
 
             # ajusta as dimensoes do retangulo
             self.posicao_atual_rect = self.rect.center
@@ -85,13 +79,13 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
             self.rect.center = self.posicao_atual_rect
 
             # movimentar no eixo x
-            if self.rect.right > Variaveis_globais.dimensoes_janela[0] * 0.9:
-                self.rect.x -= Variaveis_globais.velocidade_inimigo * 0.5
+            if self.rect.right > Global.dimensoes_janela[0] * 0.9:
+                self.rect.x -= Global.velocidade_inimigo * 0.5
             # quando chegar a uma certa distancia, para no eixo x e passa a desviar do projeteis
             else:
                 projetil_mais_proximo = None
 
-                for projeil in Variaveis_globais.grupo_projeteis_aliados:
+                for projeil in Global.grupo_projeteis_aliados:
 
                     distancia_x = projeil.rect.center[0] - self.rect.center[0]
                     distancia_y = projeil.rect.center[1] - self.rect.center[1]
@@ -102,21 +96,21 @@ class SpritesInimigo3(pygame.sprite.Sprite):  # criar classe de sprites para os 
                 
                 if projetil_mais_proximo != None and projetil_mais_proximo[1] < 900:
                     
-                    if projetil_mais_proximo[0].rect.centery < Variaveis_globais.dimensoes_janela[1] / 2:
-                        self.rect.y += Variaveis_globais.velocidade_inimigo * 1.5
+                    if projetil_mais_proximo[0].rect.centery < Global.dimensoes_janela[1] / 2:
+                        self.rect.y += Global.velocidade_inimigo * 1.5
                     else:
-                        self.rect.y -= Variaveis_globais.velocidade_inimigo * 1.5
+                        self.rect.y -= Global.velocidade_inimigo * 1.5
                   
                 # confere se é possível disparar algum projetil
                 if self.recarga_disparos <= 0:
                     self.atirar()
             
             # define os limites de movimentação
-            if self.rect.top < Variaveis_globais.dimensoes_janela[1] * 0.1:
-                self.rect.top = Variaveis_globais.dimensoes_janela[1] * 0.1
+            if self.rect.top < Global.dimensoes_janela[1] * 0.1:
+                self.rect.top = Global.dimensoes_janela[1] * 0.1
 
-            if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
-                self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
+            if self.rect.bottom > Global.dimensoes_janela[1]:
+                self.rect.bottom = Global.dimensoes_janela[1]
 
 
 class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do inimigo 3
@@ -136,7 +130,7 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
         self.index_projetil_inimigo = 0
         self.image = self.sprites_projetil[int(self.index_projetil_inimigo)]
 
-        self.image = pygame.transform.scale(self.image, (int(32 * Variaveis_globais.proporcao), int(32 * Variaveis_globais.proporcao)))
+        self.image = pygame.transform.scale(self.image, (int(32 * Global.proporcao), int(32 * Global.proporcao)))
 
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
@@ -148,8 +142,8 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
         # definir as coordenadas do projetil
         self.rect.center = (centro_de_origem[0], centro_de_origem[1])
 
-        self.acumulador_velocidade_x = 0
-        self.acumulador_velocidade_y = 0
+        self.velocidade_x = 0
+        self.velocidade_y = 0
 
     def atirar(self):
         # obtem as coordenadas do mouse
@@ -160,15 +154,14 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
         
         # calcula o angulo em radiano do click em relação ao player
         desvio = uniform(-15, 15)
-
         angulo_radiano = numpy.arctan2(distancia_y, distancia_x) + numpy.radians(desvio)
       
         # distribui a velocidade a partir do seno e cosseno
-        self.velocidade_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao * 0.15
-        self.velocidade_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Variaveis_globais.proporcao * 0.15
+        self.eixo_x = numpy.cos(angulo_radiano) * velocidade_base_projetil * Global.proporcao * 0.15
+        self.eixo_y = numpy.sin(angulo_radiano) * velocidade_base_projetil * Global.proporcao * 0.15
 
         self.angulo_graus_desvio = numpy.degrees(angulo_radiano) + desvio
-
+    
     def update(self):
 
         if self.perfuracoes_restantes <= 0:
@@ -177,7 +170,7 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
             self.kill() 
 
         self.image = self.sprites_projetil[int(self.index_projetil_inimigo)]
-        self.image = pygame.transform.scale(self.image, (int(32 * Variaveis_globais.proporcao), int(32 * Variaveis_globais.proporcao)))
+        self.image = pygame.transform.scale(self.image, (int(32 * Global.proporcao), int(32 * Global.proporcao)))
 
         self.image = pygame.transform.rotate(self.image, 90 - self.angulo_graus_desvio)
     
@@ -196,23 +189,14 @@ class ProjetilInimigo(pygame.sprite.Sprite):  # criar classe para projetil do in
             self.index_projetil_inimigo = 0
 
         # faz o projetil se mover de acordo com resultado da distribuição final obtida
-        self.acumulador_velocidade_x += self.velocidade_x
-        self.acumulador_velocidade_y += self.velocidade_y
+        self.velocidade_x += self.eixo_x
+        self.velocidade_y += self.eixo_y
 
-        if self.acumulador_velocidade_x >= 1:
-            self.rect.x += self.acumulador_velocidade_x
-            self.acumulador_velocidade_x -= round(self.acumulador_velocidade_x)
+        self.rect.x += self.velocidade_x
+        self.rect.y += self.velocidade_y
 
-        elif self.acumulador_velocidade_x <= -1:
-            self.rect.x += self.acumulador_velocidade_x
-            self.acumulador_velocidade_x -= round(self.acumulador_velocidade_x)
+        self.velocidade_x -= int(self.velocidade_x)
+        self.velocidade_y = int(self.velocidade_y)
 
-        if self.acumulador_velocidade_y >= 1:
-            self.rect.y += self.acumulador_velocidade_y
-            self.acumulador_velocidade_y -= round(self.acumulador_velocidade_y)
-
-        elif self.acumulador_velocidade_y <= -1:
-            self.rect.y += self.acumulador_velocidade_y
-            self.acumulador_velocidade_y -= round(self.acumulador_velocidade_y)
         
         

@@ -1,25 +1,23 @@
 from Configurações.config import *
-from Configurações  import Variaveis_globais
+from Configurações  import Global
+from mobs.Mob import Mob
 
 sprite_sheet_inimigo = pygame.image.load(os.path.join('imagens/inimigo1.png')).convert_alpha()
 rect_inimigo1 = sprite_sheet_inimigo.get_rect()
 largura_inimigo1 = rect_inimigo1.width
 altura_inimigo1 = rect_inimigo1.height
 
-class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os inimigos 1
-    def __init__(self, HP, dano):
+class SpritesInimigo1(pygame.sprite.Sprite, Mob):  # criar classe de sprites para os inimigos 1
+    def __init__(self, vida, dano):
         pygame.sprite.Sprite.__init__(self)
+        Mob.__init__(self, vida, dano)
 
-        self.vida_restante = HP
-        self.dano = dano
-
-        self.contador_ivulnerabilidade = 0
 
         # seleciona a sprite que vai ser exibida
         self.image = sprite_sheet_inimigo.subsurface((0, 0), (391, 639))
 
         # mudar dimensões do sprite
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Global.proporcao, altura_inimigo1 * 0.13 * Global.proporcao))
         # encontrar as dimensões da imagem
         self.rect = self.image.get_rect()
 
@@ -38,23 +36,19 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
 
     def randomizar(self):
 
-        self.rect.x = randint(Variaveis_globais.dimensoes_janela[0], Variaveis_globais.dimensoes_janela[0] + 1000)
-        self.rect.y = randint(int(Variaveis_globais.dimensoes_janela[1] * 0.1), int(Variaveis_globais.dimensoes_janela[1] - self.rect.size[1]))
+        self.rect.x = randint(Global.dimensoes_janela[0], Global.dimensoes_janela[0] + 1000)
+        self.rect.y = randint(int(Global.dimensoes_janela[1] * 0.1), int(Global.dimensoes_janela[1] - self.rect.size[1]))
+    
 
     # atualizar estado
     def update(self):
 
-        if self.vida_restante <= 0:
-            if Variaveis_globais.som_ligado:
-                efeito_morte.play()
-            self.kill()
-            Variaveis_globais.inimigos_restantes -= 1
-        
-        if self.contador_ivulnerabilidade > 0:
-            self.contador_ivulnerabilidade -= 1
+        self.contar_vulnerabilidade
+        if self.conferir_vida():
+            self.morrer()
         
         # mudar escala
-        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Variaveis_globais.proporcao, altura_inimigo1 * 0.13 * Variaveis_globais.proporcao))
+        self.image = pygame.transform.scale(self.image, (largura_inimigo1 * 0.13 * Global.proporcao, altura_inimigo1 * 0.13 * Global.proporcao))
 
         # ajusta as dimensoes do retangulo
         self.posicao_atual_rect = self.rect.center
@@ -63,27 +57,27 @@ class SpritesInimigo1(pygame.sprite.Sprite):  # criar classe de sprites para os 
         self.rect.center = self.posicao_atual_rect
 
         # alternar o movimento em y (zig-zag)
-        if Variaveis_globais.inimigos_restantes <= 20:
+        if Global.inimigos_restantes <= 20:
 
             if self.subir:
-                self.rect.top -= Variaveis_globais.velocidade_inimigo * 0.75
+                self.rect.top -= Global.velocidade_inimigo * 0.75
                 self.image = self.imagem_para_cima
-                if self.rect.top < Variaveis_globais.dimensoes_janela[1] * 0.1:
+                if self.rect.top < Global.dimensoes_janela[1] * 0.1:
                     self.subir = False
 
             if not self.subir:
-                self.rect.top += Variaveis_globais.velocidade_inimigo * 0.75
+                self.rect.top += Global.velocidade_inimigo * 0.75
                 self.image = self.imagem_para_baixo
-                if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
+                if self.rect.bottom > Global.dimensoes_janela[1]:
                     self.subir = True
 
         else:
             self.image = self.imagem_normal
 
         # movimentar no eixo x
-        self.rect.x -= Variaveis_globais.velocidade_inimigo
+        self.rect.x -= Global.velocidade_inimigo
 
-        if self.rect.top < Variaveis_globais.dimensoes_janela[1] * 0.1:
-            self.rect.top = Variaveis_globais.dimensoes_janela[1] * 0.1
-        if self.rect.bottom > Variaveis_globais.dimensoes_janela[1]:
-            self.rect.bottom = Variaveis_globais.dimensoes_janela[1]
+        if self.rect.top < Global.dimensoes_janela[1] * 0.1:
+            self.rect.top = Global.dimensoes_janela[1] * 0.1
+        if self.rect.bottom > Global.dimensoes_janela[1]:
+            self.rect.bottom = Global.dimensoes_janela[1]
