@@ -61,13 +61,12 @@ class SpritesPlayer(pygame.sprite.Sprite, Mob):  # criar classe de sprites para 
         else:
             self.modo_atual = 1
     
-    
+
 
     # atualizar imagem
     def update(self):
 
         self.contar_vulnerabilidade()
-        
 
         self.index_lista_mago += 0.1
         if self.index_lista_mago >= 8:
@@ -99,7 +98,7 @@ class SpritesPlayer(pygame.sprite.Sprite, Mob):  # criar classe de sprites para 
         if self.rect.bottom > Global.dimensoes_janela[1]:
             self.rect.bottom = Global.dimensoes_janela[1]
         
-        draw.rect(Global.tela, (255,000, 000), self.rect, 2)
+        #draw.rect(Global.tela, (255,000, 000), self.rect, 2)
 
         
 class Projetil(pygame.sprite.Sprite):  # criar classe para projetil do player

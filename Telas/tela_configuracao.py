@@ -10,11 +10,11 @@ def tela_configuracoes():
         componente.kill()
 
     icone_de_fundo = icones.IconeBackground((Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2), (Global.dimensoes_janela[0] * 0.4, Global.dimensoes_janela[1] * 0.6))
-    botao_botao_tela_cheia = botoes.Botao("Tela Cheia",
+    botao_botao_tela_cheia = botoes.Botao_1("Tela Cheia",
                                         (255, 50, 50),
                                         (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.30)),
                                         (300, 60))
-    botao_voltar = botoes.Botao("Voltar", 
+    botao_voltar = botoes.Botao_1("Voltar", 
                                 (255, 50, 50), 
                                 (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.45)),
                                 (300, 60))
@@ -25,6 +25,13 @@ def tela_configuracoes():
     Global.componentes.add(botao_botao_tela_cheia)
     Global.componentes.add(botao_voltar)
     Global.componentes.add(botao_som)
+
+    def ajustar_componenstes():
+        icone_de_fundo.ajustar_posicoes(( int( Global.dimensoes_janela[0] * 0.5 ), int( Global.dimensoes_janela[1] * 0.5) ),
+                                        ( int( Global.dimensoes_janela[0] * 0.4 ), int( Global.dimensoes_janela[1] * 0.6 ) ))
+        botao_botao_tela_cheia.ajustar_posicoes(( int( Global.dimensoes_janela[0] * 0.5 ) , int( Global.dimensoes_janela[1] * 0.30 )  ))
+        botao_voltar.ajustar_posicoes(( int( Global.dimensoes_janela[0] * 0.5 ), int( Global.dimensoes_janela[1] * 0.45) ))
+        botao_som.ajustar_posicoes(( int( Global.dimensoes_janela[0] * 0.9 ), int( Global.dimensoes_janela[1] * 0.1 )  ))
 
     while not selecionou:
         Global.tela.fill((000, 000, 000))
@@ -49,11 +56,7 @@ def tela_configuracoes():
             
             if event.type == pygame.VIDEORESIZE:
                 funcoes_main.ajustar_tela()
-
-                icone_de_fundo.ajustar_posicoes((Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2),
-                                                (Global.dimensoes_janela[0] * 0.4, Global.dimensoes_janela[1] * 0.6))
-                botao_botao_tela_cheia.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.30)))
-                botao_voltar.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.45)))
+                ajustar_componenstes()
         
             if event.type == MOUSEBUTTONDOWN and event.button == 1:
 
@@ -76,10 +79,7 @@ def tela_configuracoes():
                         retangulo_ajustado = pygame.Rect.inflate(Player.player.rect, int(Player.player.rect_base.width * Global.proporcao - Player.player.rect.width), int(Player.player.rect_base.height * Global.proporcao - Player.player.rect.height))
                         Player.player.rect = retangulo_ajustado
                     
-                    icone_de_fundo.ajustar_posicoes((Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2),
-                                                (Global.dimensoes_janela[0] * 0.4, Global.dimensoes_janela[1] * 0.6))
-                    botao_botao_tela_cheia.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.30)))
-                    botao_voltar.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.45)))
+                    ajustar_componenstes()
 
                 if botao_voltar.rect.collidepoint(posicao_mouse):
                     selecionou = True                              

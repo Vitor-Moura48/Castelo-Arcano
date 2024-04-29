@@ -15,15 +15,15 @@ def iniciar_jogo():
     for componente in Global.componentes:
         componente.kill()
 
-    botao_facil = botoes.Botao("Fácil", 
+    botao_facil = botoes.Botao_1("Fácil", 
                                 (255, 50, 50), 
                                 (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
                                 (300, 60))
-    botao_normal = botoes.Botao("Normal", 
+    botao_normal = botoes.Botao_1("Normal", 
                                 (255, 50, 50), 
                                 (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40)), 
                                 (300, 60))
-    botao_dificil = botoes.Botao("Dificil", 
+    botao_dificil = botoes.Botao_1("Dificil", 
                                     (255, 50, 50),
                                     (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55)), 
                                     (300, 60))

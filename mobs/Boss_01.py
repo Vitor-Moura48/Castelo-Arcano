@@ -52,8 +52,8 @@ class SpritesBoss1(pygame.sprite.Sprite, Mob):  # criar classe de sprites para p
 
         # movimentar no eixo x
         self.velocidade += Global.velocidade_inimigo * 0.1
-        self.rect.x -= int(Global.velocidade_inimigo * 0.1)
-        self.velocidade -= int(Global.velocidade_inimigo * 0.1)
+        self.rect.x -= self.velocidade
+        self.velocidade -= int(self.velocidade)
         
         # movimento no eixo y
         self.rect.y += numpy.cos(self.rect.x / 15)

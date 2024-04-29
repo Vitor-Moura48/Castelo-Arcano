@@ -12,15 +12,15 @@ def tela_opcoes():
     icone_de_fundo = icones.IconeBackground((Global.dimensoes_janela[0] // 2,
                                             Global.dimensoes_janela[1] // 2), 
                                             (Global.dimensoes_janela[0] * 0.4, Global.dimensoes_janela[1] * 0.6))
-    botao_continuar = botoes.Botao("Continuar", 
+    botao_continuar = botoes.Botao_1("Continuar", 
                                     (255, 50, 50), 
                                     (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.30)), 
                                     (300, 60))
-    botao_reiniciar = botoes.Botao("Reiniciar",
+    botao_reiniciar = botoes.Botao_1("Reiniciar",
                                     (255, 50, 50), 
                                     (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.45)), 
                                     (300, 60))
-    botao_menu = botoes.Botao("Menu Principal", 
+    botao_menu = botoes.Botao_1("Menu Principal", 
                                 (255, 50, 50), 
                                 (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.60)), 
                                 (300, 60))

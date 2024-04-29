@@ -10,15 +10,15 @@ def menu_principal():
         componente.kill()
 
     # fazer uma tela inicial
-    botao_jogar = botoes.Botao("Iniciar", 
+    botao_jogar = botoes.Botao_1("Iniciar", 
                                 (255, 50, 50), 
                                 (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
                                 (300, 60))
-    botao_upgrade = botoes.Botao("Upgrade", 
+    botao_upgrade = botoes.Botao_1("Upgrade", 
                                         (255, 50, 50), 
                                         (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40) ), 
                                         (300, 60))
-    botao_configuracoes = botoes.Botao("Configuracoes", 
+    botao_configuracoes = botoes.Botao_1("Configuracoes", 
                                         (255, 50, 50), 
                                         (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55) ), 
                                         (300, 60))
