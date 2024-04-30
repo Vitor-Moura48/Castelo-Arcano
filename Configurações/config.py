@@ -2,7 +2,7 @@ import pandas
 import pygame
 from pygame import *
 import sys
-from random import randint, uniform
+from random import randint, uniform, choice
 import os
 import numpy
 import asyncio

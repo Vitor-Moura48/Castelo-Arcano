@@ -1,7 +1,7 @@
 from funcoes_main import *
 import funcoes_main
 from Telas import menu_principal
-from Componentes import botoes, icones
+from Objetos.Componentes import botoes, icones
 
 def tela_upgrade(): 
     selecionou = False

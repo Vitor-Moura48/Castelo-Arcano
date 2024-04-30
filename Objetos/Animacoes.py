@@ -1,6 +1,6 @@
 from Configurações.config import *
 from Configurações import Global
-from mobs import Castelo
+from Objetos import Mobs
 
 sprite_sheet_barreira = pygame.image.load(os.path.join('imagens/efeito barreira.png')).convert_alpha()
 rect_barreira = sprite_sheet_barreira.get_rect()
@@ -29,7 +29,7 @@ class EfeitosAnimacao(pygame.sprite.Sprite):  # classe de efeitos diversos que a
         self.rect = self.image.get_rect()
 
         # posicionar sprite
-        self.rect.centerx = Castelo.castelo.rect.centerx
+        self.rect.centerx = Mobs.castelo.rect.centerx
         self.rect.bottom = Global.dimensoes_janela[1]
 
     # atualizar estado

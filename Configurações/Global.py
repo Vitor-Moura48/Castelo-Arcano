@@ -12,7 +12,6 @@ eixo_y_joystick = 0
 som_ligado = True
 
 barreira = 0
-vidas_castelo = 10
 inimigos_restantes = 0
 inimigos_totais = 0
 
@@ -24,7 +23,7 @@ ganhou = False
 dificuldade = 0
 
 tempo_buff_velocidade = 0
-tempo_buff_3_projeteis = 0
+tempo_buff_multiplos_disparos = 0
 tempo_buff_velocidade_disparo = 0
 tempo_buff_disparo_teleguiado = 0
 tempo_de_recarga_disparo = 0

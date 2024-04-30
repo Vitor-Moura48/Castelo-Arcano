@@ -1,7 +1,7 @@
 from funcoes_main import *
 import funcoes_main
 from Telas import menu_principal
-from Componentes import botoes, icones
+from Objetos.Componentes import botoes, icones
 
 def tela_configuracoes(): 
     selecionou = False
@@ -73,11 +73,11 @@ def tela_configuracoes():
                         Global.dimensoes_janela = pygame.display.get_surface().get_size()      
                         Global.proporcao = Global.dimensoes_janela[0] / dimensao_base[0]
 
-                        Castelo.castelo.rect_ajustado = pygame.Rect.inflate(Castelo.castelo.rect, int(Castelo.castelo.rect_base.width * Global.proporcao - Castelo.castelo.rect.width), int(Castelo.castelo.rect_base.height * Global.proporcao - Castelo.castelo.rect.height))
-                        Castelo.castelo.rect = Castelo.castelo.rect_ajustado
+                        Global.castelo.rect_ajustado = pygame.Rect.inflate(Global.castelo.rect, int(Global.castelo.rect_base.width * Global.proporcao - Global.castelo.rect.width), int(Global.castelo.rect_base.height * Global.proporcao - Global.castelo.rect.height))
+                        Global.castelo.rect = Global.castelo.rect_ajustado
 
-                        retangulo_ajustado = pygame.Rect.inflate(Player.player.rect, int(Player.player.rect_base.width * Global.proporcao - Player.player.rect.width), int(Player.player.rect_base.height * Global.proporcao - Player.player.rect.height))
-                        Player.player.rect = retangulo_ajustado
+                        retangulo_ajustado = pygame.Rect.inflate(Global.player.rect, int(Global.player.rect_base.width * Global.proporcao - Global.player.rect.width), int(Global.player.rect_base.height * Global.proporcao - Global.player.rect.height))
+                        Global.player.rect = retangulo_ajustado
                     
                     ajustar_componenstes()
 

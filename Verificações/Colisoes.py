@@ -1,6 +1,6 @@
 from Configurações.config import *
 from Configurações import Global
-from mobs import Player, Castelo
+from Objetos import Mobs
 
 class VerificarColisoes:  # classe para verificar colisões
     def __init__(self):
@@ -11,17 +11,17 @@ class VerificarColisoes:  # classe para verificar colisões
 
         # verifica colisões com inimigos e responde de acordo
         for inimigo in Global.grupo_todos_inimigos:
-            if pygame.sprite.collide_rect(Player.player, inimigo) and inimigo.contador_ivulnerabilidade <= 0:        
+            if pygame.sprite.collide_rect(Mobs.player, inimigo) and inimigo.contador_ivulnerabilidade <= 0:        
                 inimigo.contador_ivulnerabilidade = 10
-                inimigo.receber_dano(Player.player.dano)
+                inimigo.receber_dano(Mobs.player.dano)
         
         for projetil_inimigo in Global.grupo_projeteis_inimigos:
-            if pygame.sprite.collide_rect(Player.player, projetil_inimigo):
+            if pygame.sprite.collide_rect(Mobs.player, projetil_inimigo):
                 projetil_inimigo.perfuracoes_restantes -= 1
-                Player.player.vida_restante -= projetil_inimigo.dano
+                Mobs.player.vida -= projetil_inimigo.dano
 
         for buff in Global.grupo_todos_efeitos:
-            if pygame.sprite.collide_rect(Player.player, buff):
+            if pygame.sprite.collide_rect(Mobs.player, buff):
                 buff.buff()
                 buff.kill()
             
@@ -30,10 +30,10 @@ class VerificarColisoes:  # classe para verificar colisões
 
         # verifica colisões com inimigos e responde de acordo
         for inimigo in Global.grupo_todos_inimigos:
-            if pygame.sprite.collide_rect(Castelo.castelo, inimigo):
+            if pygame.sprite.collide_rect(Mobs.castelo, inimigo):
 
                 if  Global.barreira == 0:
-                    Global.vidas_castelo -= inimigo.dano
+                    Mobs.castelo.receber_dano(inimigo.dano)
                     if Global.som_ligado:
                         efeito_explosao.play()
                 else:
@@ -42,7 +42,7 @@ class VerificarColisoes:  # classe para verificar colisões
                         Global.barreira -= inimigo.dano
                        
                     else:
-                        Castelo.castelo.vida_restante -= (inimigo.dano - Global.barreira)
+                        Mobs.castelo.receber_dano(inimigo.dano - Global.barreira)
                         Global.barreira = 0
                     if Global.som_ligado:
                         efeito_defesa.play()
@@ -52,17 +52,17 @@ class VerificarColisoes:  # classe para verificar colisões
 
         
         for inimigo in Global.grupo_projeteis_inimigos:
-            if pygame.sprite.collide_rect(Castelo.castelo, inimigo):
+            if pygame.sprite.collide_rect(Mobs.castelo, inimigo):
 
                 if  Global.barreira == 0:
-                    Global.vidas_castelo -= inimigo.dano
+                    Mobs.castelo.vida -= inimigo.dano
                     if Global.som_ligado:
                         efeito_explosao.play()
                 else:
                     if  Global.barreira >= inimigo.dano:
                         Global.barreira -= inimigo.dano
                     else:
-                        Global.vidas_castelo -= (inimigo.dano - Global.barreira)
+                        Mobs.castelo.vida -= (inimigo.dano - Global.barreira)
                         Global.barreira = 0
 
                 inimigo.perfuracoes_restantes -= 1
@@ -75,7 +75,7 @@ class VerificarColisoes:  # classe para verificar colisões
             for inimigo in Global.grupo_todos_inimigos:
                 if pygame.sprite.collide_rect(projetil_aliado, inimigo) and inimigo.contador_ivulnerabilidade <= 0:
 
-                    inimigo.receber_dano(Player.player.dano)
+                    inimigo.receber_dano(Mobs.player.dano)
 
                     inimigo.contador_ivulnerabilidade = 10
                     projetil_aliado.perfuracoes_restantes -= 1
@@ -96,14 +96,15 @@ class VerificarColisoes:  # classe para verificar colisões
         for objeto in objetos_para_apagar:
             if objeto in Global.grupo_todos_inimigos:
 
-                if Global.barreira == 0:
-                    Global.inimigos_restantes -= 1
+                Global.inimigos_restantes -= 1
+
+                if Global.barreira >= objeto.dano: 
+                    Global.barreira -= objeto.dano
                     if Global.som_ligado:
                         efeito_morte.play()
-
                 else:
-                    Global.barreira -= 1
-                    Global.inimigos_restantes -= 1
+                    Mobs.castelo.receber_dano(objeto.dano - Global.barreira)
+                    Global.barreira = 0
                     if Global.som_ligado:
                         efeito_defesa.play()
 

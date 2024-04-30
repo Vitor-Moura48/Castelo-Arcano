@@ -1,6 +1,7 @@
 from funcoes_main import *
 from Telas import menu_principal
-from Componentes import botoes
+from Objetos.Componentes import botoes
+from Objetos import Mobs
 import funcoes_main
 
 # função para definir o modo de jogo e outras coisas
@@ -81,11 +82,12 @@ def iniciar_jogo():
 
     Global.ganhou = False
     Global.perdeu = False
-    Global.vidas_castelo = 10
-    Player.player.vida_restante = 5
     Global.barreira = 0
 
-    Player.player.rect.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
+    Mobs.player = Mobs.SpritesPlayer(5, 1)
+    Global.todas_as_sprites.add(Mobs.player)
+    Mobs.castelo = Mobs.SpriteCastelo(10)
+    Global.todas_as_sprites.add(Mobs.castelo)
 
     if Global.dificuldade == 1:
 

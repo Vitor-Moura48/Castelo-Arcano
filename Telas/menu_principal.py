@@ -1,6 +1,6 @@
 from funcoes_main import *
 from Telas import escolha_dificuldade, tela_configuracao, tela_upgrade
-from Componentes import botoes
+from Objetos.Componentes import botoes
 import funcoes_main
 
 def menu_principal():    

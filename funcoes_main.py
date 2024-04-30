@@ -1,7 +1,6 @@
 from Configurações.config import *
 from Configurações import Controles, Global
-from mobs import Player, Inimigo_01, Inimigo_02, Inimigo_03, Castelo, Boss_01
-from Efeitos import buff_01, buff_02, buff_03, buff_04, buff_05
+from Objetos import Mobs, Projeteis, Buffs
 from Verificações import Colisoes
 from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
 
@@ -24,7 +23,7 @@ def adicioanr_objetos():
     # adicionar objetos
     if Global.inimigos_restantes < (Global.inimigos_totais * 0.1) and Global.contador_de_bosses == 0 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
-            boss_01 = Boss_01.SpritesBoss1(10, 5)
+            boss_01 = Mobs.SpritesBoss1(10, 5)
             Global.todas_as_sprites.add(boss_01)
             Global.grupo_todos_inimigos.add(boss_01)
             Global.grupo_todos_bosses.add(boss_01)
@@ -32,21 +31,21 @@ def adicioanr_objetos():
 
     if len(Global.grupo_inimigos1) < 2 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
-            inimigo1 = Inimigo_01.SpritesInimigo1(1, 1)
+            inimigo1 = Mobs.SpritesInimigo1(1, 1)
             Global.todas_as_sprites.add(inimigo1)
             Global.grupo_inimigos1.add(inimigo1)
             Global.grupo_todos_inimigos.add(inimigo1)
 
     if len(Global.grupo_inimigos2) < 1 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
-            inimigo2 = Inimigo_02.SpritesInimigo2(1, 1)
+            inimigo2 = Mobs.SpritesInimigo2(1, 1)
             Global.todas_as_sprites.add(inimigo2)
             Global.grupo_inimigos2.add(inimigo2)
             Global.grupo_todos_inimigos.add(inimigo2)
     
     if len(Global.grupo_inimigos3) < 1 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
-            inimigo3 = Inimigo_03.SpritesInimigo3(3, 5)
+            inimigo3 = Mobs.SpritesInimigo3(3, 5)
             Global.todas_as_sprites.add(inimigo3)
             Global.grupo_inimigos3.add(inimigo3)
             Global.grupo_todos_inimigos.add(inimigo3)
@@ -56,7 +55,7 @@ def adicioanr_objetos():
     chance1 = uniform(0, 100)
 
     if len(Global.grupo_todos_efeitos) < 2 and chance1 <= chance:
-        efeito_buff1 = buff_01.SpritesEfeito1()
+        efeito_buff1 = Buffs.SpritesEfeito1()
         Global.todas_as_sprites.add(efeito_buff1)
         Global.grupo_efeito1.add(efeito_buff1)
         Global.grupo_todos_efeitos.add(efeito_buff1)
@@ -64,7 +63,7 @@ def adicioanr_objetos():
     chance2 = uniform(0, 100)
 
     if len(Global.grupo_todos_efeitos) < 2 and chance2 <= chance:
-        efeito_buff2 = buff_02.SpritesEfeito2()
+        efeito_buff2 = Buffs.SpritesEfeito2()
         Global.todas_as_sprites.add(efeito_buff2)
         Global.grupo_efeito2.add(efeito_buff2)
         Global.grupo_todos_efeitos.add(efeito_buff2)
@@ -72,7 +71,7 @@ def adicioanr_objetos():
     chance3 = uniform(0, 100)
 
     if len(Global.grupo_todos_efeitos) < 2 and chance3 <= chance:
-        efeito_buff3 = buff_03.SpritesEfeito3()
+        efeito_buff3 = Buffs.SpritesEfeito3()
         Global.todas_as_sprites.add(efeito_buff3)
         Global.grupo_efeito3.add(efeito_buff3)
         Global.grupo_todos_efeitos.add(efeito_buff3)
@@ -80,7 +79,7 @@ def adicioanr_objetos():
     chance4 = uniform(0, 100)
     
     if len(Global.grupo_todos_efeitos) < 2 and chance4 <= chance:
-        efeito_buff4 = buff_04.SpritesEfeito4()
+        efeito_buff4 = Buffs.SpritesEfeito4()
         Global.todas_as_sprites.add(efeito_buff4)
         Global.grupo_efeito4.add(efeito_buff4)
         Global.grupo_todos_efeitos.add(efeito_buff4)
@@ -88,7 +87,7 @@ def adicioanr_objetos():
     chance5 = uniform(0, 100)
     
     if len(Global.grupo_todos_efeitos) < 2 and chance5 <= chance:
-        efeito_buff5 = buff_05.SpritesEfeito5()
+        efeito_buff5 = Buffs.SpritesEfeito5()
         Global.todas_as_sprites.add(efeito_buff5)
         Global.grupo_efeito5.add(efeito_buff5)
         Global.grupo_todos_efeitos.add(efeito_buff5)
@@ -110,7 +109,7 @@ def criar_texto_na_janela():
     mensagem_kills = f"inimigos restantes: {Global.inimigos_restantes}"
     mensagem_kills_para_tela = fonte.render(mensagem_kills, True, (80, 80, 255))
 
-    mensagem_vidas_castelo = f"vidas restantes: {Global.vidas_castelo}"
+    mensagem_vidas_castelo = f"vidas restantes: {Mobs.castelo.vida}"
     mensagem_vidas_castelo_para_tela = fonte.render(mensagem_vidas_castelo, True, (247, 24, 14))
 
     mensagem_barreira = f'defesa: {Global.barreira}'
@@ -120,12 +119,11 @@ def criar_texto_na_janela():
     Global.tela.blit(mensagem_kills_para_tela, (Global.dimensoes_janela[0] * 0.7, Global.dimensoes_janela[1] * 0.02))
     Global.tela.blit(mensagem_vidas_castelo_para_tela, (Global.dimensoes_janela[0] * 0.02, Global.dimensoes_janela[1] * 0.02))
     if Global.barreira > 0:
-        Global.vidas_castelo
         Global.tela.blit(mensagem_barreira_para_tela, (Global.dimensoes_janela[0] * 0.08, Global.dimensoes_janela[1] * 0.08))
 
 def contabilizar_tempo_recargas():
     Global.tempo_de_recarga_disparo -= 1
-    Global.tempo_buff_3_projeteis -= 1
+    Global.tempo_buff_multiplos_disparos -= 1
     Global.tempo_buff_velocidade_disparo -= 1
     Global.tempo_buff_disparo_teleguiado -= 1
 
@@ -140,7 +138,7 @@ def responder_a_eventos():
 
         if event.type == MOUSEBUTTONDOWN and event.button == 1 and Global.tempo_de_recarga_disparo <= 0:
 
-            if Global.tempo_buff_3_projeteis > 0:
+            if Global.tempo_buff_multiplos_disparos > 0:
                     
                     arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
 
@@ -153,7 +151,7 @@ def responder_a_eventos():
                     somador_amplitude = -Global.amplitude_projeteis
  
                     for i in range(quantidade_projeteis):
-                        projetil_player = Player.Projetil(1, 1)
+                        projetil_player = Projeteis.Projetil(1, 1)
                         Global.grupo_projeteis_aliados.add(projetil_player)
                         Global.todas_as_sprites.add(projetil_player)
                         projetil_player.atirar(somador_amplitude)
@@ -168,7 +166,7 @@ def responder_a_eventos():
 
             else:
                 
-                projetil_player = Player.Projetil(1, 1)
+                projetil_player = Projeteis.Projetil(1, 1)
                 Global.grupo_projeteis_aliados.add(projetil_player)
                 Global.todas_as_sprites.add(projetil_player)
                 projetil_player.atirar(0)
@@ -184,7 +182,7 @@ def responder_a_eventos():
                         Global.tempo_de_recarga_disparo *= 0.1
         
         if event.type == MOUSEBUTTONDOWN and event.button == 3:
-            Player.player.trocar_modo()
+            Global.player.trocar_modo()
 
         # responde aos eventos do controle
         if event.type == JOYDEVICEADDED:
@@ -218,18 +216,20 @@ def gerenciar_waves():
         Global.mudanca_de_velocidade[3] = True
 
 def verificar_derrota_vitoria():
-    if Player.player.vida_restante <= 0:
+    if Mobs.player.vida <= 0:
         responder_a_derrota()
 
-    if Global.vidas_castelo <= 0:
+    elif Mobs.castelo.vida <= 0:
         responder_a_derrota()
 
     # resposta para vitória
-    if Global.inimigos_restantes <= 0:
+    elif Global.inimigos_restantes <= 0:
         responder_a_vitoria()
 
     
 def responder_a_derrota():
+    for sprite in Global.todas_as_sprites:
+        sprite.kill()
     Global.perdeu = True
     if Global.som_ligado:
         efeito_derrota.play()
@@ -251,13 +251,15 @@ def responder_a_derrota():
 
 
 def responder_a_vitoria():
+    for sprite in Global.todas_as_sprites:
+        sprite.kill()
     Global.ganhou = True
     if Global.som_ligado:
         efeito_vitoria.play()
 
     if Global.dificuldade == 1:
 
-        novo_dataframe = pandas.DataFrame(data=[Global.vidas_castelo], columns=['Recorde'])
+        novo_dataframe = pandas.DataFrame(data=[Mobs.castelo.vida], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_fácil.csv', mode='a', index=False, header=False)
 
         arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
@@ -266,7 +268,7 @@ def responder_a_vitoria():
 
     if Global.dificuldade == 2:
 
-        novo_dataframe = pandas.DataFrame(data=[Global.vidas_castelo], columns=['Recorde'])
+        novo_dataframe = pandas.DataFrame(data=[Mobs.castelo.vida], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_médio.csv', mode='a', index=False, header=False)
 
         arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
@@ -275,7 +277,7 @@ def responder_a_vitoria():
 
     if Global.dificuldade == 3:
 
-        novo_dataframe = pandas.DataFrame(data=[Global.vidas_castelo], columns=['Recorde'])
+        novo_dataframe = pandas.DataFrame(data=[Mobs.castelo.vida], columns=['Recorde'])
         novo_dataframe.to_csv('csvs/recorde_difícil.csv', mode='a', index=False, header=False)
 
         arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
@@ -326,11 +328,11 @@ def ajustar_tela():
 
     Global.proporcao = Global.dimensoes_janela[0] / dimensao_base[0]
 
-    Castelo.castelo.rect_ajustado = pygame.Rect.inflate(Castelo.castelo.rect, int(Castelo.castelo.rect_base.width * Global.proporcao - Castelo.castelo.rect.width), int(Castelo.castelo.rect_base.height * Global.proporcao - Castelo.castelo.rect.height))
-    Castelo.castelo.rect = Castelo.castelo.rect_ajustado
+    Mobs.castelo.rect_ajustado = pygame.Rect.inflate(Mobs.castelo.rect, int(Mobs.castelo.rect_base.width * Global.proporcao - Mobs.castelo.rect.width), int(Mobs.castelo.rect_base.height * Global.proporcao - Global.castelo.rect.height))
+    Mobs.castelo.rect = Mobs.castelo.rect_ajustado
 
-    retangulo_ajustado = pygame.Rect.inflate(Player.player.rect, int(Player.player.rect_base.width * Global.proporcao - Player.player.rect.width), int(Player.player.rect_base.height * Global.proporcao - Player.player.rect.height))
-    Player.player.rect = retangulo_ajustado
+    retangulo_ajustado = pygame.Rect.inflate(Mobs.player.rect, int(Mobs.player.rect_base.width * Global.proporcao - Mobs.player.rect.width), int(Mobs.player.rect_base.height * Global.proporcao - Global.player.rect.height))
+    Mobs.player.rect = retangulo_ajustado
 
 # criar um clock de atualização em fps
 clock = time.Clock()

@@ -1,6 +1,6 @@
 from funcoes_main import *
 from Telas import menu_principal
-from Componentes import botoes, icones
+from Objetos.Componentes import botoes, icones
 import funcoes_main
 
 def tela_opcoes():
@@ -67,10 +67,9 @@ def tela_opcoes():
 
                     Global.ganhou = False
                     Global.perdeu = False
-                    Global.vidas_castelo = 10
                     Global.barreira = 0
 
-                    Player.player.rect.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
+                    Global.player.rect.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
 
                     if Global.dificuldade == 1:
 
