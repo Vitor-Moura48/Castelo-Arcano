@@ -10,6 +10,7 @@ class Botao(pygame.sprite.Sprite):
         self.imagem = self.sprite.subsurface(superficie)
 
         self.dimensoes = dimensoes
+        self.coordenada = coordenada
         self.texto = texto
         self.cor = cor
 
@@ -37,22 +38,22 @@ class Botao(pygame.sprite.Sprite):
 
 class Botao_1(Botao):
     def __init__(self, texto, cor_texto, coordenada, dimensoes):
-        Botao.__init__(self, 'imagens/botao.png', ((0,0), (332, 107)), dimensoes=dimensoes, coordenada=coordenada, texto=texto, cor=cor_texto)
+        Botao.__init__(self, 'dados/imagens/botao.png', ((0,0), (332, 107)), dimensoes=dimensoes, coordenada=coordenada, texto=texto, cor=cor_texto)
 
 
 class BotaoUpgrade(Botao):
     def __init__(self, coordenada, dimensoes, desbloqueado, linha_coluna):
-        Botao.__init__(self, 'imagens/botoes.png', ((275,70), (50, 50)), dimensoes=dimensoes, coordenada=coordenada)
-        
+        Botao.__init__(self, 'dados/imagens/botoes.png', ((275,70), (50, 50)), dimensoes=dimensoes, coordenada=coordenada)
+       
         #self.dimensoes = dimensoes
         self.linha_coluna = linha_coluna
 
-        self.imagem2 = self.sprite.subsurface( ((75,70), (50, 50)) )   
+        self.imagem2 = self.sprite.subsurface( ((75,70), (50, 50)) )    # verde
 
-        if desbloqueado == False:
-            self.image = self.imagem
-        else:
+        if desbloqueado:
             self.image = self.imagem2
+        else:
+            self.image = self.imagem
     
     def atualizar_informacoes(self):
         self.image = self.imagem2
@@ -60,7 +61,7 @@ class BotaoUpgrade(Botao):
 
 class BotaoSom(Botao):
     def __init__(self, coordenada, dimensoes):
-        Botao.__init__(self, 'imagens/icone_som.png', ((0,0), (499, 499)), dimensoes=dimensoes, coordenada=coordenada)
+        Botao.__init__(self, 'dados/imagens/icone_som.png', ((0,0), (499, 499)), dimensoes=dimensoes, coordenada=coordenada)
 
 
 botao = Botao_1("teste", (255, 50, 50), (100, 100), (200, 50))

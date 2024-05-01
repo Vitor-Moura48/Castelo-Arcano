@@ -47,12 +47,7 @@ grupo_inimigos3 = pygame.sprite.Group()
 grupo_todos_inimigos = pygame.sprite.Group()
 grupo_todos_bosses = pygame.sprite.Group()
 
-grupo_efeito1 = pygame.sprite.Group()
-grupo_efeito2 = pygame.sprite.Group()
-grupo_efeito3 = pygame.sprite.Group()
-grupo_efeito4 = pygame.sprite.Group()
-grupo_efeito5 = pygame.sprite.Group()
-grupo_todos_efeitos = pygame.sprite.Group()
+grupo_efeitos = pygame.sprite.Group()
 
 grupo_projeteis_aliados = pygame.sprite.Group()
 grupo_projeteis_inimigos = pygame.sprite.Group()

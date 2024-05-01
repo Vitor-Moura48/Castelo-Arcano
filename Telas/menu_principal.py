@@ -1,64 +1,31 @@
 from funcoes_main import *
 from Telas import escolha_dificuldade, tela_configuracao, tela_upgrade
 from Objetos.Componentes import botoes
-import funcoes_main
+from Telas.Tela import Tela
 
-def menu_principal():    
-    selecionou = False
+class MenuPrincipal(Tela):    
+    def __init__(self):
 
-    for componente in Global.componentes:
-        componente.kill()
+        # fazer uma tela inicial
+        botao_jogar = botoes.Botao_1("Iniciar", 
+                                    (255, 50, 50), 
+                                    (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
+                                    (300, 60))
+        botao_upgrade = botoes.Botao_1("Upgrade", 
+                                            (255, 50, 50), 
+                                            (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40) ), 
+                                            (300, 60))
+        botao_configuracoes = botoes.Botao_1("Configuracoes", 
+                                            (255, 50, 50), 
+                                            (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55) ), 
+                                            (300, 60))
 
-    # fazer uma tela inicial
-    botao_jogar = botoes.Botao_1("Iniciar", 
-                                (255, 50, 50), 
-                                (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
-                                (300, 60))
-    botao_upgrade = botoes.Botao_1("Upgrade", 
-                                        (255, 50, 50), 
-                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40) ), 
-                                        (300, 60))
-    botao_configuracoes = botoes.Botao_1("Configuracoes", 
-                                        (255, 50, 50), 
-                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55) ), 
-                                        (300, 60))
-    
-    Global.componentes.add(botao_jogar)
-    Global.componentes.add(botao_upgrade)
-    Global.componentes.add(botao_configuracoes)
+        Tela.__init__(self, ([botao_jogar, escolha_dificuldade.EscolhaDificuldade, True, True], [botao_upgrade, tela_upgrade.TelaUpgrade, True, True], [botao_configuracoes, tela_configuracao.TelaComfiguracoes, True, True]), esq=MenuPrincipal)
+       
+        while not self.selecionou:
+            self.loop()
+            self.atualizar()
+        del self
 
-    while not selecionou:
-        Global.tela.fill((000, 000, 000))
 
-        posicao_mouse = pygame.mouse.get_pos()
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                quit()
-                sys.exit()
-            
-            if event.type == pygame.VIDEORESIZE:
-                funcoes_main.ajustar_tela()
-
-                botao_jogar.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)))
-                botao_upgrade.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40)))
-                botao_configuracoes.ajustar_posicoes((Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55)))
-
-            if event.type == MOUSEBUTTONDOWN and event.button == 1:
-
-                if botao_jogar.rect.collidepoint(posicao_mouse):
-                    selecionou = True
-                    escolha_dificuldade.iniciar_jogo()
-                
-                if botao_upgrade.rect.collidepoint(posicao_mouse):
-                    selecionou = True
-                    tela_upgrade.tela_upgrade()
-
-                if botao_configuracoes.rect.collidepoint(posicao_mouse):
-                    selecionou = True
-                    tela_configuracao.tela_configuracoes()
-    
-        Global.componentes.draw(Global.tela)
-        Global.componentes.update()
-
-        display.flip()
-
+   

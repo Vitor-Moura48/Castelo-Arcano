@@ -5,7 +5,6 @@ import sys
 from random import randint, uniform, choice
 import os
 import numpy
-import asyncio
 
 # iniciar o pygame
 pygame.init()
@@ -14,18 +13,18 @@ pygame.init()
 pygame.joystick.init()
 
 # variáveis
-plano_de_fundo = pygame.image.load("imagens/cenário.jpg")
+plano_de_fundo = pygame.image.load("dados/imagens/cenário.jpg")
 plano_de_fundo = pygame.transform.scale(plano_de_fundo, (3000, 1000))
 
 pygame.mixer.music.set_volume(0.5)
-musica_fundo = pygame.mixer.music.load("sons/musica de fundo.wav")
+musica_fundo = pygame.mixer.music.load("dados/sons/musica de fundo.wav")
 pygame.mixer.music.play(-1)
 
-efeito_explosao = pygame.mixer.Sound("sons/explosão.wav")
-efeito_morte = pygame.mixer.Sound("sons/morte inimigos.wav")
-efeito_vitoria = pygame.mixer.Sound('sons/vitoria.wav')
-efeito_derrota = pygame.mixer.Sound('sons/derrota.wav')
-efeito_defesa = pygame.mixer.Sound('sons/defesa mágica.wav')
+efeito_explosao = pygame.mixer.Sound("dados/sons/explosão.wav")
+efeito_morte = pygame.mixer.Sound("dados/sons/morte inimigos.wav")
+efeito_vitoria = pygame.mixer.Sound('dados/sons/vitoria.wav')
+efeito_derrota = pygame.mixer.Sound('dados/sons/derrota.wav')
+efeito_defesa = pygame.mixer.Sound('dados/sons/defesa mágica.wav')
 
 efeito_derrota.set_volume(0.1)
 efeito_explosao.set_volume(0.5)

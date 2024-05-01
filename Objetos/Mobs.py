@@ -1,4 +1,4 @@
-from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice
+from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform
 from Configurações import Global
 from Objetos import Projeteis
 
@@ -7,14 +7,15 @@ castelo = None
 class Mob(pygame.sprite.Sprite):
     def __init__(self, caminho, linhas_colunas, dimensoes, inflar, vida, dano=0, random_x=500, escala=None):
         pygame.sprite.Sprite.__init__(self)
+        Global.todas_as_sprites.add(self)
 
         self.sprite = pygame.image.load(os.path.join(caminho)).convert_alpha()
     
         self.sprites = [ self.sprite.subsurface((coluna *  dimensoes[0], linha * dimensoes[1]), (dimensoes[0], dimensoes[1])) for linha in range(linhas_colunas[0]) for coluna in range(linhas_colunas[1]) ]
+        self.sprites = [pygame.transform.scale(imagem, escala) if escala != None else self.image for imagem in self.sprites]
         self.sprite_index = 0
 
         self.image = self.sprites[self.sprite_index]
-        self.image = pygame.transform.scale(self.image, escala) if escala != None else self.image
 
         self.rect = self.image.get_rect()
         self.rect = pygame.Rect.inflate(self.rect, inflar[0], inflar[1])
@@ -67,10 +68,10 @@ class Mob(pygame.sprite.Sprite):
             return False
 
 
-sprite2 = pygame.image.load(os.path.join("imagens/mago_master.png"))
+sprite2 = pygame.image.load(os.path.join("dados/imagens/mago_master.png"))
 class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
     def __init__(self, vida, dano):
-        Mob.__init__(self, 'imagens/mago.png', (2, 4), (85, 94), (-30, -10), vida, dano, escala=(68 * Global.proporcao, 95 * Global.proporcao))
+        Mob.__init__(self, 'dados/imagens/mago.png', (2, 4), (85, 94), (-30, -10), vida, dano, escala=(68 * Global.proporcao, 95 * Global.proporcao))
 
         self.sprites2 = [ sprite2.subsurface((coluna *  122, linha * 110), (122, 110)) for linha in range(2) for coluna in range(4) ]
 
@@ -80,10 +81,10 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
     
     def trocar_modo(self):
         self.sprite_index = 0
-        if self.modo_atual == 1:
-            self.modo_atual = 2
-        else:
-            self.modo_atual = 1
+    
+        temp = self.sprites
+        self.sprites = self.sprites2
+        self.sprites2 = temp
     
     # atualizar imagem
     def update(self):
@@ -92,11 +93,6 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
 
         if not self.contar_index():
             self.sprite_index = 0
-
-        if self.modo_atual == 1:
-            pass
-        else:
-            pass
 
         if self.rect.left < 0:
             self.rect.left = 0
@@ -112,7 +108,7 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
 
 class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
     def __init__(self, vida, dano):
-        Mob.__init__( self, 'imagens/boss_01.png', (5, 4), (80, 70), (-10, -10), vida, dano, escala=( 224 * Global.proporcao, 245 * Global.proporcao ) )
+        Mob.__init__( self, 'dados/imagens/boss_01.png', (5, 4), (80, 70), (-10, -10), vida, dano, escala=( 224 * Global.proporcao, 245 * Global.proporcao ) )
 
         self.rect.right = Global.dimensoes_janela[0]
         self.rect.centery = Global.dimensoes_janela[1] / 2
@@ -132,12 +128,10 @@ class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
         self.mover()
 
         # mudar escala
-        self.image = pygame.transform.scale(self.image, (224 * Global.proporcao, 245 * Global.proporcao))
-
 
 class SpriteCastelo(Mob):  # criar classe de sprites para o cenário
     def __init__(self, vida):
-        Mob.__init__( self, 'imagens/dark_castle.png', (1, 1), (381, 655), (0, 0), vida, escala=( 248 * Global.proporcao, 426 * Global.proporcao ) )
+        Mob.__init__( self, 'dados/imagens/dark_castle.png', (1, 1), (381, 655), (0, 0), vida, escala=( 248 * Global.proporcao, 426 * Global.proporcao ) )
 
         # posicionar o fundo da imagem na parte mais 'baixa' da tela
         self.rect.bottomleft = (0, Global.dimensoes_janela[1])
@@ -145,7 +139,7 @@ class SpriteCastelo(Mob):  # criar classe de sprites para o cenário
 
 class SpritesInimigo1(Mob):  # criar classe de sprites para os inimigos 1
     def __init__(self, vida, dano):
-        Mob.__init__(self, 'imagens/inimigo1.png', (1, 1), (391, 639), (-10, -10), vida, dano, random_x=1000, escala=(51 * Global.proporcao, 83 * Global.proporcao))
+        Mob.__init__(self, 'dados/imagens/inimigo1.png', (1, 1), (391, 639), (-10, -10), vida, dano, random_x=1000, escala=(51 * Global.proporcao, 83 * Global.proporcao))
 
         # randomiza as coordenadas que o inimigo vai spawnar
         self.randomizar()
@@ -190,7 +184,7 @@ class SpritesInimigo1(Mob):  # criar classe de sprites para os inimigos 1
 
 class SpritesInimigo2(Mob):  # criar classe de inimigos 2
     def __init__(self, vida, dano):
-        Mob.__init__(self, 'imagens/inimigo2.png', (1, 1), (340, 420), (-33, -39), vida, dano, escala=(66 * Global.proporcao, 78 * Global.proporcao) )
+        Mob.__init__(self, 'dados/imagens/inimigo2.png', (1, 1), (340, 420), (-33, -39), vida, dano, escala=(66 * Global.proporcao, 78 * Global.proporcao) )
 
         self.aceleracao = 0
 
@@ -242,17 +236,15 @@ class SpritesInimigo2(Mob):  # criar classe de inimigos 2
 
 class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
     def __init__(self, vida, dano):
-        Mob.__init__(self, 'imagens/inimigo3.png', (3, 4), (45, 51), (0, 0), vida, dano, escala=( 90 * Global.proporcao, 76 * Global.proporcao ) )
+        Mob.__init__(self, 'dados/imagens/inimigo3.png', (3, 4), (45, 51), (0, 0), vida, dano, random_x=800, escala=( 90 * Global.proporcao, 76 * Global.proporcao ) )
 
         self.recarga_disparos = 180
         # randomiza as coordenadas que o inimigo vai spawnar
         self.randomizar()
 
     def atirar(self):
-        projetil_inimigo_03 = Projeteis.ProjetilInimigo(self.rect.center, 1, 1)
+        projetil_inimigo_03 = Projeteis.ProjetilInimigo(self.rect.center, 1, 1, desvio=uniform(-15, 15))
         Global.grupo_projeteis_inimigos.add(projetil_inimigo_03)
-        Global.todas_as_sprites.add(projetil_inimigo_03)
-        projetil_inimigo_03.atirar()
         self.recarga_disparos = 180
     
     # atualizar estado

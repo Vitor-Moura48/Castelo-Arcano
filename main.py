@@ -32,7 +32,7 @@ while True:
 
     # resposta para derrota
     funcoes_main.verificar_derrota_vitoria()
-    
+
     # atualizar a tela
     display.flip()
 

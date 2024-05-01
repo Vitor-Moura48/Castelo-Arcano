@@ -1,6 +1,6 @@
 from Configurações.config import *
 
-sprite_sheet_icone_background = pygame.image.load(os.path.join('imagens/icone_background.jpg')).convert_alpha()
+sprite_sheet_icone_background = pygame.image.load(os.path.join('dados/imagens/icone_background.jpg')).convert_alpha()
 rect_icone_background = sprite_sheet_icone_background.get_rect()
 largura_icone_background = rect_icone_background.width
 altura_icone_background = rect_icone_background.height

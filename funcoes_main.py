@@ -5,18 +5,18 @@ from Verificações import Colisoes
 from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
 
 def conferir_arquivos_csv():
-    if not os.path.exists("csvs/upgrades.csv"):
+    if not os.path.exists("dados/csvs/upgrades.csv"):
         arquivo = pandas.DataFrame({'coluna1': [False, False, False, False, False],
                                     'coluna2': [False, False, False, False, False],
                                     'coluna3': [False, False, False, False, False]})
-        arquivo.to_csv("csvs/upgrades.csv", index=False)
+        arquivo.to_csv("dados/csvs/upgrades.csv", index=False)
     
-    if not os.path.exists("csvs/recursos.csv"):
+    if not os.path.exists("dados/csvs/recursos.csv"):
         arquivo = pandas.DataFrame({'cristais': [0]})
-        arquivo.to_csv("csvs/recursos.csv", index=False)
+        arquivo.to_csv("dados/csvs/recursos.csv", index=False)
 
 def chamar_menu_principal():
-    menu_principal.menu_principal()
+    menu_principal.MenuPrincipal()
 
 def adicioanr_objetos():
 
@@ -24,7 +24,6 @@ def adicioanr_objetos():
     if Global.inimigos_restantes < (Global.inimigos_totais * 0.1) and Global.contador_de_bosses == 0 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
             boss_01 = Mobs.SpritesBoss1(10, 5)
-            Global.todas_as_sprites.add(boss_01)
             Global.grupo_todos_inimigos.add(boss_01)
             Global.grupo_todos_bosses.add(boss_01)
             Global.contador_de_bosses += 1
@@ -32,65 +31,32 @@ def adicioanr_objetos():
     if len(Global.grupo_inimigos1) < 2 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
             inimigo1 = Mobs.SpritesInimigo1(1, 1)
-            Global.todas_as_sprites.add(inimigo1)
             Global.grupo_inimigos1.add(inimigo1)
             Global.grupo_todos_inimigos.add(inimigo1)
 
     if len(Global.grupo_inimigos2) < 1 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
             inimigo2 = Mobs.SpritesInimigo2(1, 1)
-            Global.todas_as_sprites.add(inimigo2)
             Global.grupo_inimigos2.add(inimigo2)
             Global.grupo_todos_inimigos.add(inimigo2)
     
     if len(Global.grupo_inimigos3) < 1 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
             inimigo3 = Mobs.SpritesInimigo3(3, 5)
-            Global.todas_as_sprites.add(inimigo3)
             Global.grupo_inimigos3.add(inimigo3)
             Global.grupo_todos_inimigos.add(inimigo3)
     
     # porcentagem de aparecimento a cada iteração
-    chance = 0.05
-    chance1 = uniform(0, 100)
-
-    if len(Global.grupo_todos_efeitos) < 2 and chance1 <= chance:
-        efeito_buff1 = Buffs.SpritesEfeito1()
-        Global.todas_as_sprites.add(efeito_buff1)
-        Global.grupo_efeito1.add(efeito_buff1)
-        Global.grupo_todos_efeitos.add(efeito_buff1)
-
-    chance2 = uniform(0, 100)
-
-    if len(Global.grupo_todos_efeitos) < 2 and chance2 <= chance:
-        efeito_buff2 = Buffs.SpritesEfeito2()
-        Global.todas_as_sprites.add(efeito_buff2)
-        Global.grupo_efeito2.add(efeito_buff2)
-        Global.grupo_todos_efeitos.add(efeito_buff2)
-    
-    chance3 = uniform(0, 100)
-
-    if len(Global.grupo_todos_efeitos) < 2 and chance3 <= chance:
-        efeito_buff3 = Buffs.SpritesEfeito3()
-        Global.todas_as_sprites.add(efeito_buff3)
-        Global.grupo_efeito3.add(efeito_buff3)
-        Global.grupo_todos_efeitos.add(efeito_buff3)
-
-    chance4 = uniform(0, 100)
-    
-    if len(Global.grupo_todos_efeitos) < 2 and chance4 <= chance:
-        efeito_buff4 = Buffs.SpritesEfeito4()
-        Global.todas_as_sprites.add(efeito_buff4)
-        Global.grupo_efeito4.add(efeito_buff4)
-        Global.grupo_todos_efeitos.add(efeito_buff4)
-    
-    chance5 = uniform(0, 100)
-    
-    if len(Global.grupo_todos_efeitos) < 2 and chance5 <= chance:
-        efeito_buff5 = Buffs.SpritesEfeito5()
-        Global.todas_as_sprites.add(efeito_buff5)
-        Global.grupo_efeito5.add(efeito_buff5)
-        Global.grupo_todos_efeitos.add(efeito_buff5)
+    if len(Global.grupo_efeitos) < 2 and uniform(0, 100) <= 0.05:
+        Buffs.SpritesEfeito1()
+    if len(Global.grupo_efeitos) < 2 and uniform(0, 100) <= 0.05:
+        Buffs.SpritesEfeito2()
+    if len(Global.grupo_efeitos) < 2 and uniform(0, 100) <= 0.05:
+        Buffs.SpritesEfeito3()
+    if len(Global.grupo_efeitos) < 2 and uniform(0, 100) <= 0.05:
+        Buffs.SpritesEfeito4()
+    if len(Global.grupo_efeitos) < 2 and uniform(0, 100) <= 0.05:
+        Buffs.SpritesEfeito5()
 
     # adiconar objetos sprites na tela
     Global.todas_as_sprites.draw(Global.tela)
@@ -140,8 +106,7 @@ def responder_a_eventos():
 
             if Global.tempo_buff_multiplos_disparos > 0:
                     
-                    arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
-
+                    arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
                     if arquivo_upgrade.iloc[2, 1] == True:
                         quantidade_projeteis = 5
                     else:
@@ -151,10 +116,9 @@ def responder_a_eventos():
                     somador_amplitude = -Global.amplitude_projeteis
  
                     for i in range(quantidade_projeteis):
-                        projetil_player = Projeteis.Projetil(1, 1)
+                        projetil_player = Projeteis.Projetil1(Mobs.player.rect.center, 1, 1, desvio=somador_amplitude)
                         Global.grupo_projeteis_aliados.add(projetil_player)
-                        Global.todas_as_sprites.add(projetil_player)
-                        projetil_player.atirar(somador_amplitude)
+
 
                         
                         Global.tempo_de_recarga_disparo = 60
@@ -166,15 +130,13 @@ def responder_a_eventos():
 
             else:
                 
-                projetil_player = Projeteis.Projetil(1, 1)
+                projetil_player = Projeteis.Projetil1(Mobs.player.rect.center, 1, 1)
                 Global.grupo_projeteis_aliados.add(projetil_player)
-                Global.todas_as_sprites.add(projetil_player)
-                projetil_player.atirar(0)
 
                 Global.tempo_de_recarga_disparo = 60
                 # aumenta em 10 x a velocidade de disparo
                 if Global.tempo_buff_velocidade_disparo >= 0:
-                    arquivo_upgrade = pandas.read_csv("csvs/upgrades.csv")
+                    arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
 
                     if arquivo_upgrade.iloc[3, 1] == True:
                         Global.tempo_de_recarga_disparo *= 0.05
@@ -182,7 +144,7 @@ def responder_a_eventos():
                         Global.tempo_de_recarga_disparo *= 0.1
         
         if event.type == MOUSEBUTTONDOWN and event.button == 3:
-            Global.player.trocar_modo()
+            Mobs.player.trocar_modo()
 
         # responde aos eventos do controle
         if event.type == JOYDEVICEADDED:
@@ -196,7 +158,7 @@ def responder_a_eventos():
     
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                opcoes_em_jogo.tela_opcoes()
+                opcoes_em_jogo.TelaOpcoes()
 
 def gerenciar_waves(): 
     if Global.inimigos_restantes <= Global.inimigos_totais * 0.8 and not Global.mudanca_de_velocidade[0]:
@@ -216,20 +178,16 @@ def gerenciar_waves():
         Global.mudanca_de_velocidade[3] = True
 
 def verificar_derrota_vitoria():
-    if Mobs.player.vida <= 0:
+
+    if Mobs.player.vida <= 0 or Mobs.castelo.vida <= 0:
         responder_a_derrota()
 
-    elif Mobs.castelo.vida <= 0:
-        responder_a_derrota()
-
-    # resposta para vitória
     elif Global.inimigos_restantes <= 0:
         responder_a_vitoria()
 
     
 def responder_a_derrota():
-    for sprite in Global.todas_as_sprites:
-        sprite.kill()
+
     Global.perdeu = True
     if Global.som_ligado:
         efeito_derrota.play()
@@ -247,12 +205,11 @@ def responder_a_derrota():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    escolha_dificuldade.iniciar_jogo()
+                    escolha_dificuldade.EscolhaDificuldade()
 
 
 def responder_a_vitoria():
-    for sprite in Global.todas_as_sprites:
-        sprite.kill()
+
     Global.ganhou = True
     if Global.som_ligado:
         efeito_vitoria.play()
@@ -260,29 +217,29 @@ def responder_a_vitoria():
     if Global.dificuldade == 1:
 
         novo_dataframe = pandas.DataFrame(data=[Mobs.castelo.vida], columns=['Recorde'])
-        novo_dataframe.to_csv('csvs/recorde_fácil.csv', mode='a', index=False, header=False)
+        novo_dataframe.to_csv('dados/csvs/recorde_fácil.csv', mode='a', index=False, header=False)
 
-        arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
+        arquivo_recursos = pandas.read_csv("dados/csvs/recursos.csv")
         arquivo_recursos['cristais'] += 1
-        arquivo_recursos.to_csv("csvs/recursos.csv", index=False)
+        arquivo_recursos.to_csv("dados/csvs/recursos.csv", index=False)
 
     if Global.dificuldade == 2:
 
         novo_dataframe = pandas.DataFrame(data=[Mobs.castelo.vida], columns=['Recorde'])
-        novo_dataframe.to_csv('csvs/recorde_médio.csv', mode='a', index=False, header=False)
+        novo_dataframe.to_csv('dados/csvs/recorde_médio.csv', mode='a', index=False, header=False)
 
-        arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
+        arquivo_recursos = pandas.read_csv("dados/csvs/recursos.csv")
         arquivo_recursos['cristais'] += 2
-        arquivo_recursos.to_csv("csvs/recursos.csv", index=False)
+        arquivo_recursos.to_csv("dados/csvs/recursos.csv", index=False)
 
     if Global.dificuldade == 3:
 
         novo_dataframe = pandas.DataFrame(data=[Mobs.castelo.vida], columns=['Recorde'])
-        novo_dataframe.to_csv('csvs/recorde_difícil.csv', mode='a', index=False, header=False)
+        novo_dataframe.to_csv('dados/csvs/recorde_difícil.csv', mode='a', index=False, header=False)
 
-        arquivo_recursos = pandas.read_csv("csvs/recursos.csv")
+        arquivo_recursos = pandas.read_csv("dados/csvs/recursos.csv")
         arquivo_recursos['cristais'] += 3
-        arquivo_recursos.to_csv("csvs/recursos.csv", index=False)
+        arquivo_recursos.to_csv("dados/csvs/recursos.csv", index=False)
 
     while Global.ganhou:
         rect_mensagem_vitoria.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
@@ -297,7 +254,7 @@ def responder_a_vitoria():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
-                    escolha_dificuldade.iniciar_jogo()
+                    escolha_dificuldade.EscolhaDificuldade()
 
 def ajustar_tela():
     Global.dimensoes_janela = pygame.display.get_surface().get_size()
@@ -328,11 +285,6 @@ def ajustar_tela():
 
     Global.proporcao = Global.dimensoes_janela[0] / dimensao_base[0]
 
-    Mobs.castelo.rect_ajustado = pygame.Rect.inflate(Mobs.castelo.rect, int(Mobs.castelo.rect_base.width * Global.proporcao - Mobs.castelo.rect.width), int(Mobs.castelo.rect_base.height * Global.proporcao - Global.castelo.rect.height))
-    Mobs.castelo.rect = Mobs.castelo.rect_ajustado
-
-    retangulo_ajustado = pygame.Rect.inflate(Mobs.player.rect, int(Mobs.player.rect_base.width * Global.proporcao - Mobs.player.rect.width), int(Mobs.player.rect_base.height * Global.proporcao - Global.player.rect.height))
-    Mobs.player.rect = retangulo_ajustado
 
 # criar um clock de atualização em fps
 clock = time.Clock()

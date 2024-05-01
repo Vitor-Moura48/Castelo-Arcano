@@ -2,31 +2,35 @@ from Configurações.config import *
 from Configurações import Global
 from Objetos import Mobs
 
-sprite_sheet_barreira = pygame.image.load(os.path.join('imagens/efeito barreira.png')).convert_alpha()
-rect_barreira = sprite_sheet_barreira.get_rect()
-largura_barreirra = rect_barreira.width
-altura_barreira = rect_barreira.height
-
-class EfeitosAnimacao(pygame.sprite.Sprite):  # classe de efeitos diversos que acontecem as vezes
-    def __init__(self):
+class Animacao(pygame.sprite.Sprite):
+    def __init__(self, caminho, linhas_colunas, dimensoes, inflar, escala=None, soma_dimensao=(0, 0)):
         pygame.sprite.Sprite.__init__(self)
 
-        # carregar e colocar as imagens na lista de sprites
-        self.sprites_efeito_barreira = []
+        self.sprite = pygame.image.load(os.path.join(caminho)).convert_alpha()
 
-        for frame in range(6):
-            self.img_linha2 = sprite_sheet_barreira.subsurface((frame * 102, 100), (102, 245))
-            self.sprites_efeito_barreira.append(self.img_linha2)
+        self.sprites = [ self.sprite.subsurface((coluna * dimensoes[0] + soma_dimensao[0], linha * dimensoes[1] + soma_dimensao[1]), (dimensoes[0], dimensoes[1])) for linha in range(linhas_colunas[0]) for coluna in range(linhas_colunas[1]) ] # pega os sprites
+        self.sprites = [pygame.transform.scale(imagem, escala) if escala != None else self.image for imagem in self.sprites] # transforma cada sprite se necessário
+        self.sprite_index = 0
 
-        # definir imagem que vai ser exibida
-        self.index_barreira = 0
-        self.image = self.sprites_efeito_barreira[self.index_barreira]
+        self.image = self.sprites[self.sprite_index]
 
-        #  mudar dimensões da imagem
-        self.image = pygame.transform.scale(self.image, (102 * 3.5 * Global.proporcao, 308 * 3.5 * Global.proporcao))
-
-        # encontrar as dimensoes da imagem
         self.rect = self.image.get_rect()
+        self.rect = pygame.Rect.inflate(self.rect, inflar[0], inflar[1])
+
+        self.linhas = linhas_colunas[0]
+        self.colunas = linhas_colunas[1]
+    
+    def contar_index(self, taxa=0.1):
+        if self.sprite_index < ( self.linhas * self.colunas ) - 1:
+            self.image = self.sprites[int(self.sprite_index)]
+            self.sprite_index += taxa
+            return True
+        else:
+            return False
+
+class AnimacaoBarreira(Animacao):  # classe de efeitos diversos que acontecem as vezes
+    def __init__(self):
+        Animacao.__init__(self, 'dados/imagens/efeito barreira.png', (1, 6), (102, 245), (0, 0), escala=( 357 * Global.proporcao, 1058 * Global.proporcao ), soma_dimensao=(0, 100) )
 
         # posicionar sprite
         self.rect.centerx = Mobs.castelo.rect.centerx
@@ -34,19 +38,8 @@ class EfeitosAnimacao(pygame.sprite.Sprite):  # classe de efeitos diversos que a
 
     # atualizar estado
     def update(self):
-
-        # condição para executar animação
-        if self.index_barreira < 6:
-            
-            # atualizar imagem
-            self.image = self.sprites_efeito_barreira[int(self.index_barreira)]   
-            self.index_barreira += 0.1
-
-            # ajustar dimensões do sprite
-            self.image = pygame.transform.scale(self.image, (102 * 3.5 * Global.proporcao, 308 * 3.5 * Global.proporcao))
-        else:
-            self.kill()
-
+        self.kill() if not self.contar_index() else None
+  
 
         
 
