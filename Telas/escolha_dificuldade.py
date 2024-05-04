@@ -1,6 +1,6 @@
 from funcoes_main import *
 from Telas import menu_principal
-from Objetos.Componentes import botoes
+from Objetos.Componentes import botoes, Texto
 from Objetos import Mobs
 from Telas.Tela import Tela
 
@@ -9,27 +9,24 @@ class EscolhaDificuldade(Tela):
     def __init__(self):
 
         # fazer uma tela inicial
-        mensagem_dificuldade = 'Selecione a dificuldade'
-        mensagem_dificuldade_para_tela = fonte.render(mensagem_dificuldade, True, (255, 50, 50))
-
+        mensagem_dificuldade = Texto.Texto('Selecione a dificuldade', (255, 000, 000), 30, (0.355, 0.12), 0.7, 5)
         botao_facil = botoes.Botao_1("Fácil", 
                                     (255, 50, 50), 
-                                    (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.25)), 
+                                    (0.5, 0.25), 
                                     (300, 60))
         botao_normal = botoes.Botao_1("Normal", 
                                     (255, 50, 50), 
-                                    (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.40)), 
+                                    (0.5, 0.4), 
                                     (300, 60))
         botao_dificil = botoes.Botao_1("Dificil", 
                                         (255, 50, 50),
-                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.55)), 
+                                        (0.5, 0.55), 
                                         (300, 60))
     
-        Tela.__init__(self, ([botao_facil, self.facil, True, True], [botao_normal, self.medio, True, True], [botao_dificil, self.dificil, True, True]), esq=menu_principal.MenuPrincipal)
+        Tela.__init__(self, ([botao_facil, self.facil, True], [botao_normal, self.medio, True], [botao_dificil, self.dificil, True]), textos=[mensagem_dificuldade], esq=menu_principal.MenuPrincipal)
 
         while not self.selecionou:
             self.loop()
-            Global.tela.blit(mensagem_dificuldade_para_tela, (Global.dimensoes_janela[0] // 2 - 160, 70 * Global.proporcao))# desenhar mensagens
             self.atualizar()
         del self
     

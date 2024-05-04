@@ -1,6 +1,7 @@
 from Configurações.config import *
 from Configurações import Controles, Global
 from Objetos import Mobs, Projeteis, Buffs
+from Objetos.Componentes import Texto
 from Verificações import Colisoes
 from Telas import menu_principal, escolha_dificuldade, opcoes_em_jogo
 
@@ -72,20 +73,9 @@ def verificar_colisoes():
 
 def criar_texto_na_janela():
     
-    mensagem_kills = f"inimigos restantes: {Global.inimigos_restantes}"
-    mensagem_kills_para_tela = fonte.render(mensagem_kills, True, (80, 80, 255))
-
-    mensagem_vidas_castelo = f"vidas restantes: {Mobs.castelo.vida}"
-    mensagem_vidas_castelo_para_tela = fonte.render(mensagem_vidas_castelo, True, (247, 24, 14))
-
-    mensagem_barreira = f'defesa: {Global.barreira}'
-    mensagem_barreira_para_tela = fonte.render(mensagem_barreira, True, (255, 100, 20))
-
-    # colocar o texto na janela
-    Global.tela.blit(mensagem_kills_para_tela, (Global.dimensoes_janela[0] * 0.7, Global.dimensoes_janela[1] * 0.02))
-    Global.tela.blit(mensagem_vidas_castelo_para_tela, (Global.dimensoes_janela[0] * 0.02, Global.dimensoes_janela[1] * 0.02))
-    if Global.barreira > 0:
-        Global.tela.blit(mensagem_barreira_para_tela, (Global.dimensoes_janela[0] * 0.08, Global.dimensoes_janela[1] * 0.08))
+    Texto.Texto(f"inimigos restantes: {Global.inimigos_restantes}", (80, 80, 255), 30,  (0.67, 0.02), 0.95)
+    Texto.Texto(f"vidas restantes: {Mobs.castelo.vida}", (247, 24, 14), 30,  (0.02, 0.02), 0.4)
+    Texto.Texto(f'defesa: {Global.barreira}', (255, 100, 20), 30,  (0.02, 0.08), 0.4) if Global.barreira > 0 else None
 
 def contabilizar_tempo_recargas():
     Global.tempo_de_recarga_disparo -= 1
@@ -189,12 +179,11 @@ def verificar_derrota_vitoria():
 def responder_a_derrota():
 
     Global.perdeu = True
+    Global.textos = [Texto.Texto("você perdeu! pressione enter para continuar", (200, 0, 0), 30,  (0.2, 0.45), 0.8)]
     if Global.som_ligado:
         efeito_derrota.play()
 
     while Global.perdeu:
-        rect_mensagem_derrota.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
-        Global.tela.blit(mensagem_derrota_para_tela, rect_mensagem_derrota)
         display.flip()
 
         pygame.mixer_music.fadeout(100) 
@@ -203,6 +192,8 @@ def responder_a_derrota():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.VIDEORESIZE:
+                ajustar_tela()
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     escolha_dificuldade.EscolhaDificuldade()
@@ -242,49 +233,43 @@ def responder_a_vitoria():
         arquivo_recursos.to_csv("dados/csvs/recursos.csv", index=False)
 
     while Global.ganhou:
-        rect_mensagem_vitoria.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
-        Global.tela.blit(mensagem_vitoria_para_tela, rect_mensagem_vitoria)
         display.flip()
-
+        Global.textos = [Texto.Texto("você ganhou! pressione enter para continuar", (255, 255, 0), 30,  (0.2, 0.45), 0.8)]
         pygame.mixer_music.fadeout(100)
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.VIDEORESIZE:
+                ajustar_tela()
             if event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     escolha_dificuldade.EscolhaDificuldade()
 
+def conferir_resize(): # True se esticado horizontalmente
+    return True if Global.dimensoes_janela[0] / Global.dimensoes_janela[1] > proporcao_altura_largura else False
+
+def conferir_modo(): # True se y reduzido
+    return True if Global.dimensoes_janela[0] * Global.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Global.proporcao else False
+
+def aplicar_resize(tipo, modo):
+    estado = pygame.FULLSCREEN if (informacoes_tela.current_w == pygame.display.get_window_size()[0]) else pygame.RESIZABLE
+    Global.tela = display.set_mode((Global.dimensoes_janela[1] * proporcao_altura_largura, Global.dimensoes_janela[1]), estado) if (tipo == modo) else \
+                    display.set_mode((Global.dimensoes_janela[0], Global.dimensoes_janela[0] / proporcao_altura_largura), estado)
+
 def ajustar_tela():
     Global.dimensoes_janela = pygame.display.get_surface().get_size()
+    aplicar_resize(conferir_resize(), conferir_modo()) 
 
-    # se o x for muito maior que o y
-    if Global.dimensoes_janela[0] / Global.dimensoes_janela[1] > proporcao_altura_largura:
-
-        # se eu reduzir o y
-        if Global.dimensoes_janela[0] * Global.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Global.proporcao:
-            Global.tela = display.set_mode((Global.dimensoes_janela[1] * proporcao_altura_largura, Global.dimensoes_janela[1]), pygame.RESIZABLE)
-        # se eu aumentei o x
-        else:
-            Global.tela = display.set_mode((Global.dimensoes_janela[0], Global.dimensoes_janela[0] / proporcao_altura_largura), pygame.RESIZABLE)
-        
-        Global.dimensoes_janela = pygame.display.get_surface().get_size()
-
-    # se o y for muito maior que o x
-    elif Global.dimensoes_janela[0] / Global.dimensoes_janela[1] < proporcao_altura_largura:
-
-        # se eu diminui o x
-        if Global.dimensoes_janela[0] * Global.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Global.proporcao:
-            Global.tela = display.set_mode((Global.dimensoes_janela[0], Global.dimensoes_janela[0] / proporcao_altura_largura), pygame.RESIZABLE)
-        # se eu aumentei o y
-        else:
-            Global.tela = display.set_mode((Global.dimensoes_janela[1] * proporcao_altura_largura, Global.dimensoes_janela[1]), pygame.RESIZABLE)
-        
-        Global.dimensoes_janela = pygame.display.get_surface().get_size()
-
+    Global.dimensoes_janela = pygame.display.get_surface().get_size()
     Global.proporcao = Global.dimensoes_janela[0] / dimensao_base[0]
 
+    for componente in Global.componentes:
+        componente.ajustar_posicoes()
+    for texto in Global.textos:
+        texto.ajustar_posicoes()
+        texto.update()
 
 # criar um clock de atualização em fps
 clock = time.Clock()

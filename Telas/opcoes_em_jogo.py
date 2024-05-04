@@ -6,24 +6,24 @@ from Telas.Tela import Tela
 class TelaOpcoes(Tela):
     def __init__(self):
 
-        icone_de_fundo = icones.IconeBackground((Global.dimensoes_janela[0] // 2,
-                                                Global.dimensoes_janela[1] // 2), 
+        icone_de_fundo = icones.IconeBackground((0.5, 0.5), 
                                                 (Global.dimensoes_janela[0] * 0.4, Global.dimensoes_janela[1] * 0.6))
         botao_continuar = botoes.Botao_1("Continuar", 
                                         (255, 50, 50), 
-                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.30)), 
+                                        (0.5, 0.30), 
                                         (300, 60))
         botao_reiniciar = botoes.Botao_1("Reiniciar",
                                         (255, 50, 50), 
-                                        (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.45)), 
+                                        (0.5, 0.45), 
                                         (300, 60))
         botao_menu = botoes.Botao_1("Menu Principal", 
                                     (255, 50, 50), 
-                                    (Global.dimensoes_janela[0] // 2, (Global.dimensoes_janela[1] * 0.60)), 
+                                    (0.5, 0.60), 
                                     (300, 60))
         
-        Tela.__init__(self, ([botao_continuar, lambda:None, True, True], [botao_reiniciar, self.reiniciar, True, True], [botao_menu, menu_principal.MenuPrincipal, True, True]), fill=False)
-    
+        Tela.__init__(self, ([botao_continuar, lambda:None, True], [botao_reiniciar, self.reiniciar, True], [botao_menu, menu_principal.MenuPrincipal, True]),
+                       icones=[icone_de_fundo], fill=False)
+
         while not self.selecionou:
             self.loop()
             self.atualizar()
@@ -60,7 +60,7 @@ class TelaOpcoes(Tela):
             Global.inimigos_restantes = Global.inimigos_totais
             Global.velocidade_inimigo = velocidade_base_inimigo * 1.15 * Global.proporcao
 
-        pygame.mixer_music.play(-1)
+        pygame.mixer_music.play(-1) if Global.som_ligado else None
 
 
         

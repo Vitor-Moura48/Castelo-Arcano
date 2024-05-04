@@ -103,7 +103,7 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
         if self.rect.bottom > Global.dimensoes_janela[1]:
             self.rect.bottom = Global.dimensoes_janela[1]
         
-        draw.rect(Global.tela, (255,000, 000), self.rect, 2)
+        #draw.rect(Global.tela, (255,000, 000), self.rect, 2)
 
 
 class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss

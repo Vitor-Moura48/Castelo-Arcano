@@ -84,9 +84,9 @@ class SpritesEfeito3(Buff):  # classe para efeito especiail 3 (multti projeteis)
         arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
 
         if arquivo_upgrade.iloc[2, 0] == True:
-            Global.tempo_buff_multiplos_disparos = 300
-        else:
             Global.tempo_buff_multiplos_disparos = 600
+        else:
+            Global.tempo_buff_multiplos_disparos = 300
 
 
 class SpritesEfeito4(Buff):  # classe para efeito especiail 4 (velocidade de disparo)
@@ -113,7 +113,7 @@ class SpritesEfeito5(Buff):  # classe para efeito especiail 5 (disparo teleguiad
 
         arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
 
-        if arquivo_upgrade.iloc[3, 0] == True:
+        if arquivo_upgrade.iloc[4, 0] == True:
             Global.tempo_buff_disparo_teleguiado = 600
         else:
             Global.tempo_buff_disparo_teleguiado = 300

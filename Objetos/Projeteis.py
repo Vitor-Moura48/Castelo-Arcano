@@ -69,7 +69,9 @@ class Projetil(pygame.sprite.Sprite):
 
 class Projetil1(Projetil):  # criar classe para projetil do player
     def __init__(self, coordenada, perfuracao, dano, desvio=0):
-        Projetil.__init__(self, caminho='dados/imagens/Projeteis.png', coordenada=coordenada, perfuracao=perfuracao, desvio=desvio, tempo_de_vida=120, dano=dano, ponto=mouse.get_pos(), dimensoes=(38, 38), linha_coluna=(1, 8, (3, 290)), escala=(50 * Global.proporcao, 50 * Global.proporcao), inflar=(-15, -15))
+        Projetil.__init__(self, caminho='dados/imagens/Projeteis.png', coordenada=coordenada, perfuracao=perfuracao, desvio=desvio, tempo_de_vida=120,
+                           dano=dano, ponto=mouse.get_pos(), dimensoes=(38, 38), linha_coluna=(1, 8, (3, 290)), escala=(50 * Global.proporcao, 50 * Global.proporcao),
+                             inflar=(-15, -15))
     
     def direcionar(self, raio):
         inimigo_mais_proximo = None
@@ -103,7 +105,10 @@ class Projetil1(Projetil):  # criar classe para projetil do player
 
 class ProjetilInimigo(Projetil):  # criar classe para projetil do inimigo 3
     def __init__(self, coordenada, perfuracao, dano, desvio=0):
-        Projetil.__init__( self, 'dados/imagens/projetil_inimigo3.png', coordenada=coordenada, perfuracao=perfuracao, dano=dano, tempo_de_vida=400, desvio=desvio, ponto=Mobs.castelo.rect.center, velocidade=0.15, escala=(32 * Global.proporcao, 32 * Global.proporcao), linha_coluna=(1, 4, (0,0)), dimensoes=(32, 32), inflar=(-10, -10) )
+        Projetil.__init__( self, 'dados/imagens/projetil_inimigo3.png', coordenada=coordenada, perfuracao=perfuracao, dano=dano, tempo_de_vida=400,
+                           desvio=desvio, ponto=Mobs.castelo.rect.center, velocidade=0.15, escala=(32 * Global.proporcao, 32 * Global.proporcao),
+                             linha_coluna=(1, 4, (0,0)), dimensoes=(32, 32), inflar=(-10, -10) )
+        
         self.sprites = [ pygame.transform.rotate(sprite, 90 - self.angulo_graus_desvio) for sprite in self.sprites]
     def update(self):
 

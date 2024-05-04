@@ -9,7 +9,7 @@ tela.fill((000, 000, 000))
 eixo_x_joystick = 0
 eixo_y_joystick = 0
 
-som_ligado = True
+som_ligado = False
 
 barreira = 0
 inimigos_restantes = 0
@@ -38,6 +38,8 @@ proporcao = dimensoes_janela[0] / dimensao_base[0]
 velocidade_player = velocidade_base_player * proporcao
 velocidade_inimigo = 0
 mudanca_de_velocidade = [False, False, False, False]
+
+textos = []
 
 # agrupar sprites
 todas_as_sprites = pygame.sprite.Group()

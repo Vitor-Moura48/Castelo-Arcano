@@ -1,7 +1,7 @@
-from funcoes_main import *
+from funcoes_main import pandas
 from Telas import menu_principal
-from Objetos.Componentes import botoes, icones
-from Telas.Tela import Tela
+from Objetos.Componentes import botoes, icones, Texto
+from Telas.Tela import *
 
 class TelaUpgrade(Tela): 
     def __init__(self):
@@ -9,13 +9,13 @@ class TelaUpgrade(Tela):
         self.arquivo_upgrades = pandas.read_csv("dados/csvs/upgrades.csv")
         self.arquivo_recursos = pandas.read_csv("dados/csvs/recursos.csv")
 
-        icone_de_fundo = icones.IconeBackground((Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2), (Global.dimensoes_janela[0] * 0.9, Global.dimensoes_janela[1] * 0.9))
+        icone_de_fundo = icones.IconeBackground((0.5, 0.5), (Global.dimensoes_janela[0] * 0.9, Global.dimensoes_janela[1] * 0.9))
         
-        componentes = [botoes.BotaoUpgrade((Global.dimensoes_janela[0] * (0.2 + coluna * 0.1), (Global.dimensoes_janela[1] * (0.20 + linha * 0.15)) ), 
-                                (70, 70),
-                                self.arquivo_upgrades.iloc[linha, coluna],
-                                (linha, coluna))
-                                for linha in range(5) for coluna in range(3)]
+        componentes = [botoes.BotaoUpgrade( coordenada=((0.2 + coluna * 0.1), (0.20 + linha * 0.15)), 
+                                            dimensoes=(70, 70),
+                                            desbloqueado=self.arquivo_upgrades.iloc[linha, coluna],
+                                            linha_coluna=(linha, coluna))
+                                            for linha in range(5) for coluna in range(3)]
         
         Tela.__init__(self, esq=menu_principal.MenuPrincipal)
         
@@ -33,9 +33,9 @@ class TelaUpgrade(Tela):
                     sys.exit()
                 
                 if event.type == pygame.VIDEORESIZE:
-                    ajustar_tela()
-                    for componente in self.componentes:
-                        componente[0].ajustar_posicoes(componente[0].coordenada)
+                    funcoes_main.ajustar_tela()
+                    for componente in Global.componentes:
+                        componente.ajustar_posicoes()
 
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:       
                     for componente in Global.componente_botao:
@@ -49,7 +49,8 @@ class TelaUpgrade(Tela):
 
             Global.componentes.draw(Global.tela)
             Global.componentes.update()
-            self.atualizar_mensagem()
+            update = [texto.update() for texto in Global.textos]
+            Texto.Texto(f"Cristais: {self.arquivo_recursos['cristais'].loc[0]}", (200, 200, 255), 30,  (0.7, 0.13), 0.95)
             display.flip()          
 
     def conferir(self, botao):    
@@ -62,16 +63,9 @@ class TelaUpgrade(Tela):
                 self.arquivo_recursos.to_csv("dados/csvs/recursos.csv", index=False)
                 self.arquivo_upgrades.to_csv("dados/csvs/upgrades.csv", index=False)
                 botao.atualizar_informacoes()
+        
+        Global.textos = [Texto.Texto(pandas.read_csv("dados/csvs/descricao_upgrades.csv").iloc[botao.linha_coluna], (200, 200, 255), 25, (0.57, 0.3), 0.77)]
 
-        icone_de_fundo_descritivo = icones.IconeBackground((Global.dimensoes_janela[0] * 0.67, Global.dimensoes_janela[1]* 0.53), (Global.dimensoes_janela[0] * 0.35, Global.dimensoes_janela[1] * 0.64))
+        icone_de_fundo_descritivo = icones.IconeBackground((0.67, 0.53), (Global.dimensoes_janela[0] * 0.35, Global.dimensoes_janela[1] * 0.64))
         Global.componentes.add(icone_de_fundo_descritivo)
     
-    def atualizar_mensagem(self):
-        texto_para_tela = fonte.render(f"Cristais: {self.arquivo_recursos['cristais'].loc[0]}", True, (200, 200, 255))
-        rect_texto = texto_para_tela.get_rect()
-        rect_texto.center = (Global.dimensoes_janela[0] * 0.76, Global.dimensoes_janela[1] * 0.15)
-
-        Global.tela.blit(texto_para_tela, (rect_texto))
-
-   
-                

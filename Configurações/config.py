@@ -18,7 +18,6 @@ plano_de_fundo = pygame.transform.scale(plano_de_fundo, (3000, 1000))
 
 pygame.mixer.music.set_volume(0.5)
 musica_fundo = pygame.mixer.music.load("dados/sons/musica de fundo.wav")
-pygame.mixer.music.play(-1)
 
 efeito_explosao = pygame.mixer.Sound("dados/sons/explosão.wav")
 efeito_morte = pygame.mixer.Sound("dados/sons/morte inimigos.wav")
@@ -30,11 +29,7 @@ efeito_derrota.set_volume(0.1)
 efeito_explosao.set_volume(0.5)
 efeito_vitoria.set_volume(0.7)
 
-fonte = pygame.font.SysFont("arial", 30, True, False)
-fonte_descritiva = pygame.font.SysFont("arial", 16, True, False)
-
 informacoes_tela = pygame.display.Info()
-
 dimensao_base = (informacoes_tela.current_w * 0.7, informacoes_tela.current_h * 0.7)
 
 # para cada 1 y de altura, tem n x de alrgura
@@ -48,11 +43,3 @@ velocidade_base_inimigo = 6
 
 # definir título da tela
 display.set_caption("Castelo Arcano")
-
-mensagem_derrota = "você perdeu, pressione enter para continuar"
-mensagem_derrota_para_tela = fonte.render(mensagem_derrota, False,  (200, 0, 0))
-rect_mensagem_derrota = mensagem_derrota_para_tela.get_rect()
-
-mensagem_vitoria = "você ganhou! pressione enter para continuar"
-mensagem_vitoria_para_tela = fonte.render(mensagem_vitoria, True, (255, 255, 0))
-rect_mensagem_vitoria = mensagem_vitoria_para_tela.get_rect()

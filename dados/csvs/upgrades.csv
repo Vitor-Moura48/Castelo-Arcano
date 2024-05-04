@@ -1,6 +1,6 @@
 coluna1,coluna2,coluna3
 False,False,False
-False,False,False
 False,False,True
-False,False,False
-False,False,False
+True,False,True
+True,True,False
+False,False,True
