@@ -39,7 +39,3 @@ class AnimacaoBarreira(Animacao):  # classe de efeitos diversos que acontecem as
     # atualizar estado
     def update(self):
         self.kill() if not self.contar_index() else None
-  
-
-        
-

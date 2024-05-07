@@ -1,9 +1,8 @@
 from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform
 from Configurações import Global
-from Objetos import Projeteis
+from Objetos import Projeteis, Animacoes
 
-player = None
-castelo = None
+
 class Mob(pygame.sprite.Sprite):
     def __init__(self, caminho, linhas_colunas, dimensoes, inflar, vida, dano=0, random_x=500, escala=None):
         pygame.sprite.Sprite.__init__(self)
@@ -103,8 +102,10 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
         if self.rect.bottom > Global.dimensoes_janela[1]:
             self.rect.bottom = Global.dimensoes_janela[1]
         
-        #draw.rect(Global.tela, (255,000, 000), self.rect, 2)
-
+        # barra de vida
+        if self.vida < 5:
+            barra = pygame.Rect(self.rect.x, self.rect.y - 10, self.vida * 13, 5)
+            draw.rect(Global.tela, (255, 000, 000), barra)
 
 class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
     def __init__(self, vida, dano):
