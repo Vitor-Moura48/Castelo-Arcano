@@ -2,6 +2,8 @@
 
 - Este é um desenvolvido em Pygame, onde você assume o controle de um personagem encarregado de proteger sua base. Prepare-se para enfrentar uma série de desafios enquanto defende seu território de ameaças em constante evolução.
 
+![Texto Alternativo](dados/imagens/img1.png)
+
 ### Recursos do Jogo:
 
 - Controle intuitivo do personagem principal.
