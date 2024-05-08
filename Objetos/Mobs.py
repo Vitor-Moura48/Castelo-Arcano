@@ -19,6 +19,7 @@ class Mob(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect = pygame.Rect.inflate(self.rect, inflar[0], inflar[1])
 
+        self.vida_max = vida
         self.vida = vida
         self.dano = dano
         self.random_x = random_x
@@ -66,11 +67,20 @@ class Mob(pygame.sprite.Sprite):
         else:
             return False
 
+    def debug(self): # mostrar o retangul ode colisao
+        draw.rect(Global.tela, (000, 255, 000), self.rect, 2) if self.debug else None
+    
+    def renderizar_vida(self):
+        # barra de vida
+        if self.vida < self.vida_max:
+            barra = pygame.Rect(self.rect.x, self.rect.y - 10, self.vida * (self.rect.width / self.vida_max), 5)
+            draw.rect(Global.tela, (255, 000, 000), barra)
+
 
 sprite2 = pygame.image.load(os.path.join("dados/imagens/mago_master.png"))
 class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
     def __init__(self, vida, dano):
-        Mob.__init__(self, 'dados/imagens/mago.png', (2, 4), (85, 94), (-30, -10), vida, dano, escala=(68 * Global.proporcao, 95 * Global.proporcao))
+        Mob.__init__(self, 'dados/imagens/mago.png', (2, 4), (85, 94), (-10, -10), vida, dano, escala=(68 * Global.proporcao, 95 * Global.proporcao))
 
         self.sprites2 = [ sprite2.subsurface((coluna *  122, linha * 110), (122, 110)) for linha in range(2) for coluna in range(4) ]
 
@@ -92,6 +102,8 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
 
         if not self.contar_index():
             self.sprite_index = 0
+        
+        self.renderizar_vida()
 
         if self.rect.left < 0:
             self.rect.left = 0
@@ -101,11 +113,6 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
             self.rect.top = 0
         if self.rect.bottom > Global.dimensoes_janela[1]:
             self.rect.bottom = Global.dimensoes_janela[1]
-        
-        # barra de vida
-        if self.vida < 5:
-            barra = pygame.Rect(self.rect.x, self.rect.y - 10, self.vida * 13, 5)
-            draw.rect(Global.tela, (255, 000, 000), barra)
 
 class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
     def __init__(self, vida, dano):
@@ -120,6 +127,8 @@ class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
         self.contar_vulnerabilidade()
         if self.conferir_vida():
             self.morrer()
+        
+        self.renderizar_vida()
         
         self.contar_index()
        
@@ -237,7 +246,7 @@ class SpritesInimigo2(Mob):  # criar classe de inimigos 2
 
 class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
     def __init__(self, vida, dano):
-        Mob.__init__(self, 'dados/imagens/inimigo3.png', (3, 4), (45, 51), (0, 0), vida, dano, random_x=800, escala=( 90 * Global.proporcao, 76 * Global.proporcao ) )
+        Mob.__init__(self, 'dados/imagens/inimigo3.png', (3, 4), (45, 51), (-10, 0), vida, dano, random_x=800, escala=( 90 * Global.proporcao, 76 * Global.proporcao ) )
 
         self.recarga_disparos = 180
         # randomiza as coordenadas que o inimigo vai spawnar
@@ -256,7 +265,9 @@ class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
   
         else:
             self.contar_vulnerabilidade()
-            
+
+            self.renderizar_vida()
+           
             self.recarga_disparos -= 1
 
             # movimentar no eixo x
