@@ -34,7 +34,6 @@ dimensoes_janela = pygame.display.get_surface().get_size()
 
 # apenas uma dimensão porque a proporção é sempre a mesma
 proporcao = dimensoes_janela[0] / dimensao_base[0]
-
 velocidade_player = velocidade_base_player * proporcao
 velocidade_inimigo = 0
 mudanca_de_velocidade = [False, False, False, False]

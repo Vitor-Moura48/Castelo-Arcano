@@ -247,11 +247,11 @@ def responder_a_vitoria():
                 if event.key == K_RETURN:
                     escolha_dificuldade.EscolhaDificuldade()
 
-def conferir_resize(): # True se esticado horizontalmente
+def conferir_resize(): # True se largura maior do que deveria em relação a proporção
     return True if Global.dimensoes_janela[0] / Global.dimensoes_janela[1] > proporcao_altura_largura else False
 
-def conferir_modo(): # True se y reduzido
-    return True if Global.dimensoes_janela[0] * Global.dimensoes_janela[1] / (dimensao_base[0] * dimensao_base[1]) < Global.proporcao else False
+def conferir_modo(dimensao_passada): # True se a proporção diminuiu
+    return True if Global.dimensoes_janela[0] * Global.dimensoes_janela[1] < dimensao_passada[0] * dimensao_passada[1] else False
 
 def aplicar_resize(tipo, modo):
     estado = pygame.FULLSCREEN if (informacoes_tela.current_w == pygame.display.get_window_size()[0]) else pygame.RESIZABLE
@@ -259,8 +259,9 @@ def aplicar_resize(tipo, modo):
                     display.set_mode((Global.dimensoes_janela[0], Global.dimensoes_janela[0] / proporcao_altura_largura), estado)
 
 def ajustar_tela():
+    dimensao_passada = Global.dimensoes_janela
     Global.dimensoes_janela = pygame.display.get_surface().get_size()
-    aplicar_resize(conferir_resize(), conferir_modo()) 
+    aplicar_resize(conferir_resize(), conferir_modo(dimensao_passada)) 
 
     Global.dimensoes_janela = pygame.display.get_surface().get_size()
     Global.proporcao = Global.dimensoes_janela[0] / dimensao_base[0]
