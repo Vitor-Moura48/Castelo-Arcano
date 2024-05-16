@@ -248,14 +248,14 @@ class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
     def __init__(self, vida, dano):
         Mob.__init__(self, 'dados/imagens/inimigo3.png', (3, 4), (45, 51), (-10, 0), vida, dano, random_x=800, escala=( 90 * Global.proporcao, 76 * Global.proporcao ) )
 
-        self.recarga_disparos = 180
+        self.recarga_disparos = 240
         # randomiza as coordenadas que o inimigo vai spawnar
         self.randomizar()
 
     def atirar(self):
         projetil_inimigo_03 = Projeteis.ProjetilInimigo(self.rect.center, 1, 1, desvio=uniform(-15, 15))
         Global.grupo_projeteis_inimigos.add(projetil_inimigo_03)
-        self.recarga_disparos = 180
+        self.recarga_disparos = 240
     
     # atualizar estado
     def update(self):
@@ -289,9 +289,9 @@ class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
                 if projetil_mais_proximo != None and projetil_mais_proximo[1] < 800:
                     
                     if projetil_mais_proximo[0].rect.centery < Global.dimensoes_janela[1] / 2:
-                        self.velocidade_y += Global.velocidade_inimigo * 1.5
+                        self.velocidade_y += Global.velocidade_inimigo * 1
                     else:
-                        self.velocidade_y -= Global.velocidade_inimigo * 1.5
+                        self.velocidade_y -= Global.velocidade_inimigo * 1
                   
                 # confere se é possível disparar algum projetil
                 if self.recarga_disparos <= 0:
