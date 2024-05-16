@@ -261,6 +261,7 @@ class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
     def update(self):
 
         if self.conferir_vida():
+            Global.grupo_todos_inimigos.remove(self) if self in Global.grupo_todos_inimigos else None
             self.morrer() if not self.contar_index() else None
   
         else:
