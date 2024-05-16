@@ -22,7 +22,7 @@ def chamar_menu_principal():
 def adicioanr_objetos():
 
     # adicionar objetos
-    if Global.inimigos_restantes < (Global.inimigos_totais * 0.1) and Global.contador_de_bosses == 0 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
+    if Global.inimigos_restantes == 0 and Global.contador_de_bosses == 0:
         for i in range(1):
             boss_01 = Mobs.SpritesBoss1(10, 5)
             Global.grupo_todos_inimigos.add(boss_01)
@@ -166,15 +166,6 @@ def gerenciar_waves():
     elif Global.inimigos_restantes <= Global.inimigos_totais * 0.2 and not Global.mudanca_de_velocidade[3]:
         Global.velocidade_inimigo *= 1.04
         Global.mudanca_de_velocidade[3] = True
-
-def verificar_derrota_vitoria():
-
-    if Mobs.player.vida <= 0 or Mobs.castelo.vida <= 0:
-        responder_a_derrota()
-
-    elif Global.inimigos_restantes <= 0:
-        responder_a_vitoria()
-
     
 def responder_a_derrota():
 

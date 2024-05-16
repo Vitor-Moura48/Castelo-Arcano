@@ -30,9 +30,6 @@ while True:
     # mudança de velocidade dos inimigos
     funcoes_main.gerenciar_waves()
 
-    # resposta para derrota
-    funcoes_main.verificar_derrota_vitoria()
-
     # atualizar a tela
     display.flip()
 

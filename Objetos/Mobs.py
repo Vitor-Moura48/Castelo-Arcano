@@ -1,6 +1,7 @@
 from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform
 from Configurações import Global
 from Objetos import Projeteis, Animacoes
+from funcoes_main import responder_a_vitoria, responder_a_derrota
 
 
 class Mob(pygame.sprite.Sprite):
@@ -99,6 +100,7 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
     def update(self):
 
         self.contar_vulnerabilidade()
+        responder_a_derrota() if self.conferir_vida() else None
 
         if not self.contar_index():
             self.sprite_index = 0
@@ -127,6 +129,7 @@ class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
         self.contar_vulnerabilidade()
         if self.conferir_vida():
             self.morrer()
+            responder_a_vitoria()
         
         self.renderizar_vida()
         
@@ -145,6 +148,9 @@ class SpriteCastelo(Mob):  # criar classe de sprites para o cenário
 
         # posicionar o fundo da imagem na parte mais 'baixa' da tela
         self.rect.bottomleft = (0, Global.dimensoes_janela[1])
+    
+    def update(self):
+        responder_a_derrota() if self.conferir_vida() else None
 
 
 class SpritesInimigo1(Mob):  # criar classe de sprites para os inimigos 1
