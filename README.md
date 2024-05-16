@@ -14,17 +14,12 @@
 ### Como Jogar
 
 - Pré-requisitos:
-
   - Certifique-se de ter o Python instalado em seu computador. Você pode baixá-lo em python.org.
-  - Instale a biblioteca Pygame executando pip install pygame em seu terminal ou prompt de comando.
-
-- Baixando o Jogo:
-
-  - Clone este repositório ou baixe o arquivo ZIP e extraia-o em seu computador.
-
+    
 - Executando o Jogo:
-
+  - Clone este repositório ou baixe o arquivo ZIP e extraia-o em seu computador.
   - Abra o terminal ou prompt de comando e navegue até o diretório onde você extraiu/clonou o jogo.
+  - Instale as bibliotecas necessárias executando "pip install -r requirements.txt" em seu terminal ou prompt de comando.
   - Execute o arquivo principal do jogo com o comando python main.py.
 
 ### Contribuindo
