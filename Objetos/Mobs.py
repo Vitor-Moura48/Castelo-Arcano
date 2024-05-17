@@ -1,6 +1,6 @@
 from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform
 from Configurações import Global
-from Objetos import Projeteis, Animacoes
+from Objetos import Projeteis
 from funcoes_main import responder_a_vitoria, responder_a_derrota
 
 

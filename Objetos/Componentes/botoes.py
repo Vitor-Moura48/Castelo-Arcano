@@ -51,6 +51,10 @@ class BotaoUpgrade(Botao):
     def atualizar_informacoes(self):
         self.image = self.imagem2
 
+        self.image = transform.scale( self.image, (int(self.dimensoes[0] * Global.proporcao), int(self.dimensoes[1] * Global.proporcao)) ) 
+        self.rect = self.image.get_rect()
+        self.rect.center = ( int(Global.dimensoes_janela[0] * self.coordenada[0]), int(Global.dimensoes_janela[1] * self.coordenada[1]) )
+
 
 class BotaoSom(Botao):
     def __init__(self, coordenada, dimensoes):
