@@ -74,27 +74,28 @@ class Projetil1(Projetil):  # criar classe para projetil do player
                              inflar=(-15, -15))
     
     def direcionar(self, raio):
-        inimigo_mais_proximo = None
-        for inimigo in Global.grupo_todos_inimigos:
+        if len(Global.grupo_todos_inimigos) > 0:
+            inimigo_mais_proximo = None
+            for inimigo in Global.grupo_todos_inimigos:
 
-            distancia_x = inimigo.rect.center[0] - self.rect.center[0]
-            distancia_y = inimigo.rect.center[1] - self.rect.center[1]
-            distancia_absoluta = (abs(distancia_x) ** 2 + abs(distancia_y) ** 2) ** 0.5
+                distancia_x = inimigo.rect.center[0] - self.rect.center[0]
+                distancia_y = inimigo.rect.center[1] - self.rect.center[1]
+                distancia_absoluta = (abs(distancia_x) ** 2 + abs(distancia_y) ** 2) ** 0.5
 
-            if inimigo_mais_proximo == None or distancia_absoluta < inimigo_mais_proximo[1]:
-                inimigo_mais_proximo = [inimigo, distancia_absoluta, distancia_x, distancia_y]
-        
-        if inimigo_mais_proximo[1] < raio:
+                if inimigo_mais_proximo == None or distancia_absoluta < inimigo_mais_proximo[1]:
+                    inimigo_mais_proximo = [inimigo, distancia_absoluta, distancia_x, distancia_y]
             
-            distancia_x = inimigo_mais_proximo[2]
-            distancia_y = inimigo_mais_proximo[3]
-            
-            # calcula o angulo em radiano do inimigo em relação ao player
-            angulo_radiano = numpy.arctan2(distancia_y, distancia_x)
+            if inimigo_mais_proximo[1] < raio:
+                
+                distancia_x = inimigo_mais_proximo[2]
+                distancia_y = inimigo_mais_proximo[3]
+                
+                # calcula o angulo em radiano do inimigo em relação ao player
+                angulo_radiano = numpy.arctan2(distancia_y, distancia_x)
 
-            # distribui a velocidade a partir do seno e cosseno
-            self.forcax = numpy.cos(angulo_radiano) * velocidade_base_projetil * Global.proporcao
-            self.forcay = numpy.sin(angulo_radiano) * velocidade_base_projetil * Global.proporcao
+                # distribui a velocidade a partir do seno e cosseno
+                self.forcax = numpy.cos(angulo_radiano) * velocidade_base_projetil * Global.proporcao
+                self.forcay = numpy.sin(angulo_radiano) * velocidade_base_projetil * Global.proporcao
 
     def update(self):
 

@@ -47,6 +47,7 @@ def adicioanr_objetos():
             Global.grupo_inimigos3.add(inimigo3)
             Global.grupo_todos_inimigos.add(inimigo3)
     
+    
     # porcentagem de aparecimento a cada iteração
     if len(Global.grupo_efeitos) < 2 and uniform(0, 100) <= 0.05:
         Buffs.SpritesEfeito1()
@@ -73,7 +74,7 @@ def verificar_colisoes():
 
 def criar_texto_na_janela():
     
-    Texto.Texto(f"inimigos restantes: {Global.inimigos_restantes}", (80, 80, 255), 30,  (0.67, 0.02), 0.95)
+    Texto.Texto(f"inimigos restantes: {Global.inimigos_restantes}", (80, 80, 255), 30,  (0.67, 0.02), 0.95) if Global.inimigos_restantes > 0 else None
     Texto.Texto(f"vidas restantes: {Mobs.castelo.vida}", (247, 24, 14), 30,  (0.02, 0.02), 0.4)
     Texto.Texto(f'defesa: {Global.barreira}', (255, 100, 20), 30,  (0.02, 0.08), 0.4) if Global.barreira > 0 else None
 

@@ -41,11 +41,13 @@ class Mob(pygame.sprite.Sprite):
         if self.contador_ivulnerabilidade > 0:
             self.contador_ivulnerabilidade -= 1
 
-    def morrer(self):
+    def morrer(self, contabilizar=True):
         if Global.som_ligado:
             efeito_morte.play()
+        if contabilizar:
+            Global.inimigos_restantes -= 1
+        
         self.kill()
-        Global.inimigos_restantes -= 1
     
     def randomizar(self):
         self.rect = self.image.get_rect()
@@ -267,8 +269,10 @@ class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
     def update(self):
 
         if self.conferir_vida():
-            Global.grupo_todos_inimigos.remove(self) if self in Global.grupo_todos_inimigos else None
-            self.morrer() if not self.contar_index() else None
+            if self in Global.grupo_todos_inimigos:
+                Global.grupo_todos_inimigos.remove(self)
+                Global.inimigos_restantes -= 1
+            self.morrer(False) if not self.contar_index() else None
   
         else:
             self.contar_vulnerabilidade()
