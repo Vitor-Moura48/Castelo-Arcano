@@ -56,19 +56,19 @@ class Colisoes:  # classe para verificar colisões
                     projetil_aliado.perfuracoes -= 1
                 
     def saiu_do_mapa(self):
-        objetos_para_apagar = []
-        for objeto in Global.todas_as_sprites:
+
+        for objeto in Global.todas_as_sprites.sprites():
             if objeto.rect.right < 0:
-                objetos_para_apagar.append(objeto)
 
-        for objeto in objetos_para_apagar:
-            if objeto in Global.grupo_todos_inimigos:
+                if objeto in Global.grupo_todos_inimigos:
 
-                Global.inimigos_restantes -= 1
-                Mobs.castelo.receber_dano(max(0, objeto.dano - Global.barreira))
-                if Global.som_ligado:
-                    efeito_explosao.play() if Global.barreira == 0 else efeito_defesa.play()
-                Global.barreira -= min(objeto.dano, Global.barreira)     
-            objeto.kill()
+                    Global.inimigos_restantes -= 1
+                    Mobs.castelo.receber_dano(max(0, objeto.dano - Global.barreira))
+                    Global.barreira -= min(objeto.dano, Global.barreira)
+
+                    if Global.som_ligado:
+                        efeito_explosao.play() if Global.barreira == 0 else efeito_defesa.play()
+                    
+                objeto.kill()
 
 colisoes = Colisoes()
