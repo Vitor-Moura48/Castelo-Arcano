@@ -25,8 +25,6 @@ while True:
 
     funcoes_main.responder_a_eventos()
 
-    Controles.conferir_teclado()
-
     # mudança de velocidade dos inimigos
     funcoes_main.gerenciar_waves()
 

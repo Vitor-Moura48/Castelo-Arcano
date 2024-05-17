@@ -6,9 +6,6 @@ tela = display.set_mode(dimensao_base, pygame.RESIZABLE)
 # definir cor da tela
 tela.fill((000, 000, 000))
 
-eixo_x_joystick = 0
-eixo_y_joystick = 0
-
 som_ligado = False
 
 barreira = 0

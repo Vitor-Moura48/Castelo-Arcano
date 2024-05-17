@@ -138,10 +138,10 @@ def responder_a_eventos():
 
         # responde aos eventos do controle
         if event.type == JOYDEVICEADDED:
-            Controles.controle.__init__()
+            Controles.controle.iniciar_joy()
 
         if event.type == pygame.JOYAXISMOTION:
-            Controles.controle.movimento(event)
+            Controles.controle.conferir_joystik(event)
         
         if event.type == pygame.VIDEORESIZE:
             ajustar_tela()
@@ -149,6 +149,8 @@ def responder_a_eventos():
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 opcoes_em_jogo.TelaOpcoes()
+    
+    Controles.controle.mover()
 
 def gerenciar_waves(): 
     if Global.inimigos_restantes <= Global.inimigos_totais * 0.8 and not Global.mudanca_de_velocidade[0]:
