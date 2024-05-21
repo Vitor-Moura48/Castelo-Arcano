@@ -23,7 +23,7 @@ class Texto():
         distancia_atual = 0
         linha_atual = ''
 
-        # obtem as linhas necessaarias
+        # obtem as linhas necessarias
         self.palavras = self.texto.split(" ")
         for palavra in self.palavras:
             if (self.fonte.size(palavra)[0] + distancia_atual) < self.distancia:
