@@ -71,7 +71,6 @@ class SpritesEfeito2(Buff):  # classe para efeito especiail 2
             Global.barreira += 1
 
         efeito_animacao = Animacoes.AnimacaoBarreira()
-        Global.todas_as_sprites.add(efeito_animacao)
 
 
 class SpritesEfeito3(Buff):  # classe para efeito especiail 3 (multti projeteis)

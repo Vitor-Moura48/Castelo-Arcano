@@ -1,6 +1,6 @@
 from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform
 from Configurações import Global
-from Objetos import Projeteis
+from Objetos import Projeteis, Animacoes
 from funcoes_main import responder_a_vitoria, responder_a_derrota
 
 
@@ -125,6 +125,8 @@ class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
         self.rect.right = Global.dimensoes_janela[0]
         self.rect.centery = Global.dimensoes_janela[1] / 2
 
+        self.recarga_disparos = 0
+
     # atualizar estado
     def update(self):
 
@@ -133,12 +135,19 @@ class SpritesBoss1(Mob):  # criar classe de sprites para primeiro boss
             self.morrer()
             responder_a_vitoria()
         
+        if self.recarga_disparos <= 0:
+            Animacoes.AnimacaoTarget(player.rect.center)
+            self.recarga_disparos = 120
+        else:
+            self.recarga_disparos -= 1
+        
+        
         self.renderizar_vida()
         
         self.contar_index()
        
         # movimentar
-        self.velocidade_x -= Global.velocidade_inimigo * 0.1
+        self.velocidade_x -= Global.velocidade_inimigo * 0.05
         self.rect.y += numpy.cos(self.rect.x / 15)
         self.mover()
 
@@ -316,3 +325,5 @@ class SpritesInimigo3(Mob):  # criar classe de sprites para os inimigos 3
                 self.rect.bottom = Global.dimensoes_janela[1]
         
         self.mover()
+
+player = None

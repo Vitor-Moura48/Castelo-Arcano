@@ -24,7 +24,7 @@ def adicioanr_objetos():
     # adicionar objetos
     if Global.inimigos_restantes == 0 and Global.contador_de_bosses == 0:
         for i in range(1):
-            boss_01 = Mobs.SpritesBoss1(10, 5)
+            boss_01 = Mobs.SpritesBoss1(15, 5)
             Global.grupo_todos_inimigos.add(boss_01)
             Global.grupo_todos_bosses.add(boss_01)
             Global.contador_de_bosses += 1

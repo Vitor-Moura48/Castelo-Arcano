@@ -1,10 +1,12 @@
 from Configurações.config import *
 from Configurações import Global
-from Objetos import Mobs
+from Objetos import Mobs, Projeteis
 
 class Animacao(pygame.sprite.Sprite):
     def __init__(self, caminho, linhas_colunas, dimensoes, inflar, escala=None, soma_dimensao=(0, 0)):
         pygame.sprite.Sprite.__init__(self)
+
+        Global.todas_as_sprites.add(self)
 
         self.sprite = pygame.image.load(os.path.join(caminho)).convert_alpha()
 
@@ -39,3 +41,15 @@ class AnimacaoBarreira(Animacao):  # classe de efeitos diversos que acontecem as
     # atualizar estado
     def update(self):
         self.kill() if not self.contar_index() else None
+
+class AnimacaoTarget(Animacao):
+    def __init__(self, alvo):
+        Animacao.__init__(self, 'dados/imagens/target.png', (1, 5), (13, 13), (0, 0), (40 * Global.proporcao, 40 * Global.proporcao))
+
+        self.rect.center = alvo
+    
+    def update(self):
+        if not self.contar_index(0.03):
+            projetil = Projeteis.ProjetilTarget(self.rect.center, 1)
+            Global.grupo_projeteis_inimigos.add(projetil)
+            self.kill()

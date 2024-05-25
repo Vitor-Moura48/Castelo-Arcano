@@ -4,13 +4,13 @@ from Objetos import Mobs
 
 
 class Projetil(pygame.sprite.Sprite):
-    def __init__(self, caminho, coordenada, perfuracao, dano, dimensoes, linha_coluna, inflar, ponto, tempo_de_vida, escala=None, desvio=0, velocidade=1):
+    def __init__(self, caminho, coordenada, perfuracao, dano, dimensoes, linha_coluna, inflar, ponto, tempo_de_vida, escala=None, desvio=0, velocidade=1, ponto_inicio=(0, 0)):
         pygame.sprite.Sprite.__init__(self)
         Global.todas_as_sprites.add(self)
 
         self.sprite = pygame.image.load(os.path.join(caminho))
-
-        self.sprites = [ self.sprite.subsurface((coluna * dimensoes[0] + linha_coluna[2][0], linha * dimensoes[1] + linha_coluna[2][1]), (dimensoes[0], dimensoes[1])) for linha in range(linha_coluna[0]) for coluna in range(linha_coluna[1]) ]
+    
+        self.sprites = [ self.sprite.subsurface((coluna * dimensoes[0], linha * dimensoes[1]), (dimensoes[0], dimensoes[1])) for linha in range(ponto_inicio[1], linha_coluna[0]) for coluna in range(ponto_inicio[0], linha_coluna[1]) ]
         self.sprites = [ pygame.transform.scale(imagem, escala) if escala != None else self.image for imagem in self.sprites ]
         self.sprite_index = 0
 
@@ -29,18 +29,18 @@ class Projetil(pygame.sprite.Sprite):
         self.velocidade_y = 0
         self.tempo_de_vida = tempo_de_vida
 
+        if velocidade != 0:
+            distancia_x = self.ponto[0] - self.rect.center[0]
+            distancia_y = self.ponto[1] - self.rect.center[1]
+            
+            # calcula o angulo em radiano do click em relação ao player
+            angulo_radiano = numpy.arctan2(distancia_y, distancia_x) + numpy.radians(desvio)
 
-        distancia_x = self.ponto[0] - self.rect.center[0]
-        distancia_y = self.ponto[1] - self.rect.center[1]
-        
-        # calcula o angulo em radiano do click em relação ao player
-        angulo_radiano = numpy.arctan2(distancia_y, distancia_x) + numpy.radians(desvio)
+            # distribui a velocidade a partir do seno e cosseno
+            self.forcax = numpy.cos(angulo_radiano) * velocidade_base_projetil * velocidade * Global.proporcao
+            self.forcay = numpy.sin(angulo_radiano) * velocidade_base_projetil * velocidade * Global.proporcao
 
-        # distribui a velocidade a partir do seno e cosseno
-        self.forcax = numpy.cos(angulo_radiano) * velocidade_base_projetil * velocidade * Global.proporcao
-        self.forcay = numpy.sin(angulo_radiano) * velocidade_base_projetil * velocidade * Global.proporcao
-
-        self.angulo_graus_desvio = numpy.degrees(angulo_radiano) + desvio
+            self.angulo_graus_desvio = numpy.degrees(angulo_radiano) + desvio
     
     def conferir_integridade(self):
         self.tempo_de_vida -= 1
@@ -69,8 +69,8 @@ class Projetil(pygame.sprite.Sprite):
 
 class Projetil1(Projetil):  # criar classe para projetil do player
     def __init__(self, coordenada, perfuracao, dano, desvio=0):
-        Projetil.__init__(self, caminho='dados/imagens/Projeteis.png', coordenada=coordenada, perfuracao=perfuracao, desvio=desvio, tempo_de_vida=120,
-                           dano=dano, ponto=mouse.get_pos(), dimensoes=(38, 38), linha_coluna=(1, 8, (3, 290)), escala=(50 * Global.proporcao, 50 * Global.proporcao),
+        Projetil.__init__(self, caminho='dados/imagens/p2.png', coordenada=coordenada, perfuracao=perfuracao, desvio=desvio, tempo_de_vida=120,
+                           dano=dano, ponto=mouse.get_pos(), dimensoes=(37, 37), linha_coluna=(1, 8), escala=(50 * Global.proporcao, 50 * Global.proporcao),
                              inflar=(-15, -15))
     
     def direcionar(self, raio):
@@ -108,7 +108,7 @@ class ProjetilInimigo(Projetil):  # criar classe para projetil do inimigo 3
     def __init__(self, coordenada, perfuracao, dano, desvio=0):
         Projetil.__init__( self, 'dados/imagens/projetil_inimigo3.png', coordenada=coordenada, perfuracao=perfuracao, dano=dano, tempo_de_vida=400,
                            desvio=desvio, ponto=Mobs.castelo.rect.center, velocidade=0.15, escala=(32 * Global.proporcao, 32 * Global.proporcao),
-                             linha_coluna=(1, 4, (0,0)), dimensoes=(32, 32), inflar=(-10, -10) )
+                             linha_coluna=(1, 4), dimensoes=(32, 32), inflar=(-10, -10) )
         
         self.sprites = [ pygame.transform.rotate(sprite, 90 - self.angulo_graus_desvio) for sprite in self.sprites]
     def update(self):
@@ -116,3 +116,13 @@ class ProjetilInimigo(Projetil):  # criar classe para projetil do inimigo 3
         self.conferir_integridade()
         self.contar_index()
         self.mover()
+
+class ProjetilTarget(Projetil):
+    def __init__(self, alvo, dano):
+        Projetil.__init__( self, 'dados/imagens/p1.png', coordenada=alvo, perfuracao=1, dano=dano, tempo_de_vida=100,
+                           ponto=alvo, velocidade=0, escala=(36 * Global.proporcao, 36 * Global.proporcao),
+                             linha_coluna=(1, 9), dimensoes=(37, 32), inflar=(0, 0) )
+        
+    def update(self):
+        self.kill() if not self.contar_index(0.1) else None
+        self.conferir_integridade()
