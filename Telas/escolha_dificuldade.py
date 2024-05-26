@@ -35,7 +35,6 @@ class EscolhaDificuldade(Tela):
         Global.perdeu = False
         Global.barreira = 0
         Global.contador_de_bosses = 0
-        Global.tempo_de_recarga_disparo = 0
         Global.tempo_buff_multiplos_disparos = 0
         Global.tempo_buff_velocidade_disparo = 0
         Global.tempo_buff_disparo_teleguiado = 0

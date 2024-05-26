@@ -1,4 +1,4 @@
-from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform
+from Configurações.config import pygame, os, randint, efeito_morte, draw, numpy, choice, uniform, pandas
 from Configurações import Global
 from Objetos import Projeteis, Animacoes
 from funcoes_main import responder_a_vitoria, responder_a_derrota
@@ -30,8 +30,10 @@ class Mob(pygame.sprite.Sprite):
         self.velocidade_x = 0
         self.velocidade_y = 0
     
-    def receber_dano(self, dano):
-        self.vida -= dano
+    def receber_dano(self, dano, ivulnerabilidade=10):
+        if self.contador_ivulnerabilidade <= 0:
+            self.vida -= dano
+            self.contador_ivulnerabilidade = ivulnerabilidade
     
     def conferir_vida(self):
         if self.vida <= 0:
@@ -88,6 +90,8 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
         self.sprites2 = [ sprite2.subsurface((coluna *  122, linha * 110), (122, 110)) for linha in range(2) for coluna in range(4) ]
 
         self.modo_atual = 1
+        self.tempo_de_recarga_ataque = 0
+        self.velocidade_ataque = 60
 
         self.rect.center = (Global.dimensoes_janela[0] // 2, Global.dimensoes_janela[1] // 2)
     
@@ -98,10 +102,51 @@ class SpritesPlayer(Mob):  # criar classe de sprites para o jogador
         self.sprites = self.sprites2
         self.sprites2 = temp
     
+    def atirar(self):
+        if self.tempo_de_recarga_ataque <= 0:
+            if Global.tempo_buff_multiplos_disparos > 0:
+                    
+                    arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
+                    if arquivo_upgrade.iloc[2, 1] == True:
+                        quantidade_projeteis = 5
+                    else:
+                        quantidade_projeteis = 3
+
+                    amplitude_entre_projeteis = (Global.amplitude_projeteis * 2) / (quantidade_projeteis - 1) # amplitude positiva e negativa, dividido pela quantidade de projeteis menos 1
+                    somador_amplitude = -Global.amplitude_projeteis
+ 
+                    for i in range(quantidade_projeteis):
+                        projetil_player = Projeteis.Projetil1(self.rect.center, 1, 1, desvio=somador_amplitude)
+                        Global.grupo_projeteis_aliados.add(projetil_player)
+
+                        self.tempo_de_recarga_ataque = self.velocidade_ataque
+                        # aumenta em 10 x a velocidade de disparo
+                        if self.tempo_de_recarga_ataque >= 0:
+                            self.tempo_de_recarga_ataque *= 0.1
+               
+                        somador_amplitude += amplitude_entre_projeteis
+
+            else:
+                
+                projetil_player = Projeteis.Projetil1(self.rect.center, 1, 1)
+                Global.grupo_projeteis_aliados.add(projetil_player)
+
+                self.tempo_de_recarga_ataque = self.velocidade_ataque
+                # aumenta em 10 x a velocidade de disparo
+                if Global.tempo_buff_velocidade_disparo >= 0:
+                    arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
+
+                    if arquivo_upgrade.iloc[3, 1] == True:
+                        self.tempo_de_recarga_ataque *= 0.05
+                    else:
+                        self.tempo_de_recarga_ataque *= 0.1
+
+    
     # atualizar imagem
     def update(self):
 
         self.contar_vulnerabilidade()
+        self.tempo_de_recarga_ataque -= 1
         responder_a_derrota() if self.conferir_vida() else None
 
         if not self.contar_index():
@@ -162,6 +207,7 @@ class SpriteCastelo(Mob):  # criar classe de sprites para o cenário
     
     def update(self):
         responder_a_derrota() if self.conferir_vida() else None
+        self.contar_vulnerabilidade()
 
 
 class SpritesInimigo1(Mob):  # criar classe de sprites para os inimigos 1

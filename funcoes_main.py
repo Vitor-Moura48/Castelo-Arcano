@@ -24,7 +24,13 @@ def adicioanr_objetos():
     # adicionar objetos
     if Global.inimigos_restantes == 0 and Global.contador_de_bosses == 0:
         for i in range(1):
-            boss_01 = Mobs.SpritesBoss1(15, 5)
+            if Global.dificuldade == 1:
+                vida = 15
+            elif Global.dificuldade == 2:
+                vida = 25
+            else:
+                vida = 40
+            boss_01 = Mobs.SpritesBoss1(vida, 3)
             Global.grupo_todos_inimigos.add(boss_01)
             Global.grupo_todos_bosses.add(boss_01)
             Global.contador_de_bosses += 1
@@ -43,7 +49,7 @@ def adicioanr_objetos():
     
     if len(Global.grupo_inimigos3) < 1 and len(Global.grupo_todos_inimigos) < Global.inimigos_restantes:
         for i in range(1):
-            inimigo3 = Mobs.SpritesInimigo3(3, 5)
+            inimigo3 = Mobs.SpritesInimigo3(3, 1)
             Global.grupo_inimigos3.add(inimigo3)
             Global.grupo_todos_inimigos.add(inimigo3)
     
@@ -79,7 +85,6 @@ def criar_texto_na_janela():
     Texto.Texto(f'defesa: {Global.barreira}', (255, 100, 20), 30,  (0.02, 0.08), 0.4) if Global.barreira > 0 else None
 
 def contabilizar_tempo_recargas():
-    Global.tempo_de_recarga_disparo -= 1
     Global.tempo_buff_multiplos_disparos -= 1
     Global.tempo_buff_velocidade_disparo -= 1
     Global.tempo_buff_disparo_teleguiado -= 1
@@ -93,46 +98,8 @@ def responder_a_eventos():
             quit()
             sys.exit()
 
-        if event.type == MOUSEBUTTONDOWN and event.button == 1 and Global.tempo_de_recarga_disparo <= 0:
-
-            if Global.tempo_buff_multiplos_disparos > 0:
-                    
-                    arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
-                    if arquivo_upgrade.iloc[2, 1] == True:
-                        quantidade_projeteis = 5
-                    else:
-                        quantidade_projeteis = 3
-
-                    amplitude_entre_projeteis = (Global.amplitude_projeteis * 2) / (quantidade_projeteis - 1) # amplitude positiva e negativa, dividido pela quantidade de projeteis menos 1
-                    somador_amplitude = -Global.amplitude_projeteis
- 
-                    for i in range(quantidade_projeteis):
-                        projetil_player = Projeteis.Projetil1(Mobs.player.rect.center, 1, 1, desvio=somador_amplitude)
-                        Global.grupo_projeteis_aliados.add(projetil_player)
-
-
-                        
-                        Global.tempo_de_recarga_disparo = 60
-                        # aumenta em 10 x a velocidade de disparo
-                        if Global.tempo_buff_velocidade_disparo >= 0:
-                            Global.tempo_de_recarga_disparo *= 0.1
-               
-                        somador_amplitude += amplitude_entre_projeteis
-
-            else:
-                
-                projetil_player = Projeteis.Projetil1(Mobs.player.rect.center, 1, 1)
-                Global.grupo_projeteis_aliados.add(projetil_player)
-
-                Global.tempo_de_recarga_disparo = 60
-                # aumenta em 10 x a velocidade de disparo
-                if Global.tempo_buff_velocidade_disparo >= 0:
-                    arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
-
-                    if arquivo_upgrade.iloc[3, 1] == True:
-                        Global.tempo_de_recarga_disparo *= 0.05
-                    else:
-                        Global.tempo_de_recarga_disparo *= 0.1
+        if event.type == MOUSEBUTTONDOWN and event.button == 1:
+            Mobs.player.atirar()
         
         if event.type == MOUSEBUTTONDOWN and event.button == 3:
             Mobs.player.trocar_modo()

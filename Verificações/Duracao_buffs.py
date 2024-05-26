@@ -8,9 +8,9 @@ def conferir_buffs():
 
         arquivo_upgrade = pandas.read_csv("dados/csvs/upgrades.csv")
         if arquivo_upgrade.iloc[0, 1]:
-            Global.velocidade_player = velocidade_base_player * 2 * Global.proporcao
-        else:
             Global.velocidade_player = velocidade_base_player * 1.5 * Global.proporcao
+        else:
+            Global.velocidade_player = velocidade_base_player * 1.25 * Global.proporcao
 
     else:
          Global.velocidade_player = velocidade_base_player  * Global.proporcao

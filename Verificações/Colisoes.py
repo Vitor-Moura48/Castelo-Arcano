@@ -8,8 +8,7 @@ class Colisoes:  # classe para verificar colisões
 
         # verifica colisões com inimigos e responde de acordo
         for inimigo in Global.grupo_todos_inimigos:
-            if pygame.sprite.collide_rect(Mobs.player, inimigo) and inimigo.contador_ivulnerabilidade <= 0:        
-                inimigo.contador_ivulnerabilidade = 10
+            if pygame.sprite.collide_rect(Mobs.player, inimigo):        
                 inimigo.receber_dano(Mobs.player.dano)
         
         for projetil_inimigo in Global.grupo_projeteis_inimigos:
